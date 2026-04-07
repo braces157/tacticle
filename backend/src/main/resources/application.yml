@@ -1,0 +1,31 @@
+server:
+  port: ${SERVER_PORT:8081}
+
+spring:
+  application:
+    name: tactile-gallery-backend
+  profiles:
+    default: sqlserver
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  cors:
+    allowed-origins:
+      - http://localhost:5173
+      - http://127.0.0.1:5173
+  jwt:
+    secret: ${JWT_SECRET:tactile-gallery-jwt-secret-key-change-me-2026-very-long}
+    issuer: ${JWT_ISSUER:tactile-gallery-backend}
+    access-token-ttl-minutes: ${JWT_ACCESS_TOKEN_TTL_MINUTES:720}
+  catalog-import:
+    enabled: ${CATALOG_IMPORT_ENABLED:false}
+    path: ${CATALOG_IMPORT_PATH:}
+    exit-after-run: ${CATALOG_IMPORT_EXIT_AFTER_RUN:false}
+  uploads:
+    path: ${APP_UPLOADS_PATH:./uploads}
+    max-file-size-bytes: ${APP_UPLOADS_MAX_FILE_SIZE_BYTES:10485760}

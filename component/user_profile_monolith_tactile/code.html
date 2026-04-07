@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#fbf8f8",
+                    "on-error": "#fff7f6",
+                    "surface-container-low": "#f2f4f4",
+                    "outline-variant": "#adb3b4",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "primary-container": "#e5e2e1",
+                    "on-primary": "#faf7f6",
+                    "primary-dim": "#535252",
+                    "primary": "#5f5e5e",
+                    "tertiary-container": "#d0ecff",
+                    "background": "#f9f9f9",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "surface-variant": "#dde4e5",
+                    "on-surface-variant": "#5a6061",
+                    "on-primary-fixed": "#403f3f",
+                    "error-container": "#fe8983",
+                    "on-background": "#2d3435",
+                    "on-tertiary-fixed": "#2c4655",
+                    "tertiary-fixed": "#d0ecff",
+                    "on-error-container": "#752121",
+                    "surface-bright": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "inverse-primary": "#ffffff",
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "surface-dim": "#d4dbdd",
+                    "inverse-surface": "#0c0f0f",
+                    "surface-container-high": "#e4e9ea",
+                    "surface-container": "#ebeeef",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-container": "#e4e2e1",
+                    "surface-tint": "#5f5e5e",
+                    "primary-fixed": "#e5e2e1",
+                    "on-tertiary-container": "#3e5868",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "error": "#9f403d",
+                    "secondary": "#5f5f5f",
+                    "secondary-dim": "#535353",
+                    "error-dim": "#4e0309",
+                    "on-secondary-fixed": "#3f3f3f",
+                    "tertiary-dim": "#3c5666",
+                    "tertiary": "#486272",
+                    "surface-container-highest": "#dde4e5",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-secondary-container": "#525252",
+                    "on-surface": "#2d3435",
+                    "outline": "#757c7d",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "on-primary-container": "#525151",
+                    "on-tertiary": "#f4faff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9f9; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="text-on-background selection:bg-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl flex justify-between items-center px-12 py-6 max-w-[1920px] mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] font-manrope">Monolith Tactile</div>
+<div class="hidden md:flex items-center gap-10 font-manrope tracking-tight font-medium text-[#5f5e5e]">
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Gallery</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Shop</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Switches</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Journal</a>
+<a class="text-[#2d3435] border-b border-[#2d3435] pb-1" href="#">Profile</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-[#5f5e5e] hover:text-[#2d3435] transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+<button class="md:hidden text-[#5f5e5e]">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Profile Summary Column (Left) -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<div class="relative group">
+<div class="w-full aspect-square bg-surface-container-high overflow-hidden rounded-sm">
+<img alt="User Profile" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Minimalist portrait of a professional individual with soft side lighting against a clean light grey studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGwiUseBxLlQQIEUu5QF6n5a1PBFqaRWF4rNVFfR3bmxJ5_cKnrqCoPvDKzdql5KCnXcyJn-98uSw_4_ysWeZ3Oose46uVwZYcF07M0KairNKugjWLyqc2LT52oE33XAosHK_fcNvNoJ7uDzdGpTrAeMFApBei5QDvKr2SW1YEdBwZtn8WaM3eB6z5cUHPR2mvG8x8kICV1qf79s7SNPgSjqyVRFHnnVjdKfuBAGzAgM1IyZXapLZl_3Pdj8ahaz7zjnxqe_QqEdk"/>
+</div>
+<button class="absolute bottom-4 right-4 bg-surface/90 backdrop-blur p-2 rounded-sm text-on-background hover:bg-surface transition-colors shadow-sm">
+<span class="material-symbols-outlined">photo_camera</span>
+</button>
+</div>
+<div class="space-y-2">
+<h1 class="font-headline text-4xl font-bold tracking-tighter text-on-background">Julian Thorne</h1>
+<p class="font-body text-primary text-sm tracking-wide">Member since December 2023</p>
+<div class="pt-4 flex flex-wrap gap-2">
+<span class="px-3 py-1 bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-primary border border-outline-variant/10">Purist Tier</span>
+<span class="px-3 py-1 bg-surface-container-low text-[10px] font-bold uppercase tracking-widest text-primary border border-outline-variant/10">14 Orders</span>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/10">
+<h3 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-6">Quick Stats</h3>
+<div class="space-y-6">
+<div class="flex justify-between items-baseline">
+<span class="text-xs text-primary font-body">Current Setup</span>
+<span class="text-sm font-headline font-medium">Monolith M1 / Gateron Ink Black</span>
+</div>
+<div class="flex justify-between items-baseline">
+<span class="text-xs text-primary font-body">Last Purchase</span>
+<span class="text-sm font-headline font-medium">Brass Plate v2.0</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Edit Fields Column (Right) -->
+<div class="lg:col-span-8">
+<div class="bg-surface-container-lowest p-8 md:p-12 rounded-sm border border-outline-variant/5 shadow-[0_32px_64px_-12px_rgba(0,0,0,0.02)]">
+<header class="mb-12">
+<h2 class="font-headline text-2xl font-bold tracking-tight mb-2">Account Settings</h2>
+<p class="text-on-surface-variant text-sm font-body">Manage your tactile preferences and shipping details.</p>
+</header>
+<form class="space-y-10">
+<!-- Personal Info -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="name">Full Name</label>
+<input class="bg-surface-container-high border-none px-4 py-3 text-sm focus:ring-1 focus:ring-primary rounded-sm transition-all duration-300" id="name" type="text" value="Julian Thorne"/>
+</div>
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="email">Email Address</label>
+<input class="bg-surface-container-high border-none px-4 py-3 text-sm focus:ring-1 focus:ring-primary rounded-sm transition-all duration-300" id="email" type="email" value="j.thorne@monolith.io"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="phone">Phone Number</label>
+<input class="bg-surface-container-high border-none px-4 py-3 text-sm focus:ring-1 focus:ring-primary rounded-sm transition-all duration-300" id="phone" type="tel" value="+1 (555) 092-8831"/>
+</div>
+</div>
+<!-- Address Sections -->
+<div class="pt-6 border-t border-outline-variant/10">
+<h3 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-primary mb-8">Shipping Information</h3>
+<div class="flex flex-col gap-2">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="shipping">Address Line</label>
+<textarea class="bg-surface-container-high border-none px-4 py-3 text-sm focus:ring-1 focus:ring-primary rounded-sm transition-all duration-300 resize-none" id="shipping" rows="2">442 Tactile Way, Industrial District
+Seattle, WA 98101</textarea>
+</div>
+</div>
+<div class="pt-6 border-t border-outline-variant/10">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-xs font-bold uppercase tracking-[0.2em] text-primary">Billing Information</h3>
+<label class="flex items-center gap-2 cursor-pointer group">
+<input checked="" class="rounded-sm border-outline-variant text-primary focus:ring-primary h-3 w-3" type="checkbox"/>
+<span class="text-[10px] uppercase tracking-widest text-on-surface-variant group-hover:text-primary transition-colors">Same as shipping</span>
+</label>
+</div>
+<div class="flex flex-col gap-2 opacity-50 pointer-events-none">
+<label class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant ml-1" for="billing">Address Line</label>
+<textarea class="bg-surface-container-high border-none px-4 py-3 text-sm focus:ring-1 focus:ring-primary rounded-sm transition-all duration-300 resize-none" id="billing" rows="2">442 Tactile Way, Industrial District
+Seattle, WA 98101</textarea>
+</div>
+</div>
+<!-- Actions -->
+<div class="pt-12 flex flex-col sm:flex-row items-center gap-6">
+<button class="w-full sm:w-auto px-10 py-4 bg-gradient-to-br from-primary to-primary-dim text-on-primary text-xs font-bold uppercase tracking-widest rounded-sm hover:opacity-90 transition-opacity" type="submit">
+                                Update Profile
+                            </button>
+<button class="w-full sm:w-auto px-10 py-4 text-primary text-xs font-bold uppercase tracking-widest hover:text-on-background transition-colors" type="button">
+                                Cancel
+                            </button>
+</div>
+</form>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-20 px-12 bg-[#f2f4f4] flex flex-col md:flex-row justify-between items-end w-full gap-8">
+<div class="flex flex-col gap-6">
+<div class="font-manrope font-black text-[#2d3435] text-xl tracking-tighter">Monolith Tactile.</div>
+<p class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] max-w-xs">
+                © 2024 Monolith Tactile. Engineered for the tactile purist.
+            </p>
+</div>
+<div class="flex flex-wrap gap-8 font-inter text-xs uppercase tracking-widest text-[#5f5e5e]">
+<a class="hover:opacity-50 transition-opacity duration-500" href="#">Terms</a>
+<a class="hover:opacity-50 transition-opacity duration-500" href="#">Privacy</a>
+<a class="hover:opacity-50 transition-opacity duration-500" href="#">Shipping</a>
+<a class="hover:opacity-50 transition-opacity duration-500" href="#">Archive</a>
+<a class="hover:opacity-50 transition-opacity duration-500" href="#">Support</a>
+</div>
+</footer>
+</body></html>

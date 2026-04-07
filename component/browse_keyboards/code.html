@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        h1, h2, h3, .font-headline {
+            font-family: 'Manrope', sans-serif;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "inverse-on-surface": "#9c9d9d",
+                      "on-tertiary-fixed-variant": "#486272",
+                      "surface-bright": "#f9f9f9",
+                      "surface": "#f9f9f9",
+                      "inverse-primary": "#ffffff",
+                      "tertiary-fixed": "#d0ecff",
+                      "on-error-container": "#752121",
+                      "surface-container-high": "#e4e9ea",
+                      "surface-container": "#ebeeef",
+                      "surface-dim": "#d4dbdd",
+                      "inverse-surface": "#0c0f0f",
+                      "primary-fixed-dim": "#d7d4d3",
+                      "surface-container-low": "#f2f4f4",
+                      "outline-variant": "#adb3b4",
+                      "on-error": "#fff7f6",
+                      "on-secondary": "#fbf8f8",
+                      "surface-variant": "#dde4e5",
+                      "on-primary-fixed": "#403f3f",
+                      "on-surface-variant": "#5a6061",
+                      "on-primary-fixed-variant": "#5c5b5b",
+                      "on-tertiary-fixed": "#2c4655",
+                      "error-container": "#fe8983",
+                      "on-background": "#2d3435",
+                      "primary": "#5f5e5e",
+                      "primary-dim": "#535252",
+                      "primary-container": "#e5e2e1",
+                      "on-primary": "#faf7f6",
+                      "background": "#f9f9f9",
+                      "tertiary-container": "#d0ecff",
+                      "surface-container-highest": "#dde4e5",
+                      "tertiary-fixed-dim": "#c2def0",
+                      "on-surface": "#2d3435",
+                      "on-secondary-container": "#525252",
+                      "secondary-fixed": "#e4e2e1",
+                      "on-secondary-fixed": "#3f3f3f",
+                      "tertiary-dim": "#3c5666",
+                      "tertiary": "#486272",
+                      "on-tertiary": "#f4faff",
+                      "on-primary-container": "#525151",
+                      "secondary-fixed-dim": "#d6d4d3",
+                      "outline": "#757c7d",
+                      "primary-fixed": "#e5e2e1",
+                      "surface-tint": "#5f5e5e",
+                      "on-tertiary-container": "#3e5868",
+                      "on-secondary-fixed-variant": "#5c5b5b",
+                      "secondary-container": "#e4e2e1",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-dim": "#535353",
+                      "secondary": "#5f5f5f",
+                      "error-dim": "#4e0309",
+                      "error": "#9f403d"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": [
+                              "Manrope"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-xl transition-all duration-300">
+<div class="flex justify-between items-center max-w-[1440px] mx-auto px-12 h-20">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9] font-headline">
+                TACTILE
+            </div>
+<div class="hidden md:flex items-center space-x-12 font-manrope tracking-tight font-medium text-[#5f5e5e] dark:text-[#f2f4f4]">
+<a class="text-[#2d3435] dark:text-[#ffffff] border-b border-[#5f5e5e] pb-1 hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Gallery</a>
+<a class="text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Switches</a>
+<a class="text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Keycaps</a>
+<a class="text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Story</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="scale-95 active:opacity-80 transition-all text-[#5f5e5e] dark:text-[#f2f4f4]">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="md:hidden">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-12 max-w-[1440px] mx-auto">
+<!-- Header Section -->
+<header class="mb-20">
+<h1 class="text-6xl font-extrabold tracking-tighter text-on-surface mb-4 leading-none">THE GALLERY.</h1>
+<p class="text-primary font-body text-lg max-w-xl opacity-80">Curated mechanical excellence. Precision engineered components for the discerning enthusiast.</p>
+</header>
+<div class="flex flex-col md:flex-row gap-16">
+<!-- Sidebar Filters -->
+<aside class="w-full md:w-64 flex-shrink-0 space-y-12">
+<section>
+<h3 class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface mb-6">Category</h3>
+<ul class="space-y-3 font-body text-sm text-primary">
+<li class="flex items-center justify-between group cursor-pointer">
+<span class="group-hover:text-on-surface transition-colors">All Pieces</span>
+<span class="text-xs opacity-40">124</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer font-semibold text-on-surface">
+<span>Keyboards</span>
+<span class="text-xs">42</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<span class="group-hover:text-on-surface transition-colors">Switches</span>
+<span class="text-xs opacity-40">38</span>
+</li>
+<li class="flex items-center justify-between group cursor-pointer">
+<span class="group-hover:text-on-surface transition-colors">Keycaps</span>
+<span class="text-xs opacity-40">44</span>
+</li>
+</ul>
+</section>
+<section>
+<h3 class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface mb-6">Switch Type</h3>
+<div class="space-y-3 font-body text-sm text-primary">
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-4 h-4 rounded-sm border border-outline-variant group-hover:border-primary transition-colors"></div>
+<span class="group-hover:text-on-surface transition-colors">Linear</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-4 h-4 rounded-sm bg-primary border border-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[10px] text-on-primary" style="font-variation-settings: 'wght' 700;">check</span>
+</div>
+<span class="text-on-surface">Tactile</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="w-4 h-4 rounded-sm border border-outline-variant group-hover:border-primary transition-colors"></div>
+<span class="group-hover:text-on-surface transition-colors">Clicky</span>
+</label>
+</div>
+</section>
+<section>
+<h3 class="font-headline font-bold text-xs uppercase tracking-widest text-on-surface mb-6">Price Range</h3>
+<div class="px-2">
+<div class="h-1 bg-surface-container-high rounded-full relative">
+<div class="absolute left-0 right-1/4 h-full bg-primary rounded-full"></div>
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-on-surface rounded-full shadow-sm"></div>
+<div class="absolute right-1/4 top-1/2 -translate-y-1/2 w-3 h-3 bg-on-surface rounded-full shadow-sm"></div>
+</div>
+<div class="flex justify-between mt-4 font-body text-xs text-primary opacity-60">
+<span>$0</span>
+<span>$800+</span>
+</div>
+</div>
+</section>
+</aside>
+<!-- Product Grid -->
+<section class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 items-start">
+<!-- Item 1: Large Asymmetric -->
+<div class="md:col-span-1 group cursor-pointer transition-all duration-500">
+<div class="relative aspect-[4/5] bg-surface-container-lowest overflow-hidden mb-6">
+<img alt="Minimalist Keyboard" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105" data-alt="Close-up of a high-end minimalist mechanical keyboard with frosted acrylic case and white keycaps on a clean surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAq46uY-rrwOihwQ1YoqAGDBIFII7u1S8kz6Yi3F6b0_fYSDV2dQ057EpASUAHHQFBoK7taGEW3iAp3dWazpv8WmnZgOnfRCv7GAmW2MFKeV6FbN2iuakDJTihpkCKCov8CZj5wOr5OcMLIG-Ry2SBkeZJDaJyTWm_pq7gUG2co-L3AcXRRBgz-KvBhEkLt9vWwPrcnV-KDitFQiqxbGT9nv1LAqcaxxfeDL4KTo9_XpzO6GAxSskWcwq9aLBUfA_Di80-hr5LwwSc"/>
+</div>
+<div class="space-y-1">
+<p class="font-headline text-xs uppercase tracking-widest text-primary opacity-60">Edition 01</p>
+<h2 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">MONOLITH 65</h2>
+<p class="font-body text-primary font-medium">$420.00</p>
+</div>
+</div>
+<!-- Item 2: Offset Small -->
+<div class="md:col-span-1 md:mt-32 group cursor-pointer transition-all duration-500">
+<div class="relative aspect-[4/5] bg-surface-container-lowest overflow-hidden mb-6">
+<img alt="Custom Switch" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105" data-alt="Artistic macro shot of high-end mechanical keyboard switches with copper accents and premium transparent housings" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALJKsrzjQso8M19qrqMXIJyRe1qgMCdvjtC_HeLeNmmvTj5ZWJanetpnCD_GJC9LmvcwISW5h729M7U8GhLAsv9DiO4FfZ5ojMC9Msud8uT3MryZ6t6Jjxf6xJ2x_m6y1MT_pf_dMPN7rxWQnQHYjil3FOM2IzrvQCvvS8e_yPc5goAHhlvAIQXJ7mYz1MsKFUoDC86H9oln70NQSa394RPDSU1OECuasaIy10EO3i-LGpuLdTjNgLUCmFXwGongR3AwRCd3xNgDc"/>
+</div>
+<div class="space-y-1">
+<p class="font-headline text-xs uppercase tracking-widest text-primary opacity-60">Series X</p>
+<h2 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">SILENT LINEAR V3</h2>
+<p class="font-body text-primary font-medium">$1.20 / pc</p>
+</div>
+</div>
+<!-- Item 3: Full Width Editorial Break -->
+<div class="md:col-span-2 py-12">
+<div class="relative h-[400px] w-full bg-surface-container-low overflow-hidden group">
+<img alt="Workshop Detail" class="w-full h-full object-cover opacity-80 grayscale group-hover:opacity-100 transition-all duration-1000" data-alt="Cinematic wide shot of a designer's workshop with mechanical keyboard parts meticulously arranged on a dark felt desk mat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD09IY_UI2JClALkHQkXNIzgK5VgyxJQ-fLNsVv5GTaVYC_c5cVZCxcljCwNCJvb_VIwG7mJQyRzaULUAIUxf4fA4pjk2Tc8y85i_kNB9S8wb3GBsVaz7OmAXuKJuW4SVwAitvuZ34CtMp3UCFNg1Csyp6S0xdZVMeLWsSpL87MAMMEHs4AtriGFI2Pe8Ndc72pfbn2pUNeq_rflnH_AWG7RCZYIIYrdjvtveB4ua8HQVaO00GAKeuuW-Z5-pnMf58cCAJ4hd1r_1E"/>
+<div class="absolute inset-0 flex flex-col items-center justify-center text-center p-12 bg-on-surface/5">
+<h3 class="font-headline text-4xl font-black text-on-surface tracking-tighter mb-4">THE PRECISION COLLECTION</h3>
+<p class="font-body text-sm tracking-widest uppercase text-on-surface/60 mb-8">Crafted for the enduring touch.</p>
+<button class="px-8 py-3 bg-primary text-on-primary text-xs font-bold tracking-widest uppercase hover:bg-primary-dim transition-colors">Explore Process</button>
+</div>
+</div>
+</div>
+<!-- Item 4: Regular Grid Item -->
+<div class="group cursor-pointer transition-all duration-500">
+<div class="relative aspect-square bg-surface-container-lowest overflow-hidden mb-6">
+<img alt="Keycap Set" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105" data-alt="Clean top-down view of premium PBT keycaps with minimal legends in a subtle grey and off-white colorway" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAC2xDuFbn9Qr6RJFlyAjme-qtf8HvCwlH6yCVSWaeOTP_NEWVKhHHO3JuzPA7QT0b0n1BPBvUnknAl9_a6S44e8j_ZB3PdyNzaDfCVQTAI89VJE7h3yz1Pn_EHSgyOAfyShimvwXA39j2qjoCCyB6IfYftF7ht7rlGVRzM3Ai7UY8K4ENm64Tzyy9Y7qWFUIcn6kmVVlZ5mQ9bk88IRZniBCVZS-8-LX0obTq8B5fyE6tk5x2YaT3p2ehCAODddAsnDoQ6mAQtfw"/>
+</div>
+<div class="space-y-1">
+<p class="font-headline text-xs uppercase tracking-widest text-primary opacity-60">Accessories</p>
+<h2 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">OBSIDIAN CAPS</h2>
+<p class="font-body text-primary font-medium">$115.00</p>
+</div>
+</div>
+<!-- Item 5: Offset Grid Item -->
+<div class="md:mt-24 group cursor-pointer transition-all duration-500">
+<div class="relative aspect-square bg-surface-container-lowest overflow-hidden mb-6">
+<img alt="Keyboard Case" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105" data-alt="Sophisticated silver aluminum mechanical keyboard chassis shown in profile highlighting sleek industrial design and sharp angles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhqQNUrbbuQvPienn7VdiBNrur0cmHjl0lnz2meEfnD71X5hnVhc9DBFljVzLjy8r0Qb7kJF2TSC0DZILWQhVMyzpYmT60BiBNmPBvK_K9RgJX3axs0k-jUI-yDMFQt8kYPiNMMnww6JYo0Sf7Vf57MnnMq9CH7vBAG4Nj1grSBlq5NI_wLyIuopc1nCpIzOvmVpwjU5WxHhQFXpufZSEzB4QkTru9__AECWp2faHWyarq5Rvo93XxlvrDNht279PFlHzdeLR2oUc"/>
+</div>
+<div class="space-y-1">
+<p class="font-headline text-xs uppercase tracking-widest text-primary opacity-60">Enclosure</p>
+<h2 class="font-headline text-2xl font-bold tracking-tight group-hover:text-primary transition-colors">TITAN TKL CASE</h2>
+<p class="font-body text-primary font-medium">$280.00</p>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer Navigation Shell -->
+<footer class="w-full pt-24 pb-12 bg-[#f2f4f4] dark:bg-[#121212]">
+<div class="flex flex-col md:flex-row justify-between items-end px-12 gap-8 max-w-[1440px] mx-auto">
+<div class="w-full md:w-auto">
+<div class="font-manrope font-black text-[#2d3435] dark:text-[#f9f9f9] text-4xl tracking-tighter mb-8">
+                    TACTILE.
+                </div>
+<div class="flex gap-12 font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4]">
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Support</a>
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Shipping</a>
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Journal</a>
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Privacy</a>
+</div>
+</div>
+<div class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] text-right">
+                © 2024 TACTILE GALLERY. ENGINEERED PRECISION.
+            </div>
+</div>
+</footer>
+</body></html>

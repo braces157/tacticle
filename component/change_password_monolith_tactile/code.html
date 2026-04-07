@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3, .font-headline {
+            font-family: 'Manrope', sans-serif;
+        }
+        .keycap-button {
+            background: linear-gradient(145deg, #5f5e5e 0%, #535252 100%);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "on-secondary": "#fbf8f8",
+                "on-error": "#fff7f6",
+                "surface-container-low": "#f2f4f4",
+                "outline-variant": "#adb3b4",
+                "primary-fixed-dim": "#d7d4d3",
+                "primary-container": "#e5e2e1",
+                "on-primary": "#faf7f6",
+                "primary-dim": "#535252",
+                "primary": "#5f5e5e",
+                "tertiary-container": "#d0ecff",
+                "background": "#f9f9f9",
+                "on-background": "#2d3435",
+                "surface-variant": "#dde4e5",
+                "on-surface-variant": "#5a6061",
+                "on-primary-fixed": "#403f3f",
+                "error-container": "#fe8983",
+                "on-surface": "#2d3435",
+                "on-tertiary-fixed": "#2c4655",
+                "tertiary-fixed": "#d0ecff",
+                "on-error-container": "#752121",
+                "surface-bright": "#f9f9f9",
+                "surface": "#f9f9f9",
+                "inverse-primary": "#ffffff",
+                "inverse-on-surface": "#9c9d9d",
+                "surface-dim": "#d4dbdd",
+                "inverse-surface": "#0c0f0f",
+                "surface-container-high": "#e4e9ea",
+                "surface-container": "#ebeeef",
+                "surface-container-lowest": "#ffffff",
+                "secondary-container": "#e4e2e1",
+                "surface-tint": "#5f5e5e",
+                "primary-fixed": "#e5e2e1",
+                "on-tertiary-container": "#3e5868",
+                "error": "#9f403d",
+                "secondary": "#5f5f5f",
+                "secondary-dim": "#535353",
+                "on-secondary-fixed": "#3f3f3f",
+                "tertiary-dim": "#3c5666",
+                "tertiary": "#486272",
+                "surface-container-highest": "#dde4e5",
+                "tertiary-fixed-dim": "#c2def0",
+                "secondary-fixed": "#e4e2e1",
+                "on-secondary-container": "#525252",
+                "on-surface": "#2d3435",
+                "outline": "#757c7d",
+                "on-primary-container": "#525151",
+                "on-tertiary": "#f4faff"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+            },
+            "fontFamily": {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container">
+<!-- TopNavBar - Rendered as per Shared Components JSON -->
+<header class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl">
+<nav class="flex justify-between items-center px-12 py-6 max-w-[1920px] mx-auto">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] font-headline">Monolith Tactile</div>
+<div class="hidden md:flex items-center gap-10 font-headline tracking-tight font-medium text-[#5f5e5e]">
+<a class="hover:text-[#2d3435] transition-colors duration-300 text-[#5f5e5e]/60" href="#">Gallery</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300 text-[#5f5e5e]/60" href="#">Shop</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300 text-[#5f5e5e]/60" href="#">Switches</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300 text-[#5f5e5e]/60" href="#">Journal</a>
+<a class="text-[#2d3435] border-b border-[#2d3435] pb-1 hover:text-[#2d3435] transition-colors duration-300" href="#">Profile</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface" data-icon="shopping_bag">shopping_bag</button>
+</div>
+</nav>
+</header>
+<main class="min-h-screen flex items-center justify-center pt-24 pb-12 px-6">
+<!-- Center Focused Form Container -->
+<div class="max-w-md w-full">
+<div class="mb-12 text-center md:text-left">
+<h1 class="text-4xl font-extrabold tracking-tighter font-headline mb-4 text-on-surface">Security Access</h1>
+<p class="text-sm font-body text-outline leading-relaxed max-w-sm">Ensure your tactile experience remains private. Update your credentials using the secure protocol below.</p>
+</div>
+<!-- Form Card - Using Tonal Depth instead of borders -->
+<section class="bg-surface-container-lowest p-10 shadow-[0px_32px_64px_-12px_rgba(45,52,53,0.04)] rounded-lg">
+<form class="space-y-8">
+<!-- Field: Current Password -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] font-medium text-outline-variant font-label">Current Password</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-high border-none focus:ring-1 focus:ring-primary-dim rounded-sm px-4 py-3 text-sm font-body transition-all placeholder:text-outline-variant/50" placeholder="••••••••" type="password"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]" data-icon="lock">lock</span>
+</div>
+</div>
+<!-- Field: New Password -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] font-medium text-outline-variant font-label">New Password</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-high border-none focus:ring-1 focus:ring-primary-dim rounded-sm px-4 py-3 text-sm font-body transition-all placeholder:text-outline-variant/50" placeholder="Min. 12 characters" type="password"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]" data-icon="key">key</span>
+</div>
+<div class="flex gap-1 mt-2">
+<div class="h-0.5 flex-1 bg-surface-variant"></div>
+<div class="h-0.5 flex-1 bg-surface-variant"></div>
+<div class="h-0.5 flex-1 bg-surface-variant"></div>
+<div class="h-0.5 flex-1 bg-surface-variant"></div>
+</div>
+</div>
+<!-- Field: Confirm Password -->
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.15em] font-medium text-outline-variant font-label">Confirm New Password</label>
+<div class="relative group">
+<input class="w-full bg-surface-container-high border-none focus:ring-1 focus:ring-primary-dim rounded-sm px-4 py-3 text-sm font-body transition-all placeholder:text-outline-variant/50" placeholder="Match new password" type="password"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant text-[20px]" data-icon="shield_check">shield</span>
+</div>
+</div>
+<!-- Action buttons -->
+<div class="pt-4 flex flex-col gap-4">
+<button class="keycap-button w-full py-4 text-on-primary text-xs uppercase tracking-widest font-bold rounded-sm hover:opacity-90 transition-opacity active:opacity-70" type="submit">
+                            Update Password
+                        </button>
+<a class="text-center py-2 text-[10px] uppercase tracking-widest font-semibold text-outline hover:text-on-background transition-colors flex items-center justify-center gap-2" href="#">
+<span class="material-symbols-outlined text-[14px]" data-icon="arrow_back">arrow_back</span>
+                            Back to Profile
+                        </a>
+</div>
+</form>
+</section>
+<!-- Bottom Editorial Accent -->
+<div class="mt-16 grid grid-cols-2 gap-4">
+<div class="h-[1px] bg-outline-variant/20 self-center"></div>
+<p class="text-[10px] font-body text-outline-variant uppercase tracking-widest italic text-right">Encrypted End-to-End</p>
+</div>
+</div>
+</main>
+<!-- Footer - Rendered as per Shared Components JSON -->
+<footer class="w-full py-20 px-12 bg-[#f2f4f4]">
+<div class="flex flex-col md:flex-row justify-between items-end w-full gap-8">
+<div class="flex flex-col gap-6">
+<div class="font-manrope font-black text-[#2d3435] text-xl">Monolith Tactile.</div>
+<p class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] max-w-xs leading-loose">© 2024 Monolith Tactile. Engineered for the tactile purist.</p>
+</div>
+<div class="flex flex-wrap gap-8 justify-end">
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] hover:opacity-50 transition-opacity duration-500" href="#">Terms</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] hover:opacity-50 transition-opacity duration-500" href="#">Privacy</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] hover:opacity-50 transition-opacity duration-500" href="#">Shipping</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] hover:opacity-50 transition-opacity duration-500" href="#">Archive</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] hover:opacity-50 transition-opacity duration-500" href="#">Support</a>
+</div>
+</div>
+</footer>
+</body></html>

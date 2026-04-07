@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;700;800&amp;family=Inter:wght@200;300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed": "#3f3f3f",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "surface-variant": "#dde4e5",
+                    "surface-container": "#ebeeef",
+                    "on-surface-variant": "#5a6061",
+                    "tertiary-container": "#d0ecff",
+                    "on-primary": "#faf7f6",
+                    "surface-container-high": "#e4e9ea",
+                    "primary-fixed": "#e5e2e1",
+                    "outline": "#757c7d",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "tertiary": "#486272",
+                    "on-error-container": "#752121",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-primary-container": "#525151",
+                    "on-surface": "#2d3435",
+                    "on-tertiary": "#f4faff",
+                    "error-container": "#fe8983",
+                    "inverse-primary": "#ffffff",
+                    "on-primary-fixed": "#403f3f",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "primary-container": "#e5e2e1",
+                    "tertiary-dim": "#3c5666",
+                    "on-secondary-container": "#525252",
+                    "surface-dim": "#d4dbdd",
+                    "secondary-dim": "#535353",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "secondary": "#5f5f5f",
+                    "inverse-on-surface": "#9c9d9d",
+                    "error": "#9f403d",
+                    "primary-dim": "#535252",
+                    "outline-variant": "#adb3b4",
+                    "on-error": "#fff7f6",
+                    "on-secondary": "#fbf8f8",
+                    "background": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "on-background": "#2d3435",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "tertiary-fixed": "#d0ecff",
+                    "secondary-container": "#e4e2e1",
+                    "primary": "#5f5e5e",
+                    "surface-container-highest": "#dde4e5",
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-container": "#3e5868",
+                    "surface-container-low": "#f2f4f4",
+                    "error-dim": "#4e0309",
+                    "on-tertiary-fixed": "#2c4655",
+                    "surface-bright": "#f9f9f9",
+                    "inverse-surface": "#0c0f0f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(24px);
+        }
+        .premium-shadow {
+            box-shadow: 0 0 32px 0 rgba(45, 52, 53, 0.04);
+        }
+        .machined-button {
+            background: linear-gradient(145deg, #5f5e5e, #535252);
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #2d3435;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-primary/20">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl">
+<div class="flex justify-between items-center max-w-[1440px] mx-auto px-12 py-6">
+<div class="font-headline text-2xl font-black tracking-tighter text-[#2d3435] uppercase">
+                TACTILE GALLERY
+            </div>
+<div class="hidden md:flex items-center space-x-12">
+<a class="font-headline tracking-tight font-bold text-sm uppercase text-[#5f5e5e] hover:text-[#2d3435] transition-opacity duration-300" href="#">Keyboards</a>
+<a class="font-headline tracking-tight font-bold text-sm uppercase text-[#2d3435] border-b border-[#2d3435] pb-1" href="#">Custom Parts</a>
+<a class="font-headline tracking-tight font-bold text-sm uppercase text-[#5f5e5e] hover:text-[#2d3435] transition-opacity duration-300" href="#">Accessories</a>
+</div>
+<div class="flex items-center space-x-6 text-[#5f5e5e]">
+<button class="active:scale-95 duration-200 transition-transform"><span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span></button>
+<button class="active:scale-95 duration-200 transition-transform"><span class="material-symbols-outlined" data-icon="account_circle">account_circle</span></button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 max-w-[1440px] mx-auto px-12">
+<!-- Hero Section -->
+<header class="mb-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+<div class="md:col-span-7">
+<p class="font-label text-xs tracking-[0.2em] uppercase text-outline mb-4">The Modular Ecosystem</p>
+<h1 class="font-headline text-6xl md:text-8xl font-extrabold tracking-tighter leading-none mb-8">
+                        Custom <br/><span class="text-outline-variant">Components</span>
+</h1>
+</div>
+<div class="md:col-span-5 pb-2">
+<p class="font-body text-on-surface-variant text-lg leading-relaxed font-light">
+                        Precision-engineered switches, plates, and lubricants curated for the discerning enthusiast. Every component is selected for its unique acoustic profile and tactile response.
+                    </p>
+</div>
+</div>
+</header>
+<!-- Featured Switches: Asymmetric Grid -->
+<section class="mb-32">
+<div class="flex justify-between items-baseline mb-12 border-b border-surface-container-high pb-4">
+<h2 class="font-headline text-2xl font-bold tracking-tight">Featured Switches</h2>
+<a class="font-label text-xs uppercase tracking-widest text-primary border-b border-primary/20 hover:border-primary transition-all" href="#">View All Switches</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16">
+<!-- Large Featured Card -->
+<div class="md:col-span-7 group">
+<div class="relative overflow-hidden aspect-[4/3] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Macro photography of transparent mechanical keyboard switches showing detailed copper contact leaves and coiled internal springs on a white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXdWtCV6LcuH1_qQRI54blswHuwV23Ozg8FGXSTO4dkzGs4cffji6I9VV8mOQ0kGQe24Bo4ZGBViAJrU2jDVoMXYylyNy1AChjxGC6pQJifi0Mc_GZTIlgJrk6zdKHXwYnXsbUoIdRYh_RSEX7YuK_SCBnj6EetBZsQBaK7m46RHwE0iip9g5s17VA6v2HI7KIKb5kwE15v90wVxahFmfeb8VYIuE5RZy2Oeg8AaQIl623v_yqfjBLJnU8LnB6SCPLh1kZ9lkNTF0"/>
+<div class="absolute top-6 right-6 px-3 py-1 bg-surface-container-lowest text-[10px] tracking-widest font-bold uppercase">Tactile</div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-3xl font-bold mb-2">Linear Quartz</h3>
+<div class="grid grid-cols-2 gap-x-8 gap-y-2 mt-4 text-[10px] uppercase tracking-wider text-on-surface-variant">
+<div><span class="text-outline">Actuation:</span> 45g</div>
+<div><span class="text-outline">Bottom Out:</span> 62g</div>
+<div><span class="text-outline">Material:</span> PC/Nylon</div>
+<div><span class="text-outline">Spring:</span> Gold Plated</div>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline text-xl font-bold">$0.85</p>
+<p class="font-label text-[10px] text-outline">Per Switch</p>
+<button class="machined-button mt-4 px-6 py-2 text-on-primary text-xs uppercase tracking-widest font-bold active:scale-95 transition-all">Add to Cart</button>
+</div>
+</div>
+</div>
+<!-- Vertical Offset Card -->
+<div class="md:col-span-5 mt-24 group">
+<div class="relative overflow-hidden aspect-[3/4] bg-surface-container-low mb-6">
+<img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" data-alt="Close-up of a single purple mechanical keyboard switch focused on the intricate plastic housing and stem sitting on a dark grey surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZxve6tl948tT9byGa2YNhMLaEfMU0hQVVG6gglyIlmzxlIIVClSqLufkTd4EBUzsXKgfsJJJ2mapJatfsDgpeYOLH9i0klz7MPSe3Fsf98u4IC_9VWQ2Nz8qDB6iVdZ-c-A7kxXw2G-y8P758_I52T-1zVM0MJucT7VVPkElkC380xXbtsAUYNjsTZZL2VF0jR79F5OyUK2D0Hsck6Ywz3tTGywAbqDD9OY4zzIwZIBdY4oyvP936VjX9o6UHB9MGHqK06f7uh8g"/>
+</div>
+<div>
+<h3 class="font-headline text-2xl font-bold mb-2">Violet Thock</h3>
+<p class="font-body text-xs text-on-surface-variant mb-6 font-light">Custom POM stem with a uniquely deepened sound profile.</p>
+<div class="flex items-center justify-between">
+<span class="font-headline text-lg font-bold">$1.10</span>
+<button class="text-primary border border-outline-variant/30 px-4 py-2 text-[10px] uppercase tracking-widest hover:bg-surface-container-high transition-colors">Add to Build</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Hardware Essentials: Tonal Background Section -->
+<section class="-mx-12 px-12 py-24 bg-surface-container-low">
+<div class="max-w-[1440px] mx-auto">
+<div class="mb-16">
+<h2 class="font-headline text-4xl font-extrabold tracking-tighter mb-4 text-[#2d3435]">Essential Hardware</h2>
+<p class="font-body text-on-surface-variant max-w-md font-light text-sm">The foundational elements that define your keyboard's structural integrity and acoustic resonance.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Hardware Card 1 -->
+<div class="bg-surface-container-lowest p-8 premium-shadow">
+<div class="aspect-square bg-surface-variant mb-8 overflow-hidden">
+<img class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Brushed brass keyboard plate showing precise laser-cut switch holes with soft metallic reflections" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABeDxCq0Je-_rYeKzFqI8uHvuVHvZS1DmeerclLYyi21q81mk05NWVeXUrzo2EWczCCjcIeEp6Sju4bxM593Yd5YKdb1GBewzZYPpIbVXSUkiXHFlY7DHOVNYQB6lVDPcprpw5SBO11JapTGbtxjsp4LCImaXfSN1B4lImVNML2f8U8vw9GZwsvTrK0ntqY_zAlg3he8IFpaBN342eCdtc76ObXHnmQluU2rZZ-woCe7sBSS6WVeErfCElOvvXaZj-qHsHGdP-_mo"/>
+</div>
+<h4 class="font-headline text-lg font-bold mb-2">Brass Plate</h4>
+<p class="font-label text-[10px] uppercase text-outline tracking-widest mb-4">65% ANSI Layout</p>
+<p class="font-body text-xs text-on-surface-variant mb-8 font-light leading-relaxed">High-density brass for a stiff typing feel and high-pitched acoustic profile.</p>
+<div class="flex items-center justify-between pt-6 border-t border-surface-container">
+<span class="font-headline font-bold">$45.00</span>
+<span class="material-symbols-outlined text-primary cursor-pointer" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+<!-- Hardware Card 2 -->
+<div class="bg-surface-container-lowest p-8 premium-shadow">
+<div class="aspect-square bg-surface-variant mb-8 overflow-hidden">
+<img class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Artisanal glass jar of keyboard lubricant with a small precision brush resting on its rim on a clean workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIbPMEYQ2mfaIsPr98ehiI2MjOgsWST2ZWAPMQDSRlvNwH1XDpG0pRTDP54wPEyYt2r0lfRq93o523kK17KEGX76jMWlZcCVW1UKSuWPcvthV_nNa4ttADu2MKiN97LMAizuOxLTqUs2NXd8E3uEbcqLxRdxzauhhs19gyc6vWT4sj7XiG9gYRIDrqSGxbRo0feFzbiXbPWa7GT2QvcTNtAwnxu_C_l0Ow8DkHVXMYlfe_Rktoyrzh2K622ayzdxhQsU02Yyuq0Ts"/>
+</div>
+<h4 class="font-headline text-lg font-bold mb-2">G-205 Grade 0</h4>
+<p class="font-label text-[10px] uppercase text-outline tracking-widest mb-4">Stabilizer Grease</p>
+<p class="font-body text-xs text-on-surface-variant mb-8 font-light leading-relaxed">The industry standard for smooth actuation and rattle-free mechanical stabilizers.</p>
+<div class="flex items-center justify-between pt-6 border-t border-surface-container">
+<span class="font-headline font-bold">$12.00</span>
+<span class="material-symbols-outlined text-primary cursor-pointer" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+<!-- Hardware Card 3 -->
+<div class="bg-surface-container-lowest p-8 premium-shadow">
+<div class="aspect-square bg-surface-variant mb-8 overflow-hidden">
+<img class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity" data-alt="Frosted polycarbonate keyboard plate catching light along its edges demonstrating translucency" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlSbDHJSBvL803-vFcIOBzx8Bzpy2xZ-ViAQnIHebej8rqKsfCiw5OoyqKKfN6x4WeLZz7q8VIJeqRU3RLd000SOedNNnU27GtpL-jwQDaY8fCWLuMLmI_fNF1cXnnB6lauPiHzW7aSGi2D03y3GRyAwWNZpgX15FKWoM4d3n3qzKxwuA9xysJ63cX8JMi3J5zfnBB_hF5n8_xVa0Xjq0ET-FTWyiTJRUsuPqZ-2hNlXURCLG5ADMkbDpjH-0kDMke5E58c4nXT0A"/>
+</div>
+<h4 class="font-headline text-lg font-bold mb-2">Poly Plate</h4>
+<p class="font-label text-[10px] uppercase text-outline tracking-widest mb-4">Universal TKL</p>
+<p class="font-body text-xs text-on-surface-variant mb-8 font-light leading-relaxed">Flexible polycarbonate for a bouncy typing experience and muted, deep sound.</p>
+<div class="flex items-center justify-between pt-6 border-t border-surface-container">
+<span class="font-headline font-bold">$38.00</span>
+<span class="material-symbols-outlined text-primary cursor-pointer" data-icon="add_circle">add_circle</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Technical Advisory (Editorial Section) -->
+<section class="py-32 grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+<div class="order-2 md:order-1">
+<div class="relative">
+<img class="w-full h-auto" data-alt="An open mechanical keyboard showing internal PCB and foam layers during assembly on a clean architect workspace" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUJid4rLaPufu-d_U_zbo8P2gK59bjn5ZkRil5yL_7beaQLab24Ln1cWESwgGj2KJIEL0HkzBagGALKusttQzXykKyffDfzb6zfvPPkYHR5v6MVQA7yGuUPzx8-2oihgkEDLIu_IRRSKSZ9vYQCFBmGNn4AmKewSs6ZBfVOitpoDpc_u7Cw8SItCddxxgenLpVGm0OlPylzptaH7UevNM9UNjWiCEnap0BvhAQSJE0N74rqFvcDJDmIyhzWAT3TszSVJMYWyeh2Jc"/>
+<div class="absolute -bottom-12 -right-12 w-64 h-64 bg-surface-container-low p-8 hidden md:block">
+<p class="font-headline text-4xl font-bold text-outline-variant opacity-20">01</p>
+<p class="font-headline text-sm font-bold mt-4 leading-tight uppercase">Technical Precision <br/>Engineering</p>
+</div>
+</div>
+</div>
+<div class="order-1 md:order-2">
+<h3 class="font-headline text-4xl font-extrabold tracking-tighter mb-8">The Physics of <br/>Tactility</h3>
+<div class="space-y-6 text-on-surface-variant font-light leading-relaxed">
+<p>Every millimeter of travel and every gram of resistance is a design choice. Our custom parts are engineered for consistency across the entire alphanumeric cluster.</p>
+<p>We provide detailed force curves for every switch we stock, allowing you to visualize the tactile event before you even press the key.</p>
+</div>
+<div class="mt-12 space-y-4">
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="settings_input_component">settings_input_component</span>
+<span class="font-label text-xs uppercase tracking-widest font-medium">Precision Molds only</span>
+</div>
+<div class="flex items-center space-x-4">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="verified">verified</span>
+<span class="font-label text-xs uppercase tracking-widest font-medium">Factory Inspected Components</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#f2f4f4] dark:bg-[#1c1c1c] w-full py-20 px-12">
+<div class="flex flex-col md:flex-row justify-between items-start gap-12 w-full max-w-[1440px] mx-auto">
+<div class="flex flex-col gap-6">
+<div class="font-headline font-bold text-[#2d3435] dark:text-[#f9f9f9] text-xl">TACTILE GALLERY</div>
+<p class="font-inter text-xs tracking-wide font-light text-[#5f5e5e] max-w-xs leading-relaxed">
+                    © 2024 Tactile Gallery. Precision in every keystroke. Crafted for the typing enthusiast.
+                </p>
+</div>
+<div class="flex gap-24">
+<div class="flex flex-col gap-4">
+<span class="font-headline text-[10px] uppercase tracking-[0.2em] font-bold text-outline">Connect</span>
+<a class="font-inter text-xs tracking-wide font-light text-[#5f5e5e] hover:text-[#2d3435] transition-colors" href="#">Journal</a>
+<a class="font-inter text-xs tracking-wide font-light text-[#5f5e5e] hover:text-[#2d3435] transition-colors" href="#">Sustainability</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="font-headline text-[10px] uppercase tracking-[0.2em] font-bold text-outline">Service</span>
+<a class="font-inter text-xs tracking-wide font-light text-[#5f5e5e] hover:text-[#2d3435] transition-colors" href="#">Support</a>
+<a class="font-inter text-xs tracking-wide font-light text-[#5f5e5e] hover:text-[#2d3435] transition-colors" href="#">Shipping</a>
+</div>
+</div>
+<div class="md:w-64">
+<p class="font-headline text-[10px] uppercase tracking-[0.2em] font-bold text-outline mb-4">Newsletter</p>
+<div class="flex border-b border-outline-variant pb-2">
+<input class="bg-transparent border-none focus:ring-0 w-full text-xs font-light placeholder:text-outline-variant" placeholder="Email Address" type="email"/>
+<button class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</button>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

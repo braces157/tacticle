@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "surface-bright": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "inverse-primary": "#ffffff",
+                    "tertiary-fixed": "#d0ecff",
+                    "on-error-container": "#752121",
+                    "surface-container-high": "#e4e9ea",
+                    "surface-container": "#ebeeef",
+                    "surface-dim": "#d4dbdd",
+                    "inverse-surface": "#0c0f0f",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "surface-container-low": "#f2f4f4",
+                    "outline-variant": "#adb3b4",
+                    "on-error": "#fff7f6",
+                    "on-secondary": "#fbf8f8",
+                    "surface-variant": "#dde4e5",
+                    "on-primary-fixed": "#403f3f",
+                    "on-surface-variant": "#5a6061",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "on-tertiary-fixed": "#2c4655",
+                    "error-container": "#fe8983",
+                    "on-background": "#2d3435",
+                    "primary": "#5f5e5e",
+                    "primary-dim": "#535252",
+                    "primary-container": "#e5e2e1",
+                    "on-primary": "#faf7f6",
+                    "background": "#f9f9f9",
+                    "tertiary-container": "#d0ecff",
+                    "surface-container-highest": "#dde4e5",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "on-surface": "#2d3435",
+                    "on-secondary-container": "#525252",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-secondary-fixed": "#3f3f3f",
+                    "tertiary-dim": "#3c5666",
+                    "tertiary": "#486272",
+                    "on-tertiary": "#f4faff",
+                    "on-primary-container": "#525151",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "outline": "#757c7d",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-container": "#3e5868",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "secondary-container": "#e4e2e1",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-dim": "#535353",
+                    "secondary": "#5f5f5f",
+                    "error-dim": "#4e0309",
+                    "error": "#9f403d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 glass-nav">
+<div class="flex justify-between items-center max-w-[1440px] mx-auto px-12 h-20">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9] font-headline">
+                TACTILE
+            </div>
+<div class="hidden md:flex gap-12 items-center">
+<a class="font-headline tracking-tight font-medium text-[#2d3435] dark:text-[#ffffff] border-b border-[#5f5e5e] pb-1 transition-all" href="#">Gallery</a>
+<a class="font-headline tracking-tight font-medium text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Switches</a>
+<a class="font-headline tracking-tight font-medium text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Keycaps</a>
+<a class="font-headline tracking-tight font-medium text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Story</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="scale-95 active:opacity-80 transition-all text-[#5f5e5e] dark:text-[#f2f4f4]">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-20">
+<!-- Hero Section: The Tactile Gallery -->
+<section class="relative min-h-[921px] flex items-center px-12 overflow-hidden bg-surface">
+<div class="max-w-[1440px] mx-auto w-full grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+<div class="md:col-span-5 z-10">
+<h1 class="font-headline text-6xl md:text-8xl font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-8">
+                        SILENT <br/>PRECISION.
+                    </h1>
+<p class="font-body text-body-md text-on-surface-variant max-w-sm mb-12 leading-relaxed">
+                        An curated exhibition of mechanical engineering. Designed for those who appreciate the quiet weight of excellence.
+                    </p>
+<button class="bg-gradient-to-br from-primary to-primary-dim text-on-primary px-10 py-4 rounded-sm font-headline font-semibold tracking-wide hover:opacity-90 transition-all active:scale-95">
+                        EXPLORE THE COLLECTION
+                    </button>
+</div>
+<div class="md:col-span-7 relative">
+<div class="absolute -right-20 top-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-surface-container-low rounded-full blur-3xl opacity-50"></div>
+<img class="relative z-10 w-full h-auto object-cover transform scale-110 translate-x-12" data-alt="top-down minimalist view of an all-white mechanical keyboard on a white desk with soft natural lighting and clean shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVNCLpjY9c_utmK73a9IuYhnaStJwCPhy2tCy4vbZF_qMF4a_OElDEz7ZkBj0uKq-k81ethoB40zH-E1ixt48BADosISh3vC03bpj99tKC5xzUKwTjUq7TxekMVmQVvvtsELAzMOPyPOhsK2J7jnDlWDmM5kHK2Ic-r90tLTx6I-HSQjMdLcpBEOpgxCxqIAKcZMSK9HBXsF3rTaI8JAkx71sUIPZUJzIrvbt-_7YNY9lVx1L88wxNpZ7Zb25Bs3Vzel4RncAdlSI"/>
+</div>
+</div>
+</section>
+<!-- Featured Categories: Intentional Asymmetry -->
+<section class="py-32 px-12 bg-surface">
+<div class="max-w-[1440px] mx-auto">
+<div class="flex justify-between items-end mb-24">
+<h2 class="font-headline text-4xl font-bold tracking-tight">CATEGORIES</h2>
+<span class="font-body text-xs uppercase tracking-widest text-outline">Exhibition / 01</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-10 gap-12">
+<!-- Item 1: Custom Builds (60%) -->
+<div class="md:col-span-6 group cursor-pointer">
+<div class="aspect-[16/10] bg-surface-container-lowest overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="high-end custom mechanical keyboard chassis made of frosted acrylic and silver aluminum on a neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuwbaMA4JlosypPEdAmL0pcxh43Z99x-c0NUiSYxxGh75yP5aTVEritdJdxEUKJpZU6OhN7d_gTMUkZqiMPHcaG59g3PHoqwalSf4x_b4LKsufXDljYN0ocj_TAl5YT_gRlOizQQnRXKsI7BwTrNXSfYUI5mIA4U2AC8LrdAmu7egg7xgo4fxU_jG0DoXGpxYJTL1LPce9Sa0zYWmIipGQ5548ApKQnTGuOj8fFzPUrVWDGquwHnxjXKdMWC5Atkpk9z3-18VwB6I"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-2">CUSTOM BUILDS</h3>
+<p class="font-body text-sm text-on-surface-variant">Bespoke engineering tailored to your touch.</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Item 2: Keycaps (40%, Vertical Offset) -->
+<div class="md:col-span-4 md:mt-32 group cursor-pointer">
+<div class="aspect-[4/5] bg-surface-container-lowest overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="macro photograph of minimalist white keycaps with subtle legends under clinical studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6D96WQNSExc7laAdPQf4j-q3x8Erc-IB6-rn875IPMhgu78a3-xOvUomYfCOTFhQ9sVWduMDe2X5lL8Ttz0VvNFgw-Gb6eWgoLf8Hp21vbqNTxfkVY-TtWhNtsInOagLDzg-UHVIKHWQKO6bQ1GULGYe_c-zv8SplWzvVCtg6bERuoan6KqdbZoxPBHJ7DdZ8i7Ia4X7aNk2jpoVI0ZlFybICmy-kMHDxggkDvv3mWFBXQ8XfsXBexZENjQJh7EayqzNBgT1CMmU"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-2">KEYCAPS</h3>
+<p class="font-body text-sm text-on-surface-variant">Typographic precision on every row.</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+<!-- Item 3: Switches (Asymmetric Placement) -->
+<div class="md:col-span-4 md:-mt-24 group cursor-pointer">
+<div class="aspect-[1/1] bg-surface-container-lowest overflow-hidden mb-6">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="close-up of mechanical keyboard switches arranged in a grid with soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQxiVTz86ehaz_BMK6njc7mThLkBnPxB75mroO_h_z1xZIWABgNzFOY7zrXWku6Mrlc5eXTt_CJYFKTPuau6dKd1QLFIcP-ov90oo2ws3KokX_ppCx3ivU8HZzHl6sNiM5-8_5sP18v_R_HUZ3h4FN_9s4yke53I51RNxowmatzwirmG_lpRUkWSV3xWrayns2DvTineikWyHLMCid9KXHKoqqDpOAdApT8IsNFCk-hxZkBD3SSOSBv58HFYpTZksreeWIHCVubks"/>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-2">SWITCHES</h3>
+<p class="font-body text-sm text-on-surface-variant">The soul of the acoustic experience.</p>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-2 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Brand Story: Editorial Focus -->
+<section class="py-40 bg-surface-container-low">
+<div class="max-w-[1440px] mx-auto px-12">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-16 items-center">
+<div class="md:col-span-6">
+<div class="font-headline text-xs uppercase tracking-widest text-primary mb-8">OUR MANIFESTO</div>
+<h2 class="font-headline text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-12">
+                            WE BELIEVE IN THE <span class="italic font-light">WEIGHT</span> OF THINGS. IN THE CLICK THAT SPEAKS VOLUMES.
+                        </h2>
+<div class="space-y-6 font-body text-on-surface-variant leading-relaxed text-lg max-w-xl">
+<p>Tactile was founded on a simple obsession: the intersection of digital work and physical sensation. In a world of glass and screens, we seek the grounding power of mechanical resistance.</p>
+<p>Every component in our gallery is vetted for acoustic profile, material purity, and structural integrity. We don't just sell tools; we curate the primary interface of your creative life.</p>
+</div>
+</div>
+<div class="md:col-span-6 relative">
+<div class="aspect-[3/4] bg-surface-container-highest">
+<img class="w-full h-full object-cover mix-blend-multiply opacity-80 grayscale" data-alt="artistic close-up of a designer's workspace with a minimalist keyboard and natural wood textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzLHT59nxB33Z9pDwHPlvCTQqCr4WixIAjgCatmbHFIxChR2fWv__bBZ3TIVzxE32yeuf90LKFNE4D30Cih2ZV4vZgEJ7kyr9wucmJ9kg8Gun4HXFER2FZj8BAkA44sc7a7oi3uRkrOHf3IKgCRB3T3u-nHyqsLVWdhUPljoHTzA_vlVseE79DK68kXBnuGsu2jwp5Rp9T762HI3o5jSwuBr_bHvPnO1TZiDgQrDkR0J8vgcpeyn-JDeDiHJ1F-x-WNF18WKkNBXo"/>
+</div>
+<div class="absolute -bottom-10 -left-10 bg-surface p-12 hidden md:block">
+<div class="text-4xl font-headline font-black tracking-tighter">14.2kg</div>
+<div class="text-xs font-body uppercase tracking-[0.2em] text-outline mt-2">Aluminum Processed / Daily</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Product Highlight: Spec Sheet Logic -->
+<section class="py-32 px-12 bg-surface">
+<div class="max-w-[1440px] mx-auto">
+<div class="border-t border-outline-variant/20 pt-32 grid grid-cols-1 md:grid-cols-12 gap-24">
+<div class="md:col-span-4">
+<h3 class="font-headline text-sm font-bold tracking-widest text-primary mb-12 uppercase">SPECIFICATIONS / MODEL 01</h3>
+<div class="space-y-8">
+<div class="group border-b border-outline-variant/10 pb-4">
+<div class="text-xs uppercase tracking-widest text-outline-variant mb-2">Mounting</div>
+<div class="font-headline text-xl font-medium">Gasket-Mounted Precision</div>
+</div>
+<div class="group border-b border-outline-variant/10 pb-4">
+<div class="text-xs uppercase tracking-widest text-outline-variant mb-2">Material</div>
+<div class="font-headline text-xl font-medium">6063 Aluminum Chassis</div>
+</div>
+<div class="group border-b border-outline-variant/10 pb-4">
+<div class="text-xs uppercase tracking-widest text-outline-variant mb-2">Weight</div>
+<div class="font-headline text-xl font-medium">2.4kg Internal Brass PVD</div>
+</div>
+<div class="group border-b border-outline-variant/10 pb-4">
+<div class="text-xs uppercase tracking-widest text-outline-variant mb-2">Acoustics</div>
+<div class="font-headline text-xl font-medium">Triple-Layer Poron Dampening</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-8">
+<img class="w-full aspect-video object-cover grayscale brightness-105" data-alt="high-resolution detail shot of a keyboard's aluminum edge showing the precise chamfer and matte finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdRDk367_k-npjejRM37EjCM3KcfzWy4rO1kTlmz-H6XL0Qe2_WR1fRGGPUXCSmFAC5kvE7AkhvIIywMyX37N_nw8Vf1EGHCQlKUsUqbsT7ZAg-hlpY6MZnVf7rsx7W6U_6_94tdnwAMuKB7VSan6gM5xkrBOa1coVFPxT9VN8V0o1fSts5ws7lGrIK_-FN48rJDGizGhq60jti7SBnQtJ-S9x9K-cSCedQUOpReC6AXX1ZFqJyh0p170LQDkkAlCahc-KcREscog"/>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-24 pb-12 bg-[#f2f4f4] dark:bg-[#121212]">
+<div class="flex flex-col md:flex-row justify-between items-end px-12 gap-8 max-w-[1440px] mx-auto">
+<div class="w-full md:w-auto">
+<div class="font-manrope font-black text-[#2d3435] dark:text-[#f9f9f9] text-4xl tracking-tighter mb-4">
+                    TACTILE
+                </div>
+<p class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4]">
+                    © 2024 TACTILE GALLERY. ENGINEERED PRECISION.
+                </p>
+</div>
+<div class="flex flex-wrap gap-8 md:gap-16">
+<div class="flex flex-col gap-3">
+<span class="font-inter text-xs uppercase tracking-widest font-bold text-[#2d3435] dark:text-[#f9f9f9]">Navigation</span>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] opacity-70 hover:opacity-100 transition-opacity" href="#">Support</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] opacity-70 hover:opacity-100 transition-opacity" href="#">Shipping</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] opacity-70 hover:opacity-100 transition-opacity" href="#">Journal</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] opacity-70 hover:opacity-100 transition-opacity underline underline-offset-4" href="#">Privacy</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-inter text-xs uppercase tracking-widest font-bold text-[#2d3435] dark:text-[#f9f9f9]">Connect</span>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] opacity-70 hover:opacity-100 transition-opacity" href="#">Instagram</a>
+<a class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] opacity-70 hover:opacity-100 transition-opacity" href="#">Discord</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

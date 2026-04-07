@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order History | Tactile Gallery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed": "#d0ecff",
+                    "on-primary-fixed": "#403f3f",
+                    "on-error": "#fff7f6",
+                    "surface-dim": "#d4dbdd",
+                    "on-background": "#2d3435",
+                    "inverse-on-surface": "#9c9d9d",
+                    "surface-bright": "#f9f9f9",
+                    "inverse-primary": "#ffffff",
+                    "on-primary-container": "#525151",
+                    "on-secondary-container": "#525252",
+                    "secondary-fixed": "#e4e2e1",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "surface-tint": "#5f5e5e",
+                    "inverse-surface": "#0c0f0f",
+                    "error": "#9f403d",
+                    "on-surface-variant": "#5a6061",
+                    "on-tertiary": "#f4faff",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "on-tertiary-container": "#3e5868",
+                    "error-dim": "#4e0309",
+                    "on-error-container": "#752121",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "secondary-container": "#e4e2e1",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "primary": "#5f5e5e",
+                    "surface-variant": "#dde4e5",
+                    "on-surface": "#2d3435",
+                    "primary-container": "#e5e2e1",
+                    "surface-container-low": "#f2f4f4",
+                    "outline-variant": "#adb3b4",
+                    "on-secondary": "#fbf8f8",
+                    "secondary-dim": "#535353",
+                    "surface-container-lowest": "#ffffff",
+                    "error-container": "#fe8983",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "surface-container-highest": "#dde4e5",
+                    "surface-container": "#ebeeef",
+                    "surface": "#f9f9f9",
+                    "secondary": "#5f5f5f",
+                    "primary-dim": "#535252",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "on-secondary-fixed": "#3f3f3f",
+                    "tertiary": "#486272",
+                    "on-tertiary-fixed": "#2c4655",
+                    "background": "#f9f9f9",
+                    "on-primary": "#faf7f6",
+                    "primary-fixed": "#e5e2e1",
+                    "outline": "#757c7d",
+                    "tertiary-dim": "#3c5666",
+                    "tertiary-container": "#d0ecff",
+                    "surface-container-high": "#e4e9ea"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .tonal-shift { transition: background-color 0.3s ease; }
+        .glass-nav { backdrop-filter: blur(24px); }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 dark:bg-[#121212]/80 backdrop-blur-xl">
+<div class="flex justify-between items-center px-8 py-6 max-w-screen-2xl mx-auto font-manrope tracking-tight">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9]">Tactile Gallery</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-[#5f5e5e]/60 dark:text-[#a1a1a1]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Exhibitions</a>
+<a class="text-[#5f5e5e]/60 dark:text-[#a1a1a1]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Inventory</a>
+<a class="text-[#5f5e5e]/60 dark:text-[#a1a1a1]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Switches</a>
+<a class="text-[#2d3435] dark:text-[#f9f9f9] border-b border-[#2d3435] dark:border-[#f9f9f9] pb-1 transition-colors duration-300" href="#">History</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-[#5f5e5e] dark:text-[#a1a1a1] hover:text-[#2d3435]">shopping_bag</button>
+<button class="material-symbols-outlined text-[#2d3435] dark:text-[#f9f9f9]">person</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-20 px-8 max-w-screen-2xl mx-auto min-h-screen">
+<div class="flex flex-col md:flex-row gap-16">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 flex-shrink-0">
+<div class="sticky top-40 space-y-12">
+<div>
+<h2 class="text-xs uppercase tracking-[0.2em] text-outline mb-6 font-semibold">Account</h2>
+<nav class="flex flex-col gap-4">
+<a class="group flex items-center gap-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">person</span>
+<span class="font-medium">Profile</span>
+</a>
+<a class="group flex items-center gap-3 text-on-surface font-bold" href="#">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">history</span>
+<span>Order History</span>
+<div class="w-1.5 h-1.5 rounded-full bg-primary ml-auto"></div>
+</a>
+<a class="group flex items-center gap-3 text-on-surface-variant hover:text-on-surface transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">security</span>
+<span class="font-medium">Security</span>
+</a>
+</nav>
+</div>
+<div class="p-6 bg-surface-container-low rounded-lg">
+<p class="text-xs text-on-surface-variant leading-relaxed">
+                            Need assistance with an existing order? Our concierge is available 24/7.
+                        </p>
+<button class="mt-4 text-xs font-bold border-b border-on-surface pb-0.5">Contact Support</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<section class="flex-grow">
+<header class="mb-16">
+<h1 class="text-5xl font-extrabold tracking-tighter text-on-surface mb-4">Past Acquisitions</h1>
+<p class="text-on-surface-variant max-w-lg leading-relaxed">
+                        A curated archive of your tactile journey. Track current shipments or revisit the specifications of your collection.
+                    </p>
+</header>
+<div class="space-y-12">
+<!-- Order Item: Expanded/Active -->
+<div class="group relative bg-surface-container-low rounded-lg p-8 md:p-12 transition-all">
+<div class="flex flex-col lg:flex-row justify-between items-start gap-8 mb-12">
+<div>
+<div class="flex items-center gap-4 mb-2">
+<span class="text-xs font-bold tracking-widest uppercase text-outline">#MONO-8831</span>
+<span class="px-3 py-1 bg-tertiary-container text-on-tertiary-container text-[10px] font-bold uppercase tracking-wider rounded-full">In Transit</span>
+</div>
+<h3 class="text-2xl font-bold tracking-tight">Obelisk TKL — Slate Edition</h3>
+<p class="text-on-surface-variant text-sm mt-1">Ordered March 12, 2024</p>
+</div>
+<div class="text-right">
+<p class="text-xs text-outline uppercase tracking-widest mb-1">Total Amount</p>
+<p class="text-3xl font-bold tracking-tighter">$542.00</p>
+</div>
+</div>
+<!-- Item Summary Breakdown -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="aspect-[4/3] bg-surface-container-lowest rounded-sm overflow-hidden p-6 flex items-center justify-center">
+<img alt="Mechanical keyboard" class="w-full h-full object-contain" data-alt="Premium mechanical keyboard with slate grey aluminum chassis and dark minimalist keycaps on a clean surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgLjmJq67UqroNjydK3pF-R_AXqxcoh_sYANrP4IzFMG-NjgZALlPzsgv-Bgl-ycyapmKGiHfSEhXl-zjKR2gmfe8YtW4StdQHERPa2AiqJY3_XC4_jVvyxc6gT5HmldCAEPqT_pIOZ-03-tZou-6-6oQSh9UHbQI8OzYj1Z8qL0beIogLuZj9Ave560MXw9CJkrgOYEnMXubeFIxcGeKenIpBGpZ8Ya5GK3jJwNBlLkpUB7IsLY6dBb3x_PBXdbN2iUjcqwoqG-Q"/>
+</div>
+<div class="space-y-6">
+<div>
+<h4 class="text-xs font-bold uppercase tracking-widest text-outline mb-4">Specifications</h4>
+<ul class="space-y-3">
+<li class="flex justify-between text-sm border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">Switch Type</span>
+<span class="font-semibold">Linear — Moonstone 62g</span>
+</li>
+<li class="flex justify-between text-sm border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">Plate Material</span>
+<span class="font-semibold">Sandblasted Brass</span>
+</li>
+<li class="flex justify-between text-sm border-b border-outline-variant/10 pb-2">
+<span class="text-on-surface-variant">Keycaps</span>
+<span class="font-semibold">PBT Doubleshot — Graphite</span>
+</li>
+</ul>
+</div>
+<div class="flex gap-4 pt-4">
+<button class="bg-gradient-to-br from-primary to-primary-dim text-on-primary px-6 py-3 text-sm font-bold tracking-tight hover:opacity-90 transition-opacity">
+                                        Track Shipment
+                                    </button>
+<button class="px-6 py-3 text-sm font-bold text-primary border border-outline-variant/30 hover:border-primary transition-colors">
+                                        View Invoice
+                                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Item: List Style 1 -->
+<div class="group flex flex-col md:flex-row items-center justify-between p-8 bg-surface-container-lowest border border-outline-variant/10 hover:border-outline-variant/30 transition-all">
+<div class="flex items-center gap-8 w-full md:w-auto">
+<div class="w-20 h-20 bg-surface-container-low rounded-sm p-2 flex-shrink-0">
+<img alt="Custom switch set" class="w-full h-full object-cover" data-alt="Macro shot of high-end mechanical keyboard switches in a geometric arrangement with soft lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4vNk9_Oe1zFoLpO0z74eA4hWbBvq_GJuIpjXUrbg9-6J62gQ1tUieeSJjmMXKHv1kUtz8LhkBW_xlr1HUu6Ae8UWwf-aWEb97zmWmUg8aeBlO1yhVv4W6Wo7EpdyRp6wZrq-XbxhcRTmMD8tXXv6CMRbFFPlGAVUaQaTY9Jsp2_kWCL9TZ0x2lysDhB1OeVg4sCHjfayI6M8KzEkFluwIBslcaYudFTGWoH67fvbTcnmDkERUqvO6QxtJDy0AgJT4eqmhUambGL0"/>
+</div>
+<div>
+<span class="text-[10px] font-bold tracking-widest uppercase text-outline">#MONO-7721</span>
+<h4 class="text-lg font-bold">Heirloom Artisan Caps — Marble</h4>
+<p class="text-xs text-on-surface-variant">Delivered Feb 04, 2024</p>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-12 w-full md:w-auto mt-6 md:mt-0">
+<div class="text-right">
+<span class="block text-[10px] text-outline uppercase font-bold tracking-widest">Total</span>
+<span class="text-lg font-bold">$125.00</span>
+</div>
+<button class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                                Details
+                                <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Order Item: List Style 2 -->
+<div class="group flex flex-col md:flex-row items-center justify-between p-8 bg-surface-container-lowest border border-outline-variant/10 hover:border-outline-variant/30 transition-all">
+<div class="flex items-center gap-8 w-full md:w-auto">
+<div class="w-20 h-20 bg-surface-container-low rounded-sm p-2 flex-shrink-0">
+<img alt="Wrist rest" class="w-full h-full object-cover" data-alt="A dark walnut wood wrist rest with subtle grain pattern on a designer desk setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDm6eFiPtnVCo9afwPlhNBF0LBQFlZrVOur1pSqZnVFTnnft0HTc7IRoPSA1HsEJwyTf6iywEvORandQgPRIRsiCAaJImmadUKOj392AYWWQYCcjFPX95WvzFcrjmrAP9YROnKo9iqHWLxTRp8U6vVRKHxGms3ZmuWshM99nnodX7zQ-TSUIiQVG5vytR0i0CjOglnez_fWULBzTCTXRwykjIh-ZLXHJZvScOdJtqtfOGg_kD59yVm7hJ5bnSw-nv0EHXZPABomWzY"/>
+</div>
+<div>
+<span class="text-[10px] font-bold tracking-widest uppercase text-outline">#MONO-6540</span>
+<h4 class="text-lg font-bold">Walnut Rest — Limited Edition</h4>
+<p class="text-xs text-on-surface-variant">Delivered Dec 12, 2023</p>
+</div>
+</div>
+<div class="flex items-center justify-between md:justify-end gap-12 w-full md:w-auto mt-6 md:mt-0">
+<div class="text-right">
+<span class="block text-[10px] text-outline uppercase font-bold tracking-widest">Total</span>
+<span class="text-lg font-bold">$85.00</span>
+</div>
+<button class="group flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
+                                Details
+                                <span class="material-symbols-outlined text-lg transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Empty State Suggestion (Subtle) -->
+<div class="mt-20 border-t border-outline-variant/10 pt-12 text-center md:text-left">
+<p class="text-xs text-outline uppercase tracking-widest font-bold mb-4">Recommendations for your collection</p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<div class="aspect-square bg-surface-container-low flex flex-col items-center justify-center p-4">
+<span class="material-symbols-outlined text-outline-variant text-4xl mb-2">cable</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Aviator Cables</span>
+</div>
+<div class="aspect-square bg-surface-container-low flex flex-col items-center justify-center p-4">
+<span class="material-symbols-outlined text-outline-variant text-4xl mb-2">cleaning_services</span>
+<span class="text-[10px] font-bold uppercase tracking-tighter">Maintenance Kit</span>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full mt-20 bg-[#f2f4f4] dark:bg-[#1a1a1a]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 w-full font-inter text-xs tracking-wide uppercase">
+<div class="font-manrope font-semibold text-[#2d3435] dark:text-[#f9f9f9] text-base mb-8 md:mb-0">Tactile Gallery</div>
+<div class="flex gap-8 mb-8 md:mb-0">
+<a class="text-[#5f5e5e] dark:text-[#a1a1a1] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-all" href="#">Terms</a>
+<a class="text-[#5f5e5e] dark:text-[#a1a1a1] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-all" href="#">Privacy</a>
+<a class="text-[#5f5e5e] dark:text-[#a1a1a1] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-all" href="#">Shipping</a>
+<a class="text-[#5f5e5e] dark:text-[#a1a1a1] hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-all" href="#">Contact</a>
+</div>
+<div class="text-[#5f5e5e] dark:text-[#a1a1a1] normal-case opacity-60">
+                © 2024 Tactile Gallery. Precision in every keystroke.
+            </div>
+</div>
+</footer>
+</body></html>

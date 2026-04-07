@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Order Details | MONOLITH</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, .font-headline { font-family: 'Manrope', sans-serif; }
+        .tonal-shift-bg { background-color: #f2f4f4; }
+        .glass-nav {
+            background-color: rgba(249, 249, 249, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-dim": "#535252",
+                    "tertiary-dim": "#3c5666",
+                    "secondary": "#5f5f5f",
+                    "tertiary": "#486272",
+                    "error-dim": "#4e0309",
+                    "on-error": "#fff7f6",
+                    "primary-container": "#e5e2e1",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#5a6061",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "secondary-container": "#e4e2e1",
+                    "background": "#f9f9f9",
+                    "surface-variant": "#dde4e5",
+                    "on-primary-fixed": "#403f3f",
+                    "primary": "#5f5e5e",
+                    "on-tertiary-fixed": "#2c4655",
+                    "secondary-fixed": "#e4e2e1",
+                    "surface-dim": "#d4dbdd",
+                    "surface-container-low": "#f2f4f4",
+                    "surface-bright": "#f9f9f9",
+                    "on-secondary-fixed": "#3f3f3f",
+                    "surface-container-high": "#e4e9ea",
+                    "on-secondary-container": "#525252",
+                    "inverse-primary": "#ffffff",
+                    "outline-variant": "#adb3b4",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "error": "#9f403d",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "on-primary": "#faf7f6",
+                    "inverse-surface": "#0c0f0f",
+                    "surface-container": "#ebeeef",
+                    "secondary-dim": "#535353",
+                    "on-surface": "#2d3435",
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-container": "#3e5868",
+                    "on-background": "#2d3435",
+                    "outline": "#757c7d",
+                    "on-error-container": "#752121",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "tertiary-fixed": "#d0ecff",
+                    "tertiary-container": "#d0ecff",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "on-tertiary": "#f4faff",
+                    "primary-fixed": "#e5e2e1",
+                    "on-primary-container": "#525151",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "error-container": "#fe8983",
+                    "surface-container-highest": "#dde4e5",
+                    "inverse-on-surface": "#9c9d9d",
+                    "surface": "#f9f9f9",
+                    "on-secondary": "#fbf8f8"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-primary min-h-screen pt-24">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 dark:bg-[#121212]/80 backdrop-blur-xl">
+<div class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center font-manrope tracking-tight">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9]">MONOLITH</div>
+<div class="hidden md:flex items-center gap-10">
+<a class="text-[#5f5e5e]/60 dark:text-[#f9f9f9]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Gallery</a>
+<a class="text-[#5f5e5e]/60 dark:text-[#f9f9f9]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Keyboards</a>
+<a class="text-[#5f5e5e]/60 dark:text-[#f9f9f9]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Switches</a>
+<a class="text-[#5f5e5e]/60 dark:text-[#f9f9f9]/60 hover:text-[#2d3435] dark:hover:text-[#f9f9f9] transition-colors duration-300" href="#">Journal</a>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-[#5f5e5e] dark:text-[#a1a1a1] hover:text-[#2d3435] transition-colors" data-icon="shopping_bag">shopping_bag</button>
+<button class="material-symbols-outlined text-[#2d3435] dark:text-[#f9f9f9] scale-95 duration-200 ease-out" data-icon="person">person</button>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-8 pb-32">
+<!-- Order Header -->
+<header class="mb-16">
+<div class="flex items-center gap-2 text-primary opacity-60 mb-6">
+<span class="material-symbols-outlined text-sm" data-icon="arrow_back">arrow_back</span>
+<span class="text-xs uppercase tracking-widest font-label">Back to orders</span>
+</div>
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-5xl font-extrabold tracking-tighter mb-2">Order #MT-90214</h1>
+<p class="text-primary-dim opacity-70 font-body">Confirmed on October 24, 2024</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="px-4 py-1.5 bg-surface-container text-on-surface text-[10px] uppercase tracking-[0.2em] font-bold">In Production</span>
+<button class="bg-primary hover:bg-primary-dim text-on-primary px-6 py-2 text-xs uppercase tracking-widest font-semibold transition-all duration-300">Track Shipment</button>
+</div>
+</div>
+</header>
+<!-- Main Layout: Asymmetric Content -->
+<div class="flex flex-col lg:flex-row gap-16">
+<!-- Left: Items List (60%) -->
+<section class="lg:w-3/5 space-y-12">
+<h2 class="text-xs uppercase tracking-[0.3em] font-bold text-outline">Enthusiast Manifest</h2>
+<div class="space-y-8">
+<!-- Item 1 -->
+<div class="group flex gap-8 items-start">
+<div class="w-40 h-40 bg-surface-container-low flex-shrink-0 overflow-hidden relative">
+<img alt="Mechanical Keyboard Chassis" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Close-up of a high-end matte gray mechanical keyboard aluminum chassis with crisp chamfered edges in soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBq9qlsZD8GZl5bmRb1R1nmfM2yBOuUcEMRqyRzusKeIKlnehDiY5Jn2o7RXIAy9qVwZBSw5V9mujoDYKC8NRmSl7XpBKzQ9G_FKeMEasn5n9cmvQEkU5nBT-0rdswmMvWGy3Fx7-ncfymYdae0aUW15HzYQMMD-fIpxG8lZNeKGFPPXjsW3VaH5dBxtr3sJb17eJqwgDUSJWLW6HCaPC6IVVWx2H07Rvv7IytWjXHgZp8hCRNjKvF9SYTWIVgSJfIFoQYo_gFgOqw"/>
+</div>
+<div class="flex-grow py-2">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight">K-SERIES MK.II CHASSIS</h3>
+<span class="text-primary font-body">$420.00</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-sm mb-4">
+                                Precision-milled 6063 aluminum, Anodized Slate finish. Features a 6-degree typing angle and internal brass weight.
+                            </p>
+<div class="flex gap-4 text-[10px] uppercase tracking-widest font-bold opacity-40">
+<span>QTY: 01</span>
+<span>FINISH: SLATE</span>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="group flex gap-8 items-start pt-8 border-t border-outline-variant/10">
+<div class="w-40 h-40 bg-surface-container-low flex-shrink-0 overflow-hidden relative">
+<img alt="Keycap Set" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Artisan PBT keycaps in shades of neutral gray and cream organized neatly on a tray, minimal lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk6JOjxSp4dFTxzxVTofmeoevPz11wkPTKPhugDuculGykUmKn1IEgM98rx9RlsctCoW9moTABOo8rK3fHglB1SfJI4sR12AHf6LTcyN4Ho0ctR-aAC1rIJxUBpuHx4PZ2XPyEczWVNdrn6V3QiuKqmoKaXoTX9xopgcQiLLFr6-iT-j96v9He9aZx3fdGPhScrov4YC35oAaOaa3a2hOWlmyk8KeOHuwBJKt_q79CsHVCyFOOMYYhk0XLCUi2kmjhAsG8QR6I2O8"/>
+</div>
+<div class="flex-grow py-2">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight">MONO-CHROME PBT SET</h3>
+<span class="text-primary font-body">$135.00</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-sm mb-4">
+                                Double-shot PBT keycaps with Cherry profile. Includes specialized novelties and full ISO support.
+                            </p>
+<div class="flex gap-4 text-[10px] uppercase tracking-widest font-bold opacity-40">
+<span>QTY: 01</span>
+<span>PROFILE: CHERRY</span>
+</div>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="group flex gap-8 items-start pt-8 border-t border-outline-variant/10">
+<div class="w-40 h-40 bg-surface-container-low flex-shrink-0 overflow-hidden relative">
+<img alt="Keyboard Switches" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Macro shot of transparent mechanical keyboard linear switches with gold springs visible inside, moody aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDja2vD6kagFaLq3Lv4RYOg6gKwnAljzabjgIeyjRFcgK8CUGeqyhhag08YugSpGFapLAzyIAXSRfa3YuSqTWCAZ8gU5HotJQYdUMDnNw-OrVpycxhUOulEoN-6Y1u-j_oBt3v0fclmwv6SYR1Jy9BwlaCgE7tfrJOYkli5J-sGEAzfDNgKFLdMCMWAuBxCwjAFt5xAgFPcqirAQBn3Gb5G1L4M3djcaVxixqoFbQ6-vsu9BlA2MI2wtKV9rzYCwvANFiiVcafocyI"/>
+</div>
+<div class="flex-grow py-2">
+<div class="flex justify-between items-start mb-2">
+<h3 class="text-xl font-bold tracking-tight">SILK LINEAR SWITCHES</h3>
+<span class="text-primary font-body">$65.00</span>
+</div>
+<p class="text-sm text-on-surface-variant leading-relaxed max-w-sm mb-4">
+                                Factory lubed with Krytox 205g0. 62g bottom-out force. Pack of 90.
+                            </p>
+<div class="flex gap-4 text-[10px] uppercase tracking-widest font-bold opacity-40">
+<span>QTY: 01</span>
+<span>WEIGHT: 62G</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Right: Order Summary & Info (40%) -->
+<aside class="lg:w-2/5 space-y-12">
+<!-- Cost Breakdown Card -->
+<div class="bg-surface-container-low p-10 space-y-8">
+<h2 class="text-xs uppercase tracking-[0.3em] font-bold text-outline">Financials</h2>
+<div class="space-y-4">
+<div class="flex justify-between text-sm">
+<span class="opacity-60">Subtotal</span>
+<span>$620.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="opacity-60">Expedited Shipping</span>
+<span>$25.00</span>
+</div>
+<div class="flex justify-between text-sm">
+<span class="opacity-60">Estimated Tax</span>
+<span>$48.50</span>
+</div>
+<div class="pt-6 border-t border-outline-variant/20 flex justify-between items-end">
+<span class="text-xs uppercase tracking-widest font-bold">Total Amount</span>
+<span class="text-3xl font-black tracking-tighter">$693.50</span>
+</div>
+</div>
+</div>
+<!-- Shipping & Payment Bento -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<!-- Shipping Address -->
+<div class="p-8 bg-surface-container-lowest border border-outline-variant/10">
+<h4 class="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-4">Shipping Destination</h4>
+<p class="text-sm font-medium leading-relaxed">
+                            Alexander Vogt<br/>
+                            Tiergartenstrasse 12<br/>
+                            10785 Berlin<br/>
+                            Germany
+                        </p>
+</div>
+<!-- Payment Method -->
+<div class="p-8 bg-surface-container-lowest border border-outline-variant/10">
+<h4 class="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-4">Method of Payment</h4>
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="credit_card">credit_card</span>
+<span class="text-sm font-medium">•••• 9012</span>
+</div>
+<p class="text-xs opacity-60">Billed to Alexander Vogt</p>
+</div>
+</div>
+<!-- Need Help? -->
+<div class="sm:col-span-2 p-8 bg-surface-variant/30 flex items-center justify-between">
+<div>
+<h4 class="text-sm font-bold">Need technical support?</h4>
+<p class="text-xs opacity-60">Our engineers are available for assembly help.</p>
+</div>
+<button class="text-xs uppercase tracking-widest font-bold border-b border-primary pb-0.5 hover:opacity-70 transition-opacity">Contact Studio</button>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-24 bg-[#f2f4f4] dark:bg-[#1a1a1a]">
+<div class="max-w-7xl mx-auto px-12 py-20 flex flex-col items-center gap-8 font-inter text-xs tracking-widest uppercase">
+<div class="font-manrope font-black text-2xl text-[#2d3435] dark:text-[#f9f9f9]">MONOLITH TACTILE</div>
+<div class="flex gap-12 text-[#5f5e5e]/50 dark:text-[#a1a1a1]/50">
+<a class="hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline-offset-4 hover:underline transition-opacity" href="#">Archives</a>
+<a class="hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline-offset-4 hover:underline transition-opacity" href="#">Shipping</a>
+<a class="hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline-offset-4 hover:underline transition-opacity" href="#">Sustainability</a>
+<a class="hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline-offset-4 hover:underline transition-opacity" href="#">Privacy</a>
+</div>
+<p class="text-[#5f5e5e] dark:text-[#a1a1a1] mt-4 opacity-80">© 2024 MONOLITH TACTILE. ENGINEERED PRECISION.</p>
+</div>
+</footer>
+</body></html>

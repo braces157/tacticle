@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>No Results Found | Tactile Gallery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "secondary-container": "#e4e2e1",
+                      "inverse-primary": "#ffffff",
+                      "surface-tint": "#5f5e5e",
+                      "error-container": "#fe8983",
+                      "outline-variant": "#adb3b4",
+                      "on-secondary-fixed-variant": "#5c5b5b",
+                      "surface-bright": "#f9f9f9",
+                      "on-primary-fixed-variant": "#5c5b5b",
+                      "on-primary-fixed": "#403f3f",
+                      "error": "#9f403d",
+                      "surface": "#f9f9f9",
+                      "secondary-fixed-dim": "#d6d4d3",
+                      "outline": "#757c7d",
+                      "secondary": "#5f5f5f",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container": "#ebeeef",
+                      "surface-variant": "#dde4e5",
+                      "tertiary-dim": "#3c5666",
+                      "primary-container": "#e5e2e1",
+                      "on-background": "#2d3435",
+                      "inverse-on-surface": "#9c9d9d",
+                      "on-surface": "#2d3435",
+                      "surface-dim": "#d4dbdd",
+                      "tertiary-container": "#d0ecff",
+                      "tertiary-fixed": "#d0ecff",
+                      "on-primary": "#faf7f6",
+                      "on-tertiary-fixed": "#2c4655",
+                      "tertiary": "#486272",
+                      "on-secondary-container": "#525252",
+                      "primary-fixed": "#e5e2e1",
+                      "error-dim": "#4e0309",
+                      "on-secondary": "#fbf8f8",
+                      "on-error-container": "#752121",
+                      "background": "#f9f9f9",
+                      "surface-container-low": "#f2f4f4",
+                      "surface-container-highest": "#dde4e5",
+                      "on-surface-variant": "#5a6061",
+                      "primary": "#5f5e5e",
+                      "on-tertiary-fixed-variant": "#486272",
+                      "surface-container-high": "#e4e9ea",
+                      "tertiary-fixed-dim": "#c2def0",
+                      "secondary-dim": "#535353",
+                      "on-tertiary": "#f4faff",
+                      "on-primary-container": "#525151",
+                      "primary-fixed-dim": "#d7d4d3",
+                      "inverse-surface": "#0c0f0f",
+                      "on-error": "#fff7f6",
+                      "on-tertiary-container": "#3e5868"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "fontFamily": {
+                      "headline": [
+                              "Manrope"
+                      ],
+                      "body": [
+                              "Inter"
+                      ],
+                      "label": [
+                              "Inter"
+                      ]
+              }
+            },
+          },
+        }
+      </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            background: rgba(249, 249, 249, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-stone-50/80 backdrop-blur-xl flex justify-between items-center px-12 h-20 w-full font-manrope tracking-tight">
+<div class="flex items-center gap-12">
+<span class="text-xl font-bold tracking-tighter text-neutral-800">Tactile Gallery</span>
+<div class="hidden md:flex gap-8 items-center">
+<a class="text-neutral-500 hover:text-neutral-800 transition-colors" href="#">Exhibition</a>
+<a class="text-neutral-500 hover:text-neutral-800 transition-colors" href="#">Switches</a>
+<a class="text-neutral-500 hover:text-neutral-800 transition-colors" href="#">Keycaps</a>
+<a class="text-neutral-500 hover:text-neutral-800 transition-colors" href="#">Artisans</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden lg:flex items-center px-4 py-2 bg-stone-100/50 rounded-sm">
+<span class="material-symbols-outlined text-neutral-400 text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-neutral-600 placeholder:text-neutral-400" placeholder="Search curated precision..." type="text" value="Graphite Linear V2"/>
+</div>
+<div class="flex items-center gap-4 text-neutral-600">
+<button class="hover:opacity-80 transition-opacity flex items-center">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<button class="hover:opacity-80 transition-opacity flex items-center">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-6 md:px-12 max-w-7xl mx-auto">
+<!-- Empty State Hero -->
+<section class="min-h-[512px] flex flex-col items-center justify-center text-center space-y-8 animate-in fade-in duration-700">
+<div class="w-24 h-24 bg-surface-container-low rounded-full flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-4xl text-outline" data-icon="search_off">search_off</span>
+</div>
+<div class="space-y-4">
+<h1 class="text-4xl md:text-6xl font-headline font-extrabold tracking-tighter text-on-surface">
+                    No matches found for <span class="text-primary italic">"Graphite Linear V2"</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-xl mx-auto font-light leading-relaxed">
+                    While we don't have a direct match, our collection is constantly evolving. Try adjusting your filters or exploring our latest artisanal drops below.
+                </p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 pt-4">
+<button class="px-8 py-3 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-sm font-medium tracking-wide flex items-center justify-center gap-2 transition-transform active:scale-95">
+                    Clear All Filters
+                </button>
+<button class="px-8 py-3 bg-transparent border border-outline-variant/30 text-primary rounded-sm font-medium tracking-wide hover:bg-surface-container-low transition-colors">
+                    Back to Gallery
+                </button>
+</div>
+</section>
+<!-- Suggested Collections / Recommendation Grid -->
+<section class="mt-32 space-y-16">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-surface-container-highest pb-8">
+<div>
+<h2 class="text-xs uppercase tracking-[0.2em] text-outline mb-2">Curated Alternatives</h2>
+<h3 class="text-3xl font-headline font-bold">Recommended for You</h3>
+</div>
+<p class="text-on-surface-variant max-w-xs text-sm font-light leading-relaxed">
+                    These items share the tactile profile and aesthetic language of your search query.
+                </p>
+</div>
+<!-- Asymmetric Product Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-24">
+<!-- Item 1: Large Editorial -->
+<div class="md:col-span-7 group">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[4/3] rounded-sm mb-6">
+<img class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" data-alt="top-down view of a premium custom mechanical keyboard with matte grey aluminum casing and dark charcoal keycaps on a clean desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-fgAVr3GPLVikrztAGIe-Bm0wF4-sOWKUa20gFBU6BIrDLCDzNy7xxJQCMYUYFsoWFXChoFFQJ_2Zz1kedW8VNGn_cLd_9gcm7d34-0HRnGkPTMEGVz4Ve5SLHELD4o3nmys9J_UMsVFwyQ199eYyLflXNgo_hFgTkkIGm5SOT3bNdbfOBrrajgJ91EFq5PalZtFt7hmzzM1fQSiUjcH9oG8ltJHDUv7bHA2NDfLsDTn_eOB8GumuUhR0usSEguGqVelFuiUJtvI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-on-surface/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-[10px] uppercase tracking-widest text-outline">Aluminum Series</span>
+<h4 class="text-2xl font-headline font-semibold">Obelisk TKL — Slate Edition</h4>
+</div>
+<span class="text-xl font-light text-on-surface-variant">$485</span>
+</div>
+<p class="mt-4 text-sm text-on-surface-variant max-w-md font-light leading-relaxed">
+                        A monolithic chassis carved from a single block of 6063 aluminum. Features an internal brass weight and gasket mount system.
+                    </p>
+</div>
+<!-- Item 2: Offset Smaller Card -->
+<div class="md:col-span-5 md:mt-48 group">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[4/5] rounded-sm mb-6">
+<img class="w-full h-full object-cover grayscale-[0.1] group-hover:scale-105 transition-transform duration-700" data-alt="close-up of tactile mechanical switches with clear housings and copper-colored stems arranged in a minimalist pattern" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCICmrgrn4ukOaEkzZlhHRF4nsGiTzHt8Qa1XtKOm9tuUMV2FUPGqA57AEg-CyKpZwSVsAHQ9t_N9gsscejaOkQgIy17YCR3DJ6YZ1GJIF8YeW02oKiPcEgxzzKuAKY376wgCtuLjKjphHdGgxniMr22Jw1Nqz3LLTAr0Ixq0lDoxpCigS8HqTT0gPQwZuh9D4FsFZV7oLsRhbdwvs0aqeUGvsbIpHSeyHQZ93q13nbzDTfmDlEZTmhxpMYStZcbTfi76ZOQYkjTB4"/>
+</div>
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-[10px] uppercase tracking-widest text-outline">Components</span>
+<h4 class="text-xl font-headline font-semibold">Copper Core Linears</h4>
+</div>
+<span class="text-lg font-light text-on-surface-variant">$1.20/ea</span>
+</div>
+</div>
+<!-- Item 3: Secondary Editorial -->
+<div class="md:col-span-5 group">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[1/1] rounded-sm mb-6">
+<img class="w-full h-full object-cover grayscale-[0.3] group-hover:scale-105 transition-transform duration-700" data-alt="artisanal handcrafted keycap made of dark resin with gold leaf inclusions sitting on a mechanical keyboard switch" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCR7z6Xdk6zisCeiUo3n5ms5qmLdJSPrDKpQxwYTQ6PVAMPy5koEB_Xffk4b0NXyIQF7RrOu3nGNF0QLiKUcKVyK_0ZOKqmaIN8nP563wzw6jCAHHWbu_oBPtj8fTJ3mWvAvnyu0Ux6llpp44wthqrH45EEOX5NnkD6pEBLtFxstSlHKT38Pe5uDIWq8MolaU11R1M1-lSusjM0qqOVjX_6_jANOpgxqTahAZ7b1hF0Hd_73RVb8_IS7MpJZ0KvzrDPHK9ptI6a34"/>
+</div>
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-[10px] uppercase tracking-widest text-outline">Artisans</span>
+<h4 class="text-xl font-headline font-semibold">Nebula Void Artisan</h4>
+</div>
+<span class="text-lg font-light text-on-surface-variant">$85</span>
+</div>
+</div>
+<!-- Item 4: Wide Display -->
+<div class="md:col-span-7 md:-mt-24 group">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[16/10] rounded-sm mb-6">
+<img class="w-full h-full object-cover grayscale-[0.2] group-hover:scale-105 transition-transform duration-700" data-alt="high-end keycap set with a gradient of greys and deep blue accents presented in a storage tray with professional lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMOYSwtZPUIhbIMMRgCXwy3ycMOKAurkU3yig68eWmL9lCdJ1k3MCyv42Eexe0yKMb3896xzoIaTFhYqaxIbQ0fMxZHghbbJVuXFLwvEs-eGPhuaLuz_KLP08TeljNZZBo67n8azpzLEcnRKG2A-kdkHbr9xfXzUAXtUVeMfiWPFGZaPMKizC0RfIbaWGbhILaxIUCH53NRCehKqZmBWkDX5RB7NhjXOs9O7BKQIvKa6B-uJvyXDCShh-r63Xry6UpyfgEg5JpqW8"/>
+</div>
+<div class="flex justify-between items-start">
+<div class="space-y-1">
+<span class="text-[10px] uppercase tracking-widest text-outline">Keycap Sets</span>
+<h4 class="text-2xl font-headline font-semibold">Nocturnal PBT — Base Kit</h4>
+</div>
+<span class="text-xl font-light text-on-surface-variant">$135</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter Tonal Shift -->
+<section class="mt-48 p-12 md:p-24 bg-surface-container-low flex flex-col items-center text-center space-y-8 rounded-sm">
+<h2 class="text-3xl font-headline font-bold tracking-tight">Stay updated on rare drops.</h2>
+<p class="text-on-surface-variant max-w-md font-light">Join our list to receive exclusive early access to limited edition runs and designer collaborations.</p>
+<div class="flex w-full max-w-md border-b border-outline py-2">
+<input class="bg-transparent border-none focus:ring-0 w-full text-lg placeholder:text-outline/50" placeholder="Your email address" type="email"/>
+<button class="text-primary font-semibold uppercase tracking-widest text-xs">Join</button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-stone-100 dark:bg-stone-950 flex flex-col md:flex-row justify-between items-center px-12 py-16 w-full font-inter text-xs tracking-widest uppercase text-neutral-600 dark:text-neutral-400">
+<div class="flex flex-col items-center md:items-start gap-4 mb-8 md:mb-0">
+<span class="text-lg font-bold text-neutral-800 dark:text-neutral-100 tracking-tighter">Tactile Gallery</span>
+<span>© 2024 Tactile Gallery. Curated Precision.</span>
+</div>
+<div class="flex gap-12">
+<a class="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Journal</a>
+<a class="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Shipping</a>
+<a class="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Technical Support</a>
+<a class="hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Privacy</a>
+</div>
+</footer>
+</body></html>

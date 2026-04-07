@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@200;400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-dim": "#535252",
+                        "tertiary-dim": "#3c5666",
+                        "secondary": "#5f5f5f",
+                        "tertiary": "#486272",
+                        "error-dim": "#4e0309",
+                        "on-error": "#fff7f6",
+                        "primary-container": "#e5e2e1",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#5a6061",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "secondary-container": "#e4e2e1",
+                        "background": "#f9f9f9",
+                        "surface-variant": "#dde4e5",
+                        "on-primary-fixed": "#403f3f",
+                        "primary": "#5f5e5e",
+                        "on-tertiary-fixed": "#2c4655",
+                        "secondary-fixed": "#e4e2e1",
+                        "surface-dim": "#d4dbdd",
+                        "surface-container-low": "#f2f4f4",
+                        "surface-bright": "#f9f9f9",
+                        "on-secondary-fixed": "#3f3f3f",
+                        "surface-container-high": "#e4e9ea",
+                        "on-secondary-container": "#525252",
+                        "inverse-primary": "#ffffff",
+                        "outline-variant": "#adb3b4",
+                        "secondary-fixed-dim": "#d6d4d3",
+                        "error": "#9f403d",
+                        "tertiary-fixed-dim": "#c2def0",
+                        "on-primary": "#faf7f6",
+                        "inverse-surface": "#0c0f0f",
+                        "surface-container": "#ebeeef",
+                        "secondary-dim": "#535353",
+                        "on-surface": "#2d3435",
+                        "surface-tint": "#5f5e5e",
+                        "on-tertiary-container": "#3e5868",
+                        "on-background": "#2d3435",
+                        "outline": "#757c7d",
+                        "on-error-container": "#752121",
+                        "on-secondary-fixed-variant": "#5c5b5b",
+                        "tertiary-fixed": "#d0ecff",
+                        "tertiary-container": "#d0ecff",
+                        "primary-fixed-dim": "#d7d4d3",
+                        "on-tertiary": "#f4faff",
+                        "primary-fixed": "#e5e2e1",
+                        "on-primary-container": "#525151",
+                        "on-tertiary-fixed-variant": "#486272",
+                        "error-container": "#fe8983",
+                        "surface-container-highest": "#dde4e5",
+                        "inverse-on-surface": "#9c9d9d",
+                        "surface": "#f9f9f9",
+                        "on-secondary": "#fbf8f8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        .glass-nav {
+            backdrop-filter: blur(24px);
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #2d3435;
+            font-family: 'Inter', sans-serif;
+        }
+        .monolith-gradient {
+            background: linear-gradient(145deg, #5f5e5e 0%, #535252 100%);
+        }
+    </style>
+</head>
+<body class="antialiased">
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl">
+<div class="max-w-7xl mx-auto px-8 py-6 flex justify-between items-center">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] font-headline uppercase">MONOLITH</div>
+<div class="hidden md:flex gap-12 font-headline tracking-tight text-[#5f5e5e]">
+<a class="text-[#5f5e5e]/60 hover:text-[#2d3435] transition-colors duration-300" href="#">Gallery</a>
+<a class="text-[#5f5e5e]/60 hover:text-[#2d3435] transition-colors duration-300" href="#">Keyboards</a>
+<a class="text-[#5f5e5e]/60 hover:text-[#2d3435] transition-colors duration-300" href="#">Switches</a>
+<a class="text-[#5f5e5e]/60 hover:text-[#2d3435] transition-colors duration-300" href="#">Journal</a>
+</div>
+<div class="flex items-center gap-6 text-[#5f5e5e]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#2d3435] transition-colors">shopping_bag</span>
+<span class="material-symbols-outlined cursor-pointer text-[#2d3435] border-b-2 border-[#5f5e5e] pb-1">person</span>
+</div>
+</div>
+</nav>
+<main class="pt-32 pb-24 px-8 max-w-7xl mx-auto">
+<header class="mb-20">
+<h1 class="font-headline font-extrabold text-5xl md:text-6xl tracking-tighter text-on-surface mb-4">Archives.</h1>
+<p class="font-body text-on-surface-variant max-w-md leading-relaxed">A detailed log of your tactical acquisitions and hardware history.</p>
+</header>
+<section class="space-y-4">
+<div class="bg-surface-container-lowest p-8 md:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-500">
+<div class="flex-1 space-y-2">
+<div class="flex items-center gap-4">
+<span class="font-headline font-bold text-2xl tracking-tight text-on-surface">#MN-9042</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant font-label text-[10px] tracking-widest uppercase rounded-sm">Shipped</span>
+</div>
+<p class="font-body text-sm text-on-surface-variant">November 12, 2023</p>
+</div>
+<div class="hidden lg:flex flex-col items-center gap-2 px-12">
+<div class="flex -space-x-4">
+<div class="w-16 h-16 bg-surface-variant p-2 overflow-hidden rounded-sm">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Close-up of a premium minimalist mechanical keyboard with slate grey keycaps and aluminum chassis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlJH2vurHvbzv7FL4Cf4As5KtubUj1d4CDdgKpPheJ4CwMW-enqqlJHLcER0VS_buPfsZr-Y82LIEsY2sSuZaKMu0u7fAugLhSkoRaMovDiHkk0oQ5NIvFjrYuFPUm5bJhTy1R5bpsLQ-Cam4s5Rp2nEyaO6L1OtnNPReHr4e-Ys5QwMCILq1wHxTDGRCq4YVrQvUK4DvqAuRg7R2SCx4a58sxYD_eIxc7I-Ymgq-gcB6Licb7mQCpgvOt4vxDmHwVfkTlwu7Ff40"/>
+</div>
+<div class="w-16 h-16 bg-surface-variant p-2 overflow-hidden rounded-sm ring-4 ring-surface-container-lowest">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Detailed view of high-end mechanical switches in a clear acrylic container with architectural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDw0_kOL6AbX7HBFpago50NOG4xBhmn_2pTSKyyK-oRQTGeG3XXuacAinFzZxWGGmDWxe8ngL17uG4_NMjoGFZO8efIOkVHhr2GdxZ8utL6hSPPvwW0hgYY4JNvzUQDqQ1bHbfatXcs-B4Nlc-AIqs3J4_edYq735tXHbRHVw5H1lOicjOoxq8RKilkOpY1VnKCyIbfk9ze1CDpzAUZUG2yNiCz2A7sATgYh8ZYXE-37OivNjsPqR8-q65ijB4y8xG3SxxYfeknHno"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-1">
+<p class="font-headline font-bold text-xl text-on-surface">$482.00</p>
+<p class="font-body text-xs text-on-surface-variant">3 Items</p>
+</div>
+<div class="pt-4 md:pt-0">
+<button class="font-label text-xs tracking-widest uppercase text-on-surface-variant hover:text-on-surface border-b border-outline-variant/30 pb-1 transition-all">View Details</button>
+</div>
+</div>
+<div class="bg-surface-container-low p-8 md:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 group hover:bg-surface-container-lowest hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-500">
+<div class="flex-1 space-y-2">
+<div class="flex items-center gap-4">
+<span class="font-headline font-bold text-2xl tracking-tight text-on-surface">#MN-8812</span>
+<span class="px-3 py-1 bg-surface-container-high text-on-surface-variant font-label text-[10px] tracking-widest uppercase rounded-sm">Processing</span>
+</div>
+<p class="font-body text-sm text-on-surface-variant">October 28, 2023</p>
+</div>
+<div class="hidden lg:flex flex-col items-center gap-2 px-12">
+<div class="flex">
+<div class="w-16 h-16 bg-surface-variant p-2 overflow-hidden rounded-sm">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" data-alt="Modern desk setup with a minimalist aesthetic focusing on tactile textures and monochromatic tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo63Y8I1Kfd2taSimBGHmqw6F-PnlK48C6qoUsr9r9Jwzq9oKdKdUhi-zMwuYNVg1EUlj7hX-tmNMqJ5nlqyqeLvFnS8p52viOb5TtFriZs-qD7LjXltaFMPE_DbvRZ93ttLfeMIJfzDH7YkmndxqPW25xDhWKnWW6RlEaGP1hDqbW99R7bLtiexojSJ3rgkPgy9m9xKXNWIeeHj4NvDHjVqp9OxJxW1LQVAlBxSbeAiW3lyYOqvFjGffIRyuCFoUKZNs1yx2bBr4"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-1">
+<p class="font-headline font-bold text-xl text-on-surface">$1,240.00</p>
+<p class="font-body text-xs text-on-surface-variant">1 Item</p>
+</div>
+<div class="pt-4 md:pt-0">
+<button class="font-label text-xs tracking-widest uppercase text-on-surface-variant hover:text-on-surface border-b border-outline-variant/30 pb-1 transition-all">View Details</button>
+</div>
+</div>
+<div class="bg-surface-container-lowest p-8 md:p-12 flex flex-col md:flex-row justify-between items-start md:items-center gap-8 group hover:shadow-2xl hover:shadow-on-surface/5 transition-all duration-500">
+<div class="flex-1 space-y-2">
+<div class="flex items-center gap-4">
+<span class="font-headline font-bold text-2xl tracking-tight text-on-surface">#MN-7049</span>
+<span class="px-3 py-1 bg-surface-container text-on-surface-variant font-label text-[10px] tracking-widest uppercase rounded-sm">Delivered</span>
+</div>
+<p class="font-body text-sm text-on-surface-variant">August 04, 2023</p>
+</div>
+<div class="hidden lg:flex flex-col items-center gap-2 px-12 opacity-40">
+<div class="flex -space-x-4">
+<div class="w-16 h-16 bg-surface-variant p-2 overflow-hidden rounded-sm">
+<img class="w-full h-full object-cover grayscale" data-alt="Top-down view of high-quality keycaps arranged in a grid with soft shadows and neutral lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfAc9SkqAqS9dCjexPItxT0U4BlnFXPXyz0Z5kQ-hHiWl6spc_X8dhaKuBjkj0V43gVBSPgw0zm3ymnUHAljpu0HX9N18o4h_B5DthBVtvn584LmXKz-hCYA1gLqq17rDDGoBvjnhFJCu3gooumEsHHkc4tJ2BpiqWZToMhw6lu3KztT39p5X6D0WNP2KWui6JnA3HX6P4ZkxRO-_cZoxj3usjA_GrmSkxOI5KMNuBQx0FP6CyrsObN1nG9SQ3ot-Bl0lpnyJ1z90"/>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:items-end gap-1">
+<p class="font-headline font-bold text-xl text-on-surface">$89.00</p>
+<p class="font-body text-xs text-on-surface-variant">1 Item</p>
+</div>
+<div class="pt-4 md:pt-0">
+<button class="font-label text-xs tracking-widest uppercase text-on-surface-variant hover:text-on-surface border-b border-outline-variant/30 pb-1 transition-all">View Details</button>
+</div>
+</div>
+</section>
+<section class="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="bg-surface-container-low p-12 flex flex-col justify-between h-[300px]">
+<h3 class="font-headline font-bold text-2xl tracking-tighter uppercase">Support.</h3>
+<div>
+<p class="font-body text-sm text-on-surface-variant mb-6 leading-relaxed">Having issues with a recent acquisition? Our engineers are standing by for technical consultation.</p>
+<button class="monolith-gradient text-on-primary px-8 py-4 text-xs font-label tracking-widest uppercase rounded-sm hover:opacity-90 transition-opacity">Contact Tech Support</button>
+</div>
+</div>
+<div class="relative overflow-hidden group h-[300px] rounded-sm">
+<img class="absolute inset-0 w-full h-full object-cover grayscale scale-105 group-hover:scale-100 transition-transform duration-1000" data-alt="Abstract atmospheric macro shot of brushed titanium surface with soft moody lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0PmfnPsnFbObPNmHCI3fCCgBT3CfV4zhgdkcdtIEX-3So_OJ2p-2nRLhRZAn1TCfKXhxHGVHtwVORRz6ApJub_b1lSYoKnwvziXXN_XghGqZ95aoUE1o-ksGIR-N_D7BcZOcnBWw_Qtg5-GOrWlbGhN0cRScb8kw53Feo-azfUmr0FI4V-7AUJGy_stAYyBwvOlZ-y8N637ScskYER41BZoc9HTFMbo301csSTRlEbmcfmQIVJ77-_FchQjVsWHM2WntJqs9FSI0"/>
+<div class="absolute inset-0 bg-on-surface/40 flex items-center justify-center p-12">
+<div class="text-center text-on-primary">
+<p class="font-headline font-light text-3xl tracking-tighter mb-4 italic">"Precision isn't an option. It's the standard."</p>
+<p class="font-label text-[10px] tracking-widest uppercase opacity-70">Monolith Engineering Manifesto</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="w-full mt-24 bg-[#f2f4f4] dark:bg-[#1a1a1a]">
+<div class="max-w-7xl mx-auto px-12 py-20 flex flex-col items-center gap-8">
+<div class="font-manrope font-black text-[#2d3435] dark:text-[#f9f9f9] text-3xl tracking-tighter">MONOLITH</div>
+<div class="flex flex-wrap justify-center gap-10">
+<a class="font-inter text-xs tracking-widest uppercase text-[#5f5e5e]/50 hover:text-[#2d3435] transition-opacity underline-offset-4 hover:underline" href="#">Archives</a>
+<a class="font-inter text-xs tracking-widest uppercase text-[#5f5e5e]/50 hover:text-[#2d3435] transition-opacity underline-offset-4 hover:underline" href="#">Shipping</a>
+<a class="font-inter text-xs tracking-widest uppercase text-[#5f5e5e]/50 hover:text-[#2d3435] transition-opacity underline-offset-4 hover:underline" href="#">Sustainability</a>
+<a class="font-inter text-xs tracking-widest uppercase text-[#5f5e5e]/50 hover:text-[#2d3435] transition-opacity underline-offset-4 hover:underline" href="#">Privacy</a>
+</div>
+<p class="font-inter text-[10px] tracking-widest uppercase text-[#5f5e5e]/40 mt-8">© 2024 MONOLITH TACTILE. ENGINEERED PRECISION.</p>
+</div>
+</footer>
+<nav class="md:hidden fixed bottom-0 left-0 right-0 bg-[#f9f9f9]/80 backdrop-blur-xl z-50 px-8 py-4 flex justify-between items-center">
+<span class="material-symbols-outlined text-[#5f5e5e]/60">home</span>
+<span class="material-symbols-outlined text-[#5f5e5e]/60">grid_view</span>
+<span class="material-symbols-outlined text-[#2d3435]">person</span>
+<span class="material-symbols-outlined text-[#5f5e5e]/60">shopping_bag</span>
+</nav>
+</body></html>

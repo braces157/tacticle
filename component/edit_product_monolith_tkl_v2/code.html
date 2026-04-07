@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#ebeeef",
+                        "surface-bright": "#f9f9f9",
+                        "secondary-fixed-dim": "#d6d4d3",
+                        "primary": "#5f5e5e",
+                        "on-secondary-fixed-variant": "#5c5b5b",
+                        "on-error": "#fff7f6",
+                        "surface-dim": "#d4dbdd",
+                        "surface-container-highest": "#dde4e5",
+                        "tertiary-dim": "#3c5666",
+                        "on-tertiary": "#f4faff",
+                        "inverse-surface": "#0c0f0f",
+                        "on-surface-variant": "#5a6061",
+                        "on-tertiary-container": "#3e5868",
+                        "on-secondary": "#fbf8f8",
+                        "outline": "#757c7d",
+                        "tertiary-container": "#d0ecff",
+                        "secondary-dim": "#535353",
+                        "on-tertiary-fixed": "#2c4655",
+                        "error-dim": "#4e0309",
+                        "tertiary": "#486272",
+                        "inverse-on-surface": "#9c9d9d",
+                        "primary-fixed": "#e5e2e1",
+                        "inverse-primary": "#ffffff",
+                        "tertiary-fixed-dim": "#c2def0",
+                        "secondary-fixed": "#e4e2e1",
+                        "error": "#9f403d",
+                        "surface-container-high": "#e4e9ea",
+                        "outline-variant": "#adb3b4",
+                        "on-primary": "#faf7f6",
+                        "on-error-container": "#752121",
+                        "on-primary-container": "#525151",
+                        "secondary": "#5f5f5f",
+                        "on-background": "#2d3435",
+                        "surface-variant": "#dde4e5",
+                        "on-primary-fixed": "#403f3f",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "error-container": "#fe8983",
+                        "surface": "#f9f9f9",
+                        "on-secondary-fixed": "#3f3f3f",
+                        "primary-fixed-dim": "#d7d4d3",
+                        "tertiary-fixed": "#d0ecff",
+                        "on-secondary-container": "#525252",
+                        "surface-tint": "#5f5e5e",
+                        "on-tertiary-fixed-variant": "#486272",
+                        "primary-dim": "#535252",
+                        "background": "#f9f9f9",
+                        "secondary-container": "#e4e2e1",
+                        "surface-container-low": "#f2f4f4",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-container": "#e5e2e1",
+                        "on-surface": "#2d3435"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        .editorial-shadow {
+            box-shadow: 0 32px 64px -12px rgba(45, 52, 53, 0.08);
+        }
+        .glass-panel {
+            background: rgba(242, 244, 244, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body antialiased overflow-hidden">
+<!-- Background Content: Inventory Management (Blurred) -->
+<div class="flex h-screen w-full blur-[4px] pointer-events-none select-none">
+<!-- Predicted SideNavBar -->
+<aside class="flex flex-col fixed left-0 top-0 h-full h-screen w-64 border-r-0 bg-[#f9f9f9] dark:bg-[#121212] font-['Manrope'] tracking-tight">
+<div class="p-8">
+<h1 class="text-lg font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9]">Tactile Gallery</h1>
+<p class="text-[10px] text-[#5f5e5e] dark:text-[#a1a1a1] uppercase tracking-widest mt-1">Management Console</p>
+</div>
+<nav class="mt-8 flex-1">
+<div class="flex items-center px-8 py-3 text-[#5f5e5e]/60 dark:text-[#a1a1a1]/60 hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-200 ease-out">
+<span class="material-symbols-outlined mr-3">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</div>
+<div class="flex items-center px-8 py-3 text-[#5f5e5e]/60 dark:text-[#a1a1a1]/60 hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-200 ease-out">
+<span class="material-symbols-outlined mr-3">shopping_cart</span>
+<span class="text-sm">Orders</span>
+</div>
+<!-- Active Item -->
+<div class="flex items-center px-8 py-3 text-[#2d3435] dark:text-[#ffffff] font-bold border-r-2 border-[#5f5e5e] transition-colors duration-200 ease-out">
+<span class="material-symbols-outlined mr-3">inventory_2</span>
+<span class="text-sm">Inventory</span>
+</div>
+</nav>
+</aside>
+<main class="ml-64 flex-1 flex flex-col">
+<!-- Predicted TopNavBar -->
+<header class="w-full h-16 sticky top-0 z-50 flex items-center justify-between px-8 ml-64 bg-[#f9f9f9]/80 dark:bg-[#121212]/80 backdrop-blur-xl font-['Manrope'] uppercase tracking-widest text-[10px] text-[#5f5e5e] dark:text-[#a1a1a1] touch-none">
+<div>Inventory / All Products</div>
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2">
+<span class="material-symbols-outlined">search</span>
+<span>Search Inventory</span>
+</div>
+<span class="material-symbols-outlined hover:opacity-70 transition-opacity">notifications</span>
+<span class="material-symbols-outlined hover:opacity-70 transition-opacity">settings</span>
+<div class="w-8 h-8 bg-surface-container-highest rounded-full overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Admin User Profile Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtnzpA9Znx2x9cwBXal-SW_U_CnYpOjQ9A26GmoZTalGZ-veAmsEGSUIp7gbTcM8AFS2mA1k5J67qeL3KdJVtd__rmlelA3xT4YW1_ZPb-3RxZ4WbDpfdvRrsrcYVuDFC-Njg6cCkc2RdoELKqvopCJ6hxiXMJ8_blss9UpKXnCirAKhprnCnRArFfX9NNxddRPnJXSfC2cQK3QJ8J_rJRdcDc1-0u8u3sLZiYZQA9-EWlsiGXHg_9v-7wAed4hz03uFQbPHf41Cs"/>
+</div>
+</div>
+</header>
+<!-- Table-like content representing SCREEN_11 -->
+<section class="p-12 space-y-8">
+<div class="flex justify-between items-end">
+<h2 class="font-headline text-4xl font-extrabold tracking-tight">Inventory</h2>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-8 space-y-6">
+<div class="grid grid-cols-5 text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold pb-4 border-b border-outline-variant/15">
+<div class="col-span-2">Product</div>
+<div>SKU</div>
+<div>Stock</div>
+<div>Status</div>
+</div>
+<!-- Sample Row -->
+<div class="grid grid-cols-5 items-center py-4 border-b border-outline-variant/10">
+<div class="col-span-2 flex items-center space-x-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg"></div>
+<div>
+<p class="font-headline font-bold">Monolith TKL v2</p>
+<p class="text-xs text-on-surface-variant">Mechanical Keyboard</p>
+</div>
+</div>
+<div class="font-mono text-sm">MONO-TKL-02</div>
+<div class="text-sm">42 units</div>
+<div><span class="px-2 py-1 bg-surface-container-high text-[10px] uppercase tracking-tighter rounded">Active</span></div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- Modal Overlay (Active Focus) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-12 bg-on-surface/5 backdrop-blur-[2px]">
+<!-- Main Modal Container -->
+<div class="bg-surface-container-lowest editorial-shadow w-full max-w-4xl max-h-[921px] flex flex-col rounded overflow-hidden">
+<!-- Modal Header -->
+<div class="px-10 py-8 flex items-center justify-between border-b border-outline-variant/10">
+<div class="space-y-1">
+<h3 class="font-headline text-2xl font-bold tracking-tight text-on-surface">Edit Product: Monolith TKL v2</h3>
+<p class="font-label text-[10px] uppercase tracking-[0.2em] text-on-surface-variant">Product ID: #88219-MT</p>
+</div>
+<button class="w-10 h-10 flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Scrollable Content Area -->
+<div class="flex-1 overflow-y-auto px-10 py-10">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+<!-- Left Column: Imagery -->
+<div class="md:col-span-5 space-y-6">
+<div class="group relative aspect-square bg-surface-container-low rounded-lg overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High-end mechanical keyboard with titanium finish and custom keycaps on a clean minimalist desk setup" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAb1gL_k2Ql93MFpyGKczf39692KVEo9vA2lBMttaG0P0rE9qXNspqn8Cqqs3OV1pQPtQR1F--GMV0zEI4rNWmprFZxZ6PFvM1wgeKcsmHGVQaOSaj2_gudXiTKn4zLby-AvIgMv-oNHO4H2spdeITE3vnyXUvuGryNZ5YG_uqWoR65guhikLAogx-mg9diKMXp1arHfCUUPn5RnRMNf5wdKuIGTQ_8sFrchkNRQ7PpoLo3BKcKV3qbwWjzWlDXnYewieA35Mrm4mc"/>
+<div class="absolute inset-0 bg-on-surface/20 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<div class="bg-surface-container-lowest px-4 py-2 rounded shadow-xl flex items-center space-x-2">
+<span class="material-symbols-outlined text-sm">photo_camera</span>
+<span class="font-label text-[10px] uppercase tracking-widest font-bold">Change Image</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-3">
+<div class="aspect-square bg-surface-container-low rounded border border-outline-variant/20 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of mechanical keyboard switches with detailed metal texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhregmgweJW-mWg2nssUexUFkbZyiYLMtbKz3saM-UnBpKZspUlEvISRhARHWADF5z8ar3fa81gISRSSdJTTDXW1h_SXMdVZVE_VdQnw4y74AcmCxkDSTFjnMSJcZgF4MJ8Gt3zM6lU2_SzYaFmkIdCK1qrEVoUKpSrCQn45GZulbpG7nfkyEoa97R_IFxnmPzTnBwELeCqfXgp1yBGH8LKEwEEDOLht5FkU28DoQwVFqxRF8jMTgUTl4E-4ZX-bLd6Qj1WHrJYyM"/>
+</div>
+<div class="aspect-square bg-surface-container-low rounded border border-outline-variant/20 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Under-side of an enthusiast keyboard showing precision milled aluminum chassis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCty2zdjgxhbRuMFLwcyUseZQKwG7-73xYAqECaiiKUj-bXbWLmVN4EB4I3QQPubMBQSP0tPijooUEBymBAGJLu1tpH69MjLtUg_blB1bvxtKH6x8q5cVx9B44Hvl8hyk_rFUr66FDBZCQ8ZCHgixKPioBMgut6XP_zB5A5JUfZIAFbQPiHA2BiuGJDyB4SjyNkt2gsfsujmiPpGKLqCkt7EUvGuluzImwT-CTTsJj53VixlhRoh2fEektcreAWaM95CZjEzP4P-E0"/>
+</div>
+<div class="aspect-square bg-surface-container-high rounded flex items-center justify-center text-on-surface-variant hover:bg-surface-container-highest transition-colors cursor-pointer">
+<span class="material-symbols-outlined">add</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Form Fields -->
+<div class="md:col-span-7 space-y-8">
+<!-- Field Group: Basic Info -->
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Product Name</label>
+<input class="w-full bg-surface-container-high border-none rounded px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary transition-shadow" type="text" value="Monolith TKL v2"/>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Category</label>
+<select class="w-full bg-surface-container-high border-none rounded px-4 py-3 text-on-surface appearance-none focus:ring-1 focus:ring-primary">
+<option>Keyboards</option>
+<option>Keycaps</option>
+<option>Switches</option>
+<option>Accessories</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">SKU</label>
+<input class="w-full bg-surface-container-high border-none rounded px-4 py-3 text-on-surface font-mono text-sm focus:ring-1 focus:ring-primary" type="text" value="MONO-TKL-02"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Price (USD)</label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant">$</span>
+<input class="w-full bg-surface-container-high border-none rounded pl-8 pr-4 py-3 text-on-surface focus:ring-1 focus:ring-primary" type="number" value="449.00"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Stock Quantity</label>
+<input class="w-full bg-surface-container-high border-none rounded px-4 py-3 text-on-surface focus:ring-1 focus:ring-primary" type="number" value="42"/>
+</div>
+</div>
+</div>
+<!-- Visibility Toggle Section -->
+<div class="pt-6 border-t border-outline-variant/10">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-headline font-bold text-on-surface">Listing Visibility</h4>
+<p class="text-xs text-on-surface-variant">Set the product status for the public gallery.</p>
+</div>
+<div class="flex bg-surface-container-high p-1 rounded-lg">
+<button class="px-4 py-1.5 text-[10px] uppercase tracking-widest font-bold bg-surface-container-lowest rounded shadow-sm transition-all text-on-surface">Active</button>
+<button class="px-4 py-1.5 text-[10px] uppercase tracking-widest font-bold text-on-surface-variant hover:text-on-surface transition-colors">Hidden</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Modal Footer: Action Buttons -->
+<div class="px-10 py-8 bg-surface-container-low/50 border-t border-outline-variant/10 flex items-center justify-end space-x-4">
+<button class="px-8 py-3 text-[10px] uppercase tracking-widest font-bold text-primary hover:bg-surface-container-high rounded transition-colors duration-200">
+                    Cancel
+                </button>
+<button class="px-10 py-3 text-[10px] uppercase tracking-widest font-bold text-on-primary bg-gradient-to-br from-primary to-primary-dim rounded shadow-md hover:shadow-lg transition-all duration-300">
+                    Save Changes
+                </button>
+</div>
+</div>
+</div>
+</body></html>

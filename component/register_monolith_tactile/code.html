@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Register - MONOLITH</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&amp;family=Inter:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary": "#486272",
+                        "tertiary-dim": "#3c5666",
+                        "surface-bright": "#f9f9f9",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "surface-container-highest": "#dde4e5",
+                        "on-surface-variant": "#5a6061",
+                        "primary-fixed-dim": "#d7d4d3",
+                        "outline-variant": "#adb3b4",
+                        "primary": "#5f5e5e",
+                        "inverse-on-surface": "#9c9d9d",
+                        "on-primary-fixed": "#403f3f",
+                        "error-dim": "#4e0309",
+                        "secondary-fixed": "#e4e2e1",
+                        "background": "#f9f9f9",
+                        "on-tertiary": "#f4faff",
+                        "tertiary-fixed": "#d0ecff",
+                        "primary-container": "#e5e2e1",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e4e2e1",
+                        "surface": "#f9f9f9",
+                        "on-tertiary-container": "#3e5868",
+                        "surface-variant": "#dde4e5",
+                        "secondary": "#5f5f5f",
+                        "secondary-fixed-dim": "#d6d4d3",
+                        "surface-container-high": "#e4e9ea",
+                        "outline": "#757c7d",
+                        "on-primary-container": "#525151",
+                        "tertiary-fixed-dim": "#c2def0",
+                        "primary-dim": "#535252",
+                        "on-secondary-fixed-variant": "#5c5b5b",
+                        "secondary-dim": "#535353",
+                        "on-error": "#fff7f6",
+                        "inverse-primary": "#ffffff",
+                        "on-tertiary-fixed": "#2c4655",
+                        "error-container": "#fe8983",
+                        "on-secondary": "#fbf8f8",
+                        "primary-fixed": "#e5e2e1",
+                        "on-surface": "#2d3435",
+                        "on-background": "#2d3435",
+                        "surface-container-low": "#f2f4f4",
+                        "inverse-surface": "#0c0f0f",
+                        "surface-dim": "#d4dbdd",
+                        "on-secondary-fixed": "#3f3f3f",
+                        "on-tertiary-fixed-variant": "#486272",
+                        "error": "#9f403d",
+                        "on-primary": "#faf7f6",
+                        "surface-container": "#ebeeef",
+                        "on-secondary-container": "#525252",
+                        "on-error-container": "#752121",
+                        "tertiary-container": "#d0ecff",
+                        "surface-tint": "#5f5e5e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+        }
+        .hero-text {
+            font-family: 'Manrope', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(249, 249, 249, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="text-on-surface flex flex-col min-h-screen">
+<!-- Note: TopAppBar and BottomNavBar are suppressed as per "The Destination Rule" for Transactional Screens -->
+<main class="flex-grow flex flex-col md:flex-row h-screen overflow-hidden">
+<!-- Left Side: Editorial Image/Brand -->
+<section class="hidden md:flex md:w-1/2 bg-surface-container-low relative items-center justify-center p-12 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img alt="Monolith Aesthetic" class="w-full h-full object-cover opacity-90 scale-105" data-alt="Close-up of a luxury mechanical keyboard with brushed titanium chassis and minimalist gray keycaps in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUZSYqa5-FKGloQqH5MVWqkg6n3t0du3YyUGu_gge1BS3yoY3_BDydhXEQLCQJksmc4fhXgI7o_-vKd2MPKndE03puB4qrmECWcs9symmzoFDDj-1Dr8_OM4fX91zyRgyQibyU7SmpPoSQPTWBZ2kmnn0pdFp2yx1PSI4pBnmb8Rt80JpceuFy6hE6v_PEvZyL2XOcLuTBXucZLOxox7ajD23IJPiFrfd85orpNOXeeoGnPEVtUXapBuwZDcTPJZULViHMyi-GTVg"/>
+<div class="absolute inset-0 bg-gradient-to-tr from-surface/40 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-lg">
+<h1 class="hero-text text-[3.5rem] font-extrabold leading-[1.1] tracking-[-0.02em] text-on-surface mb-6">
+                    Join the <br/>Tactile Gallery.
+                </h1>
+<p class="text-on-surface-variant body-md leading-relaxed max-w-sm">
+                    Precision engineered interfaces for the modern enthusiast. Create your account to access the archive.
+                </p>
+</div>
+<!-- Floating Product Detail (Asymmetric Element) -->
+<div class="absolute bottom-12 right-12 glass-panel p-6 rounded-lg shadow-sm max-w-xs border border-outline-variant/10">
+<span class="text-[0.65rem] uppercase tracking-[0.2em] text-primary mb-2 block">Reference No. 04</span>
+<p class="text-xs font-medium text-on-surface leading-tight">"Each keystroke is a deliberate interaction with physical art."</p>
+</div>
+</section>
+<!-- Right Side: Registration Form -->
+<section class="w-full md:w-1/2 flex items-center justify-center p-8 md:p-24 bg-surface-container-lowest">
+<div class="w-full max-w-[400px]">
+<!-- Brand Anchor for Mobile -->
+<div class="md:hidden mb-12">
+<span class="hero-text text-xl font-extrabold tracking-[-0.02em]">MONOLITH</span>
+</div>
+<div class="mb-10">
+<h2 class="hero-text text-3xl font-bold tracking-tight mb-2">Create Account</h2>
+<p class="text-on-surface-variant text-sm">Enter your details to begin your collection.</p>
+</div>
+<form class="space-y-6">
+<!-- Name Field -->
+<div class="group">
+<label class="block text-[0.65rem] uppercase tracking-widest text-on-surface-variant font-medium mb-2 ml-1" for="name">Full Name</label>
+<input class="w-full px-4 py-3.5 bg-surface-container-high border-none rounded-md focus:ring-1 focus:ring-primary text-sm transition-all placeholder:text-outline-variant/60" id="name" placeholder="E.g. Adrian Sommeling" type="text"/>
+</div>
+<!-- Email Field -->
+<div class="group">
+<label class="block text-[0.65rem] uppercase tracking-widest text-on-surface-variant font-medium mb-2 ml-1" for="email">Email Address</label>
+<input class="w-full px-4 py-3.5 bg-surface-container-high border-none rounded-md focus:ring-1 focus:ring-primary text-sm transition-all placeholder:text-outline-variant/60" id="email" placeholder="name@domain.com" type="email"/>
+</div>
+<!-- Password Field -->
+<div class="group">
+<div class="flex justify-between items-center mb-2">
+<label class="block text-[0.65rem] uppercase tracking-widest text-on-surface-variant font-medium ml-1" for="password">Password</label>
+</div>
+<input class="w-full px-4 py-3.5 bg-surface-container-high border-none rounded-md focus:ring-1 focus:ring-primary text-sm transition-all placeholder:text-outline-variant/60" id="password" placeholder="••••••••" type="password"/>
+</div>
+<div class="pt-2">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-dim text-on-primary font-medium text-sm rounded-sm shadow-md hover:opacity-90 active:scale-[0.98] transition-all tracking-wide" type="submit">
+                            Create Account
+                        </button>
+</div>
+<div class="relative py-4 flex items-center">
+<div class="flex-grow border-t border-outline-variant/20"></div>
+<span class="flex-shrink mx-4 text-[10px] uppercase tracking-widest text-outline-variant">Or continue with</span>
+<div class="flex-grow border-t border-outline-variant/20"></div>
+</div>
+<button class="w-full py-3.5 bg-surface-container-lowest border border-outline-variant/20 text-on-surface text-sm flex items-center justify-center gap-3 rounded-md hover:bg-surface-container-low transition-colors" type="button">
+<svg class="w-5 h-5" viewbox="0 0 24 24">
+<path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+<path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+<path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"></path>
+<path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"></path>
+</svg>
+<span class="font-medium">Sign up with Google</span>
+</button>
+</form>
+<div class="mt-12 text-center">
+<p class="text-sm text-on-surface-variant">
+                        Already part of the collective? 
+                        <a class="text-on-surface font-semibold underline underline-offset-4 ml-1 hover:text-primary transition-colors" href="#">Log in</a>
+</p>
+</div>
+<!-- Subtle Footer for Transactional Pages -->
+<div class="mt-24 pt-8 border-t border-outline-variant/10 flex justify-between items-center opacity-40">
+<span class="text-[10px] uppercase tracking-widest">Monolith Tactile © 2024</span>
+<div class="flex gap-4">
+<span class="text-[10px] uppercase tracking-widest cursor-pointer hover:underline underline-offset-2">Privacy</span>
+<span class="text-[10px] uppercase tracking-widest cursor-pointer hover:underline underline-offset-2">Terms</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Script: Required by system for context -->
+<footer class="hidden">
+<!-- Rendered invisible to respect Shell Visibility Rule -->
+<span class="style_brand_logo">MONOLITH</span>
+<span class="copyright_text">© 2024 Monolith Tactile. Precision Engineered.</span>
+</footer>
+</body></html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Forgot Password | THE TACTILE GALLERY</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d4dbdd",
+                        "primary-dim": "#535252",
+                        "inverse-surface": "#0c0f0f",
+                        "on-tertiary": "#f4faff",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#e4e2e1",
+                        "secondary": "#5f5f5f",
+                        "on-background": "#2d3435",
+                        "on-primary": "#faf7f6",
+                        "inverse-primary": "#ffffff",
+                        "primary-fixed": "#e5e2e1",
+                        "primary-container": "#e5e2e1",
+                        "outline": "#757c7d",
+                        "error-dim": "#4e0309",
+                        "on-tertiary-container": "#3e5868",
+                        "on-surface": "#2d3435",
+                        "tertiary": "#486272",
+                        "surface-container-low": "#f2f4f4",
+                        "tertiary-container": "#d0ecff",
+                        "on-tertiary-fixed-variant": "#486272",
+                        "on-primary-fixed-variant": "#5c5b5b",
+                        "surface-variant": "#dde4e5",
+                        "surface": "#f9f9f9",
+                        "tertiary-fixed-dim": "#c2def0",
+                        "on-secondary-container": "#525252",
+                        "secondary-dim": "#535353",
+                        "on-primary-fixed": "#403f3f",
+                        "on-secondary": "#fbf8f8",
+                        "surface-container-high": "#e4e9ea",
+                        "secondary-fixed": "#e4e2e1",
+                        "error": "#9f403d",
+                        "surface-container-highest": "#dde4e5",
+                        "secondary-fixed-dim": "#d6d4d3",
+                        "on-tertiary-fixed": "#2c4655",
+                        "error-container": "#fe8983",
+                        "surface-bright": "#f9f9f9",
+                        "on-surface-variant": "#5a6061",
+                        "on-secondary-fixed-variant": "#5c5b5b",
+                        "inverse-on-surface": "#9c9d9d",
+                        "on-secondary-fixed": "#3f3f3f",
+                        "primary-fixed-dim": "#d7d4d3",
+                        "on-primary-container": "#525151",
+                        "primary": "#5f5e5e",
+                        "outline-variant": "#adb3b4",
+                        "on-error": "#fff7f6",
+                        "background": "#f9f9f9",
+                        "on-error-container": "#752121",
+                        "tertiary-fixed": "#d0ecff",
+                        "tertiary-dim": "#3c5666",
+                        "surface-tint": "#5f5e5e",
+                        "surface-container": "#ebeeef"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-shadow {
+            box-shadow: 0 0 32px 0 rgba(45, 52, 53, 0.04);
+        }
+        .machined-button {
+            background: linear-gradient(145deg, #5f5e5e, #535252);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased selection:bg-surface-variant">
+<!-- Top Navigation Anchor (Manual render based on context) -->
+<header class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 backdrop-blur-xl">
+<nav class="flex justify-between items-center px-8 py-6 max-w-[1440px] mx-auto">
+<div class="text-lg font-bold tracking-tighter text-[#2d3435] uppercase font-headline">
+                THE TACTILE GALLERY
+            </div>
+<div class="hidden md:flex gap-8 items-center text-[#5f5e5e] font-headline tracking-tight text-sm">
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Archive</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Switches</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Keycaps</a>
+<a class="hover:text-[#2d3435] transition-colors duration-300" href="#">Artisans</a>
+</div>
+<div class="flex items-center gap-4 text-[#5f5e5e]">
+<span class="material-symbols-outlined cursor-pointer hover:text-[#2d3435] transition-colors">shopping_cart</span>
+</div>
+</nav>
+</header>
+<main class="min-h-screen flex flex-col md:flex-row pt-20">
+<!-- Visual Sidebar: The "Gallery" Side -->
+<section class="hidden md:flex md:w-1/2 bg-surface-container-low relative overflow-hidden items-center justify-center p-12">
+<div class="absolute inset-0 z-0">
+<img alt="Minimalist mechanical keyboard" class="w-full h-full object-cover opacity-90 scale-105" data-alt="Close-up of a high-end titanium mechanical keyboard chassis with soft architectural shadows and neutral studio lighting on a warm grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_8mpADBUcodZBDV3wfZoQQspaFjoKVdjx3CnCufGca0Y87s8-CASAAv9zXeaDecJ8PtlLFCV0vtkRIMNLfZmq8YhSyO_upCgEqZr1dJmgJTzbbl8h6ljxWXDuNvzlBwomUjMgaiVzY7r1P8ZT-oW54GZ2uw5eGOJG4AY_v72no-qUhpCKhJj4np6oMzTIsAb8WCfEZDmjZPG4JRKiDOGsF6PI9zIR45m78TK9KY5pDMHOVVWRoZl74OcUGCOejFlDxLqB1STh0nU"/>
+</div>
+<div class="relative z-10 max-w-md">
+<h2 class="text-[3.5rem] font-headline font-extrabold tracking-tighter text-on-surface leading-[0.9] mb-6">
+                    PRECISION<br/>RECOVERED.
+                </h2>
+<p class="text-on-surface-variant font-body text-sm leading-relaxed max-w-[280px]">
+                    Accessing your artisan collection requires the right credentials. Secure your path back to the gallery.
+                </p>
+</div>
+<!-- Decorative Ghost Element -->
+<div class="absolute bottom-12 left-12 h-px w-24 bg-outline-variant/30"></div>
+</section>
+<!-- Form Sidebar: The "Interface" Side -->
+<section class="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-24 bg-surface">
+<div class="w-full max-w-sm flex flex-col gap-12">
+<!-- Header Group -->
+<div class="space-y-4">
+<h1 class="text-[2.5rem] font-headline font-bold tracking-tight text-on-surface leading-none">
+                        Forgot Password
+                    </h1>
+<p class="text-on-surface-variant font-body text-[0.875rem] leading-relaxed">
+                        Enter your email address and we'll send you a link to reset your password.
+                    </p>
+</div>
+<!-- Form -->
+<form class="flex flex-col gap-8">
+<div class="space-y-2">
+<label class="font-label text-[10px] uppercase tracking-widest text-outline" for="email">
+                            Email Address
+                        </label>
+<div class="relative group">
+<input class="w-full bg-surface-container-high border-none rounded-sm px-4 py-4 text-on-surface font-body text-sm focus:ring-1 focus:ring-primary/20 transition-all placeholder:text-outline/40" id="email" name="email" placeholder="name@example.com" type="email"/>
+<div class="absolute bottom-0 left-0 h-[1px] w-0 bg-primary group-focus-within:w-full transition-all duration-500"></div>
+</div>
+</div>
+<button class="machined-button text-on-primary font-headline font-semibold text-sm py-4 rounded-sm tracking-tight transition-all active:scale-[0.98] editorial-shadow" type="submit">
+                        Send Reset Link
+                    </button>
+</form>
+<!-- Navigation Back -->
+<div class="pt-4 border-t border-outline-variant/10 flex justify-center">
+<a class="group flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-colors font-label text-[12px] uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-[18px] transition-transform group-hover:-translate-x-1">arrow_back</span>
+                        Back to Login
+                    </a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer from Shared Components -->
+<footer class="w-full mt-auto bg-[#f2f4f4] dark:bg-[#1a1a1a]">
+<div class="flex flex-col md:flex-row justify-between items-center px-12 py-16 gap-8 max-w-[1440px] mx-auto">
+<div class="font-['Inter'] text-[12px] uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] text-center md:text-left">
+                © 2024 THE TACTILE GALLERY. ENGINEERED FOR PRECISION.
+            </div>
+<div class="flex gap-8">
+<a class="font-['Inter'] text-[12px] uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline underline-offset-4 transition-all duration-300" href="#">Terms</a>
+<a class="font-['Inter'] text-[12px] uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline underline-offset-4 transition-all duration-300" href="#">Privacy</a>
+<a class="font-['Inter'] text-[12px] uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline underline-offset-4 transition-all duration-300" href="#">Shipping</a>
+<a class="font-['Inter'] text-[12px] uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4] hover:text-[#2d3435] dark:hover:text-[#f9f9f9] underline underline-offset-4 transition-all duration-300" href="#">Journal</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Manrope:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#9c9d9d",
+                    "outline": "#757c7d",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "primary-dim": "#535252",
+                    "on-tertiary-container": "#3e5868",
+                    "tertiary-dim": "#3c5666",
+                    "secondary": "#5f5f5f",
+                    "surface-bright": "#f9f9f9",
+                    "on-secondary": "#fbf8f8",
+                    "inverse-surface": "#0c0f0f",
+                    "on-primary": "#faf7f6",
+                    "on-surface": "#2d3435",
+                    "surface-container-high": "#e4e9ea",
+                    "tertiary-fixed": "#d0ecff",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-variant": "#dde4e5",
+                    "surface-container-low": "#f2f4f4",
+                    "on-primary-container": "#525151",
+                    "tertiary-container": "#d0ecff",
+                    "on-primary-fixed": "#403f3f",
+                    "error-dim": "#4e0309",
+                    "secondary-fixed": "#e4e2e1",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#dde4e5",
+                    "on-tertiary": "#f4faff",
+                    "on-secondary-fixed": "#3f3f3f",
+                    "on-tertiary-fixed": "#2c4655",
+                    "surface": "#f9f9f9",
+                    "inverse-primary": "#ffffff",
+                    "on-background": "#2d3435",
+                    "surface-dim": "#d4dbdd",
+                    "primary-container": "#e5e2e1",
+                    "background": "#f9f9f9",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "error-container": "#fe8983",
+                    "surface-tint": "#5f5e5e",
+                    "surface-container": "#ebeeef",
+                    "on-surface-variant": "#5a6061",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "error": "#9f403d",
+                    "outline-variant": "#adb3b4",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "on-error-container": "#752121",
+                    "on-secondary-container": "#525252",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "on-error": "#fff7f6",
+                    "tertiary": "#486272",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "primary": "#5f5e5e",
+                    "secondary-dim": "#535353",
+                    "secondary-container": "#e4e2e1"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": [
+                            "Manrope"
+                    ],
+                    "body": [
+                            "Inter"
+                    ],
+                    "label": [
+                            "Inter"
+                    ]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9f9f9;
+            color: #2d3435;
+        }
+        .glass-nav {
+            background-color: rgba(249, 249, 249, 0.8);
+            backdrop-filter: blur(24px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 glass-nav flex justify-between items-center px-12 h-20 w-full bg-stone-50/80 dark:bg-stone-900/80 backdrop-blur-xl">
+<div class="text-xl font-bold tracking-tighter text-neutral-800 dark:text-neutral-100 font-manrope">
+            Tactile Gallery
+        </div>
+<div class="hidden md:flex items-center space-x-8 font-manrope tracking-tight text-neutral-600 dark:text-neutral-400">
+<a class="text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Exhibition</a>
+<a class="text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Switches</a>
+<a class="text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Keycaps</a>
+<a class="text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Artisans</a>
+</div>
+<div class="flex items-center space-x-6">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-neutral-400 text-sm">search</span>
+<input class="bg-stone-100/50 dark:bg-stone-800/50 border-none rounded-sm pl-10 pr-4 py-2 text-sm font-body focus:ring-1 focus:ring-primary w-48 lg:w-64" type="text" value="Tactile Keyboards"/>
+</div>
+<div class="flex space-x-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200"><span class="material-symbols-outlined text-neutral-600 dark:text-neutral-400">shopping_cart</span></button>
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200"><span class="material-symbols-outlined text-neutral-600 dark:text-neutral-400">person</span></button>
+</div>
+</div>
+</nav>
+<main class="mt-32 px-12 pb-24 flex-grow">
+<!-- Search Header -->
+<header class="mb-16">
+<span class="text-xs font-label uppercase tracking-widest text-outline mb-2 block">Curation Results</span>
+<h1 class="text-5xl font-headline font-bold tracking-tighter text-on-surface">12 Results for 'Tactile Keyboards'</h1>
+</header>
+<div class="flex flex-col lg:flex-row gap-16">
+<!-- Sidebar Filters -->
+<aside class="w-full lg:w-64 space-y-12 shrink-0">
+<section>
+<h3 class="font-headline font-bold text-lg mb-6">Category</h3>
+<ul class="space-y-4">
+<li><label class="flex items-center text-sm font-body cursor-pointer group"><input checked="" class="rounded-sm border-outline-variant text-primary focus:ring-primary mr-3" type="checkbox"/> <span class="group-hover:text-primary transition-colors">Keyboards</span></label></li>
+<li><label class="flex items-center text-sm font-body cursor-pointer group"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary mr-3" type="checkbox"/> <span class="group-hover:text-primary transition-colors">Switches</span></label></li>
+<li><label class="flex items-center text-sm font-body cursor-pointer group"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary mr-3" type="checkbox"/> <span class="group-hover:text-primary transition-colors">Keycaps</span></label></li>
+<li><label class="flex items-center text-sm font-body cursor-pointer group"><input class="rounded-sm border-outline-variant text-primary focus:ring-primary mr-3" type="checkbox"/> <span class="group-hover:text-primary transition-colors">Artisans</span></label></li>
+</ul>
+</section>
+<section>
+<h3 class="font-headline font-bold text-lg mb-6">Price Range</h3>
+<div class="space-y-6">
+<input class="w-full h-1 bg-surface-container-high rounded-lg appearance-none cursor-pointer accent-primary" type="range"/>
+<div class="flex justify-between text-xs font-label text-on-surface-variant">
+<span>$100</span>
+<span>$1500+</span>
+</div>
+</div>
+</section>
+<section>
+<h3 class="font-headline font-bold text-lg mb-6">Sort By</h3>
+<select class="w-full bg-surface-container-low border-none rounded-sm text-sm py-3 font-body focus:ring-1 focus:ring-primary">
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Community Favorites</option>
+</select>
+</section>
+</aside>
+<!-- Results Grid - Editorial Asymmetric -->
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24">
+<!-- Product 1 -->
+<div class="group">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[4/5] mb-6">
+<img class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-700 group-hover:scale-105" data-alt="overhead high-angle shot of a minimalist mechanical keyboard with gray and off-white keycaps on a clean stone desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATmw9zq5tXd7Q0DSPMm9y4UKskmkTS5R44JBa6PH65U7EXy-JIX77Tsrnvsia5EIRsZLU4l7r1Izkaw45bx9a1Bvatv58Rz78CCNzq-rY5iFjD0erm_cryMxtV9QG3HwUqydeHNDyq9tUGzoBO3QM9kEXRZgzCBNupgQ585oNu2C6b_Q1BRdq0ruoLeIvDmrFuQGuO-RV7m85p_98uGF0mpJGcaF1ghCq9LEIKzkuMBoToFPmTjSesp1ZeqOY-v29jj-yf8fJ0uqc"/>
+<div class="absolute inset-0 bg-on-surface/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-1">Monolith 65</h3>
+<p class="text-sm font-body text-on-surface-variant max-w-[280px]">Machined aluminum chassis with bespoke brass weight and Gateron Brown tactiles.</p>
+</div>
+<span class="font-headline font-bold text-lg">$450</span>
+</div>
+</div>
+<!-- Product 2 (Vertical Offset) -->
+<div class="group md:mt-24">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[4/5] mb-6">
+<img class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-700 group-hover:scale-105" data-alt="close-up of premium mechanical keyboard switches and keycaps with soft natural side lighting emphasizing textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuxXKejzJst_cI8uSDjyvS8tuwC6rG3mDjxIxoHP3lPwmCy0wJ_GXb3VmmdWeYWLQq7RJO7h6S3JMYsSxYCjxENCj0FQM7VvWEzrl45imbtVJbxoUb15w_43on7aAgtZo5P-A0rugpr6JHGSWzXSumwOFMoJciej9Wt9il_SsaCBp1f8Byu-N50hZVwtizaLT2wd1aQF9q0_QtTOp7XjSAfg8pKZ68N-fsEMBgwtmtZ8NWWlMgqQdZobYolpehf0xwo1BWSccqzi0"/>
+<div class="absolute inset-0 bg-on-surface/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-1">Architect TKL</h3>
+<p class="text-sm font-body text-on-surface-variant max-w-[280px]">A study in brutalist design. Raw finish stainless steel with custom dampening.</p>
+</div>
+<span class="font-headline font-bold text-lg">$620</span>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="group">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[4/5] mb-6">
+<img class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-700 group-hover:scale-105" data-alt="profile view of a sleek low-profile mechanical keyboard with dark gray keycaps on a dark felt desk mat" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ODWWto4Zhga0c6cH0UrVYHLKmx2TSVd4b54Ooth9FiFvtU2mZAVN3vR6M7wkE-OXUP_0LSgw-aBF8R4tnaLcxH6rL-ruPT5n1LZ9iIEHy2aGE8dfurUtHmPRXfJLovFAuqm-GWAWNVpl1JNgHDkf2sKEF9Ohi3qWxFbHC9hiUB_5p_FDd-jede8c2-DHGeBZ82YjeqeW63OqnQ5iR0zqCRYkom1AuPkkYLAfgoGlaSD-o1zZDxIpLkkbEbEJ_ntn6VhJiy1sJLY"/>
+<div class="absolute inset-0 bg-on-surface/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-1">Stealth Ops</h3>
+<p class="text-sm font-body text-on-surface-variant max-w-[280px]">Matte black PVD coating. Designed for quiet precision and tactile feedback.</p>
+</div>
+<span class="font-headline font-bold text-lg">$380</span>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="group md:mt-24">
+<div class="relative overflow-hidden bg-surface-container-low aspect-[4/5] mb-6">
+<img class="w-full h-full object-cover grayscale-[0.2] transition-transform duration-700 group-hover:scale-105" data-alt="macro photograph of unique artisan keycaps with intricate resin details and metallic flakes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABVMKo_4LPvbqQI82FS-VIVF1_M54eEVDnK43z-9bKVDQMPj32jRnkY_dT7HOAAcsQvKVjVCtAE1xbkVx9lSgUmqH6giL60kd1m3PHBx36I6GJKf5xsuMOA90UoIHp3R2zjdCitWaHCWYMZBd83qxnrLYpCjM6wtrajsZKVTabnMdtX8Ov0D4tpP30_UKeDuSgBZMhNoneMXyYjHLunq5wO8vOd-bKANHcj4hLbMpscjy36JfeHU_GcgP7qXfEwlwW7HsDZnylbeU"/>
+<div class="absolute inset-0 bg-on-surface/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline text-2xl font-bold tracking-tight mb-1">Obscura HHKB</h3>
+<p class="text-sm font-body text-on-surface-variant max-w-[280px]">Limited edition heritage layout. Integrated plate for maximum rigidity.</p>
+</div>
+<span class="font-headline font-bold text-lg">$510</span>
+</div>
+</div>
+</div>
+<!-- Pagination / Load More -->
+<div class="mt-32 flex justify-center">
+<button class="px-12 py-4 bg-gradient-to-br from-primary to-primary-dim text-on-primary rounded-sm font-headline font-bold tracking-tight hover:opacity-90 transition-all active:scale-95">
+                        View More Curation
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-auto bg-stone-100 dark:bg-stone-950 flex flex-col md:flex-row justify-between items-center px-12 py-16 w-full">
+<div class="mb-8 md:mb-0">
+<div class="text-lg font-bold text-neutral-800 dark:text-neutral-100 font-manrope mb-2">Tactile Gallery</div>
+<p class="font-inter text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400">© 2024 Tactile Gallery. Curated Precision.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-12 gap-y-4">
+<a class="font-inter text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Journal</a>
+<a class="font-inter text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Shipping</a>
+<a class="font-inter text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Technical Support</a>
+<a class="font-inter text-xs tracking-widest uppercase text-neutral-500 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 transition-colors" href="#">Privacy</a>
+</div>
+<div class="mt-8 md:mt-0 flex space-x-4">
+<span class="material-symbols-outlined text-neutral-400 cursor-pointer hover:text-primary transition-colors">language</span>
+<span class="material-symbols-outlined text-neutral-400 cursor-pointer hover:text-primary transition-colors">monetization_on</span>
+</div>
+</footer>
+</body></html>

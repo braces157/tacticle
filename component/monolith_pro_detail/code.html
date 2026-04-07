@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;family=Inter:wght@300..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#9c9d9d",
+                    "on-tertiary-fixed-variant": "#486272",
+                    "surface-bright": "#f9f9f9",
+                    "surface": "#f9f9f9",
+                    "inverse-primary": "#ffffff",
+                    "tertiary-fixed": "#d0ecff",
+                    "on-error-container": "#752121",
+                    "surface-container-high": "#e4e9ea",
+                    "surface-container": "#ebeeef",
+                    "surface-dim": "#d4dbdd",
+                    "inverse-surface": "#0c0f0f",
+                    "primary-fixed-dim": "#d7d4d3",
+                    "surface-container-low": "#f2f4f4",
+                    "outline-variant": "#adb3b4",
+                    "on-error": "#fff7f6",
+                    "on-secondary": "#fbf8f8",
+                    "surface-variant": "#dde4e5",
+                    "on-primary-fixed": "#403f3f",
+                    "on-surface-variant": "#5a6061",
+                    "on-primary-fixed-variant": "#5c5b5b",
+                    "on-tertiary-fixed": "#2c4655",
+                    "error-container": "#fe8983",
+                    "on-background": "#2d3435",
+                    "primary": "#5f5e5e",
+                    "primary-dim": "#535252",
+                    "primary-container": "#e5e2e1",
+                    "on-primary": "#faf7f6",
+                    "background": "#f9f9f9",
+                    "tertiary-container": "#d0ecff",
+                    "surface-container-highest": "#dde4e5",
+                    "tertiary-fixed-dim": "#c2def0",
+                    "on-surface": "#2d3435",
+                    "on-secondary-container": "#525252",
+                    "secondary-fixed": "#e4e2e1",
+                    "on-secondary-fixed": "#3f3f3f",
+                    "tertiary-dim": "#3c5666",
+                    "tertiary": "#486272",
+                    "on-tertiary": "#f4faff",
+                    "on-primary-container": "#525151",
+                    "secondary-fixed-dim": "#d6d4d3",
+                    "outline": "#757c7d",
+                    "primary-fixed": "#e5e2e1",
+                    "surface-tint": "#5f5e5e",
+                    "on-tertiary-container": "#3e5868",
+                    "on-secondary-fixed-variant": "#5c5b5b",
+                    "secondary-container": "#e4e2e1",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-dim": "#535353",
+                    "secondary": "#5f5f5f",
+                    "error-dim": "#4e0309",
+                    "error": "#9f403d"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            font-size: 20px;
+        }
+        body { font-family: 'Inter', sans-serif; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary/20">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-[#f9f9f9]/80 dark:bg-[#2d3435]/80 backdrop-blur-xl">
+<div class="flex justify-between items-center max-w-[1440px] mx-auto px-12 h-20">
+<div class="text-2xl font-bold tracking-tighter text-[#2d3435] dark:text-[#f9f9f9] font-headline uppercase">TACTILE</div>
+<div class="hidden md:flex items-center space-x-10">
+<a class="text-[#2d3435] dark:text-[#ffffff] border-b border-[#5f5e5e] pb-1 font-manrope tracking-tight font-medium hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Gallery</a>
+<a class="text-[#5f5e5e] dark:text-[#adb3b4] font-manrope tracking-tight font-medium hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Switches</a>
+<a class="text-[#5f5e5e] dark:text-[#adb3b4] font-manrope tracking-tight font-medium hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Keycaps</a>
+<a class="text-[#5f5e5e] dark:text-[#adb3b4] font-manrope tracking-tight font-medium hover:text-[#2d3435] dark:hover:text-[#ffffff] transition-colors duration-300" href="#">Story</a>
+</div>
+<div class="flex items-center space-x-6">
+<button class="scale-95 active:opacity-80 transition-all text-[#5f5e5e] dark:text-[#f2f4f4]">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="pt-32 max-w-[1440px] mx-auto px-12 pb-24">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+<!-- Product Gallery Section (Editorial Asymmetry) -->
+<div class="lg:col-span-8">
+<div class="space-y-12">
+<!-- Main Hero Image -->
+<div class="relative w-full aspect-[4/3] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close-up of a minimalist mechanical keyboard with matte gray keycaps and a machined aluminum chassis on a white stone surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuADzc-N6PUKuzJ7AXZ-i8XLTCCFOpIyGfPIr5YlwWhIJL5p4w0Y0lPtyb41grgiWEcKlHkV-k3UVDncc3_tDHF_vLix5utI710K2YXHQKwm4aqaBYFuw_s2cp-D-70wwkf86hdrRpVNegdq3IkqbpaXNwR0sc1jmQOofFc-GorAZy2ktc_d0DTuIRYS6jFT7yeq6r6UuAJEuX0ZqLAnWxkv4LAKaHBhaxOrX5MbKkSPsfU7ylNfsqcDe2g0Kbfo2rzGEMM_Hss_UxM"/>
+<div class="absolute bottom-8 left-8">
+<span class="text-on-surface/40 font-headline tracking-widest text-xs uppercase">Reference 001 / Core Series</span>
+</div>
+</div>
+<!-- Asymmetric Secondary Images -->
+<div class="grid grid-cols-10 gap-8">
+<div class="col-span-6 mt-12">
+<div class="aspect-[3/4] bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Top down aesthetic view of mechanical switches and keycaps arranged in a precise architectural layout with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCu5uB6SCvi3CCBsP9z_gbOE_F8Wl0XL0J_2dFf_YnLt-0xNkM-FRY_VT9JceWHlNEKH2sJ7WVCBCeDuWZVgLljV8uOdEPbYu-oW2BdrOhgRVIOhD7ZXb-gE3xGI7b6ctLVCRMLHxBAL0lV-rlZ739UBEPzp1PzILRogFpcFzYjF9Xcx-QGJpr4mM1kpWHpITex5mrGCpkJFk7OdSp-YRyZLrNHstK4wp2hlWHaVyrn9c4QDFHrcC1buXjZ8R7VGEcJPck1XtMHVW4"/>
+</div>
+</div>
+<div class="col-span-4 self-start">
+<div class="aspect-square bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Macro detail of the polished brass weight on the underside of a high-end mechanical keyboard chassis" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_XJt8Zq7dhRXB1nBhin6isLsyOXnfBhXfgpzyvSZeBfEbo_Eg5sEDLDGmPpQoM-xiePJeTuLWDVnxMXfrNsTdi15gNDvPPDE2gyAi7MF7we92xHD2z7HRGVb700wm_29Imi2czt6pSkxcF-VDJgAkM9UOwRjQSGIjM6ykjx_9oHWcE91k5NEzugzowEd8kHw927Peliq7nkKrdkZhpbarR6F2RxqssG1zfLBGQ_Jd8tlw4KVJMRT9rkEoD0lLVLNkIZvDHIqc40M"/>
+</div>
+<div class="mt-8 p-6 bg-surface-container-low">
+<p class="font-body text-sm leading-relaxed text-on-surface-variant">
+                                    "The sound is not an afterthought. It is the result of seven layers of poron and silicone precision-tuned for acoustic clarity."
+                                </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Product Specs Sidebar (Fixed on Scrollable Canvas) -->
+<aside class="lg:col-span-4 lg:sticky lg:top-32 h-fit">
+<div class="space-y-10">
+<div>
+<h1 class="text-5xl font-extrabold tracking-tighter leading-none mb-4">TACTILE CORE-65</h1>
+<p class="text-primary text-xl font-headline tracking-tight">$420.00</p>
+</div>
+<div class="space-y-6">
+<div class="space-y-3">
+<label class="font-headline text-[10px] uppercase tracking-[0.2em] text-on-surface/60">Switch Variant</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="border border-outline-variant/30 py-3 text-xs font-body hover:bg-surface-container transition-colors">CREAM LINEAR</button>
+<button class="border border-on-surface py-3 text-xs font-body bg-on-surface text-surface">OBSIDIAN TACTILE</button>
+</div>
+</div>
+<div class="space-y-3">
+<label class="font-headline text-[10px] uppercase tracking-[0.2em] text-on-surface/60">Plate Material</label>
+<div class="grid grid-cols-2 gap-2">
+<button class="border border-outline-variant/30 py-3 text-xs font-body hover:bg-surface-container transition-colors">FR4</button>
+<button class="border border-outline-variant/30 py-3 text-xs font-body hover:bg-surface-container transition-colors">BRASS (+ $30)</button>
+</div>
+</div>
+<div class="pt-4">
+<button class="w-full py-5 bg-gradient-to-br from-primary to-primary-dim text-on-primary font-headline font-bold tracking-tight text-sm flex justify-center items-center gap-3 transition-transform active:scale-[0.98]">
+                                ADD TO ARCHIVE
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="pt-8 space-y-4 border-t border-outline-variant/10">
+<div class="flex justify-between items-center text-xs">
+<span class="font-headline uppercase tracking-widest text-on-surface/40">Connectivity</span>
+<span class="font-body text-on-surface">Triple Mode (BT 5.0 / 2.4GHz / USB-C)</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="font-headline uppercase tracking-widest text-on-surface/40">Latency</span>
+<span class="font-body text-on-surface">1ms Wired / 2ms Wireless</span>
+</div>
+<div class="flex justify-between items-center text-xs">
+<span class="font-headline uppercase tracking-widest text-on-surface/40">Weight</span>
+<span class="font-body text-on-surface">2.4kg Fully Built</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+<!-- Technical Details Section -->
+<section class="mt-48 grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+<div class="order-2 md:order-1">
+<div class="relative bg-surface-container-highest p-12 aspect-square flex flex-col justify-center">
+<h2 class="text-4xl font-extrabold tracking-tighter mb-8 leading-tight">Engineered Resonance.</h2>
+<p class="font-body text-on-surface-variant leading-relaxed mb-10 max-w-sm">
+                        Our gasket mount system uses custom-molded silicone socks to isolate the plate from the chassis, eliminating metallic pings and delivering a pure, marbly acoustics profile.
+                    </p>
+<div class="flex items-center gap-6">
+<button class="flex items-center gap-4 group">
+<div class="w-12 h-12 rounded-full border border-primary flex items-center justify-center group-hover:bg-primary group-hover:text-surface transition-all">
+<span class="material-symbols-outlined" data-icon="play_arrow" data-weight="fill">play_arrow</span>
+</div>
+<span class="font-headline text-xs uppercase tracking-widest font-bold">Listen to the Sound Test</span>
+</button>
+</div>
+</div>
+</div>
+<div class="order-1 md:order-2">
+<img class="w-full grayscale brightness-95 opacity-80" data-alt="Exploded diagram showing the internal components of a mechanical keyboard including gaskets, PCB, and plate layers" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3inaalLfE5sedHjD-QKU1324XRS_2rzkVnuEKLrR4_aCj95CmeJcamttXrKApS7JxkqN8issdeKSJVoizU2KC1M_VyHyHVFLRYvVh8Ia4Hr8br1XxU1RWwtrgGS560fP1rf4FeZ89oND2CFWlOy_tTgNyiF7egU0RQmVTF-3PDVW1L7s1-NZyM7EbNqUFptf37rBgBFBTVCJHTFNq6gQGBW9toms1dHwS0vGWzT2tvsTKmhGDxOOBPPKMJXVXi5PrWP2hdsuTDZ8"/>
+</div>
+</section>
+<!-- The Spec Sheet (Minimalist Table) -->
+<section class="mt-48">
+<div class="mb-16">
+<h3 class="text-sm font-headline tracking-[0.3em] uppercase text-on-surface/40 mb-2">Detailed Architecture</h3>
+<div class="w-20 h-px bg-primary/30"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-24 gap-y-6">
+<div class="flex justify-between py-6 border-b border-outline-variant/10">
+<span class="font-headline text-xs uppercase tracking-widest text-on-surface-variant">Mounting Style</span>
+<span class="font-body text-sm">Gasket Mount</span>
+</div>
+<div class="flex justify-between py-6 border-b border-outline-variant/10">
+<span class="font-headline text-xs uppercase tracking-widest text-on-surface-variant">Typing Angle</span>
+<span class="font-body text-sm">6.5 Degrees</span>
+</div>
+<div class="flex justify-between py-6 border-b border-outline-variant/10">
+<span class="font-headline text-xs uppercase tracking-widest text-on-surface-variant">Case Material</span>
+<span class="font-body text-sm">6063 Aluminum</span>
+</div>
+<div class="flex justify-between py-6 border-b border-outline-variant/10">
+<span class="font-headline text-xs uppercase tracking-widest text-on-surface-variant">PCB</span>
+<span class="font-body text-sm">1.2mm Non-Flex Cut</span>
+</div>
+<div class="flex justify-between py-6 border-b border-outline-variant/10">
+<span class="font-headline text-xs uppercase tracking-widest text-on-surface-variant">Interface</span>
+<span class="font-body text-sm">VIA/QMK Compatible</span>
+</div>
+<div class="flex justify-between py-6 border-b border-outline-variant/10">
+<span class="font-headline text-xs uppercase tracking-widest text-on-surface-variant">Finish</span>
+<span class="font-body text-sm">E-White / Anodized Black</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full pt-24 pb-12 bg-[#f2f4f4] dark:bg-[#121212]">
+<div class="flex flex-col md:flex-row justify-between items-end px-12 gap-8">
+<div class="space-y-4">
+<div class="font-manrope font-black text-[#2d3435] dark:text-[#f9f9f9] text-3xl tracking-tighter">TACTILE</div>
+<div class="font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4]">© 2024 TACTILE GALLERY. ENGINEERED PRECISION.</div>
+</div>
+<div class="flex gap-12 font-inter text-xs uppercase tracking-widest text-[#5f5e5e] dark:text-[#adb3b4]">
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Support</a>
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Shipping</a>
+<a class="opacity-70 hover:opacity-100 transition-opacity underline underline-offset-4" href="#">Journal</a>
+<a class="opacity-70 hover:opacity-100 transition-opacity" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+</body></html>

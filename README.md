@@ -1,18 +1,18 @@
 # Tactile Gallery
 
-Tactile Gallery la du an full-stack mo phong mot storefront va trang quan tri cho he thong ban ban phim co cao cap. Frontend duoc xay dung bang `Vite + React + TypeScript`, backend dung `Spring Boot`, du lieu duoc quan ly boi `SQL Server + Flyway`.
+Tactile Gallery is a full-stack project that simulates a premium mechanical keyboard storefront and admin dashboard. The frontend is built with `Vite + React + TypeScript`, while the backend uses `Spring Boot`, with data managed through `SQL Server + Flyway`.
 
-## Tong quan
+## Overview
 
-Du an hien co:
+The project currently includes:
 
-- Trang chu, danh muc, tim kiem, chi tiet san pham, gio hang va checkout
-- Dang nhap, dang ky, doi mat khau, quen mat khau, ho so ca nhan
-- Lich su don hang va chi tiet don hang
-- Khu vuc admin cho dashboard, don hang, khach hang, ton kho va san pham
-- Seed data va tai khoan demo de chay local
+- Home page, category pages, search, product detail, cart, and checkout
+- Login, registration, password change, forgot password, and user profile
+- Order history and order detail pages
+- Admin area for dashboard, orders, customers, inventory, and products
+- Seed data and demo accounts for local development
 
-## Cong nghe su dung
+## Tech Stack
 
 ### Frontend
 
@@ -34,55 +34,55 @@ Du an hien co:
 - `SQL Server`
 - `JWT`
 
-## Cau truc thu muc
+## Project Structure
 
 ```text
 .
-|-- src/                 # ung dung frontend
-|-- backend/             # API Spring Boot
-|-- component/           # asset va mockup giao dien
-|-- docs/                # tai lieu bo sung
-|-- products.json        # nguon du lieu san pham lon
-|-- DESIGN.md            # dinh huong giao dien / design system
+|-- src/                 # frontend application
+|-- backend/             # Spring Boot API
+|-- component/           # UI assets and mockups
+|-- docs/                # additional documentation
+|-- products.json        # large product data source
+|-- DESIGN.md            # design system and UI direction
 ```
 
-## Yeu cau moi truong
+## Environment Requirements
 
 - `Node.js` 20+
 - `npm`
 - `Java 21`
 - `Maven`
-- `SQL Server` neu muon chay backend voi profile mac dinh `sqlserver`
+- `SQL Server` if you want to run the backend with the default `sqlserver` profile
 
-## Chay du an local
+## Running Locally
 
-### 1. Chay frontend
+### 1. Start the frontend
 
 ```bash
 npm install
 npm run dev
 ```
 
-Frontend mac dinh chay tai `http://localhost:5173`.
+The frontend runs by default at `http://localhost:5173`.
 
-Neu can doi API base URL, tao file `.env`:
+If you need to override the API base URL, create a `.env` file:
 
 ```env
 VITE_API_BASE_URL=http://localhost:8081/api
 ```
 
-### 2. Chay backend
+### 2. Start the backend
 
 ```bash
 cd backend
 mvn spring-boot:run
 ```
 
-Backend mac dinh chay tai `http://localhost:8081` va da dat default profile la `sqlserver`.
+The backend runs by default at `http://localhost:8081` and uses the `sqlserver` profile as the default profile.
 
-### 3. Cau hinh SQL Server
+### 3. Configure SQL Server
 
-Backend doc cau hinh qua bien moi truong:
+The backend reads configuration from environment variables:
 
 ```bash
 set DB_HOST=localhost
@@ -93,20 +93,20 @@ set DB_PASSWORD=your_password
 set JWT_SECRET=replace-with-a-long-random-secret
 ```
 
-Sau do chay lai:
+Then run:
 
 ```bash
 mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 ```
 
-## Tai khoan demo
+## Demo Accounts
 
 - Customer: `member@tactile.gallery` / `quiet`
 - Admin: `admin@tactile.gallery` / `quiet`
 
-## Script quan trong
+## Important Scripts
 
-Tai root:
+From the project root:
 
 ```bash
 npm run dev
@@ -115,21 +115,21 @@ npm run preview
 npm run test
 ```
 
-Tai `backend/`:
+From `backend/`:
 
 ```bash
 mvn spring-boot:run
 mvn test
 ```
 
-## Luu y
+## Notes
 
-- Frontend goi API mac dinh den `http://localhost:8081/api`
-- Backend co them tai lieu rieng tai `backend/README.md`
-- Thu muc `dist/`, `node_modules/`, `backend/target/`, `run-logs/` la artifact sinh ra trong qua trinh local dev va da duoc dua vao `.gitignore`
+- The frontend calls the API at `http://localhost:8081/api` by default
+- The backend has its own additional documentation in `backend/README.md`
+- `dist/`, `node_modules/`, `backend/target/`, and `run-logs/` are local development artifacts and are already included in `.gitignore`
 
-## Huong phat trien tiep
+## Suggested Next Steps
 
-- Them file `.env.example` va `backend/.env.example` de chia se cau hinh ro rang hon
-- Bo sung CI cho `npm run test` va `mvn test`
-- Tach huong dan deploy frontend/backend thanh tai lieu rieng
+- Add `.env.example` and `backend/.env.example` files to document configuration more clearly
+- Add CI for `npm run test` and `mvn test`
+- Split deployment instructions for frontend and backend into separate documentation

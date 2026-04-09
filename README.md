@@ -91,6 +91,8 @@ set DB_NAME=your_database_name
 set DB_USERNAME=your_database_username
 set DB_PASSWORD=your_database_password
 set JWT_SECRET=your_base64_or_long_random_jwt_secret
+set MAIL_USERNAME=your_smtp_username
+set MAIL_PASSWORD=your_smtp_password
 set APP_DEMO_ACCOUNTS_ENABLED=true
 ```
 

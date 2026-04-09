@@ -6,6 +6,8 @@ import { renderRoute } from "./render";
 test("logs in and reaches account order history", async () => {
   renderRoute(["/login"]);
 
+  await userEvent.type(await screen.findByLabelText(/email/i), "member@tactile.gallery");
+  await userEvent.type(screen.getByLabelText(/password/i), "quiet");
   const submit = await screen.findByRole("button", { name: /enter the gallery/i });
   await userEvent.click(submit);
 
@@ -50,6 +52,7 @@ test("shows only the signed-in user's orders", async () => {
 
   await userEvent.clear(await screen.findByLabelText(/email/i));
   await userEvent.type(screen.getByLabelText(/email/i), "second@tactile.gallery");
+  await userEvent.type(screen.getByLabelText(/password/i), "quiet");
   await userEvent.click(screen.getByRole("button", { name: /enter the gallery/i }));
 
   await userEvent.click(await screen.findByRole("link", { name: /view orders/i }));

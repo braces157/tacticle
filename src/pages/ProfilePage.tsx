@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/Button";
+import { Button, buttonClassName } from "../components/ui/Button";
 import { ErrorState, LoadingState } from "../components/ui/AsyncState";
 import { InputField } from "../components/ui/InputField";
 import { SectionHeading } from "../components/ui/SectionHeading";
@@ -197,13 +197,11 @@ export function ProfilePage() {
             </div>
           </div>
           <div className="mt-8 grid gap-3">
-            <Link to="/orders">
-              <Button className="w-full">View orders</Button>
+            <Link to="/orders" className={buttonClassName()}>
+              View orders
             </Link>
-            <Link to="/change-password">
-              <Button variant="secondary" className="w-full">
-                Change password
-              </Button>
+            <Link to="/change-password" className={buttonClassName("secondary")}>
+              Change password
             </Link>
           </div>
         </aside>

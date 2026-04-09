@@ -278,16 +278,6 @@ public class AdminService {
     }
 
     @Transactional(readOnly = true)
-    public String getHeroImage() {
-        return productRepository.findAllByOrderByIdAsc().stream()
-            .filter(product -> !product.isArchived() && product.isFeatured())
-            .map(ProductEntity::getImageSrc)
-            .findFirst()
-            .or(() -> categoryRepository.findAll().stream().map(CategoryEntity::getHeroImageSrc).findFirst())
-            .orElse(IMAGE_FALLBACK);
-    }
-
-    @Transactional(readOnly = true)
     public List<DomainModels.AdminOrderRecord> getOrders() {
         return orderRepository.findAllByOrderByCreatedAtDesc().stream()
             .map(mapper::toAdminOrderRecord)

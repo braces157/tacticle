@@ -26,13 +26,13 @@ export const shippingMethods: ShippingMethod[] = [
   },
 ];
 
-export const estimatedTaxRate = 0.07;
+const estimatedTaxRate = 0.07;
 
 export function getShippingMethod(methodId: ShippingMethod["id"]) {
   return shippingMethods.find((method) => method.id === methodId) ?? shippingMethods[0];
 }
 
-export function calculateShippingEstimate(
+function calculateShippingEstimate(
   subtotal: number,
   itemCount: number,
   methodId: ShippingMethod["id"],
@@ -47,7 +47,7 @@ export function calculateShippingEstimate(
   return method.rate + itemAdjustment;
 }
 
-export function calculateTaxEstimate(subtotal: number) {
+function calculateTaxEstimate(subtotal: number) {
   return subtotal * estimatedTaxRate;
 }
 

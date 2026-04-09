@@ -131,11 +131,6 @@ public class AdminController {
         adminService.archiveProduct(slug);
     }
 
-    @GetMapping("/hero-image")
-    public Map<String, String> getHeroImage() {
-        return Map.of("src", adminService.getHeroImage());
-    }
-
     @GetMapping("/orders")
     public List<DomainModels.AdminOrderRecord> getOrders() {
         return adminService.getOrders();

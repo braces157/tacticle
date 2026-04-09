@@ -15,10 +15,10 @@ type SessionContextValue = {
   loading: boolean;
   login(email: string, password: string): Promise<AuthUser>;
   register(name: string, email: string, password: string): Promise<AuthUser>;
-  completeOAuthLogin(token: string): Promise<AuthUser>;
+  completeOAuthLogin(): Promise<AuthUser>;
   logout(): Promise<void>;
   requestPasswordReset(email: string): Promise<void>;
-  changePassword(password: string): Promise<void>;
+  changePassword(currentPassword: string, password: string): Promise<void>;
   syncUser(user: AuthUser): void;
 };
 
@@ -54,8 +54,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return currentUser;
   }
 
-  async function completeOAuthLogin(token: string) {
-    const currentUser = await authService.completeOAuthLogin(token);
+  async function completeOAuthLogin() {
+    const currentUser = await authService.completeOAuthLogin();
     setUser(currentUser);
     return currentUser;
   }
@@ -69,8 +69,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     await authService.requestPasswordReset(email);
   }
 
-  async function changePassword(password: string) {
-    await authService.changePassword(password);
+  async function changePassword(currentPassword: string, password: string) {
+    await authService.changePassword(currentPassword, password);
   }
 
   function syncUser(nextUser: AuthUser) {
@@ -118,7 +118,7 @@ export function RequireAuth({ children }: { children: ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+    return <Navigate to="/login" replace state={{ from: `${location.pathname}${location.search}${location.hash}` }} />;
   }
 
   return <>{children}</>;
@@ -137,7 +137,7 @@ export function RequireAdmin({ children }: { children: ReactNode }) {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace state={{ from: location.pathname }} />;
+    return <Navigate to="/login" replace state={{ from: `${location.pathname}${location.search}${location.hash}` }} />;
   }
 
   if (user.role !== "admin") {

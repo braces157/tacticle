@@ -19,6 +19,9 @@ spring:
               - openid
               - profile
               - email
+  flyway:
+    placeholders:
+      demoAccountsEnabled: ${APP_DEMO_ACCOUNTS_ENABLED:false}
 
 management:
   endpoints:
@@ -27,6 +30,10 @@ management:
         include: health,info
 
 app:
+  auth:
+    cookie-name: ${APP_AUTH_COOKIE_NAME:tg_session}
+    cookie-secure: ${APP_AUTH_COOKIE_SECURE:false}
+    cookie-same-site: ${APP_AUTH_COOKIE_SAME_SITE:Lax}
   cors:
     allowed-origins:
       - http://localhost:5173
@@ -35,7 +42,7 @@ app:
     base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
     oauth-callback-path: ${FRONTEND_OAUTH_CALLBACK_PATH:/auth/callback}
   jwt:
-    secret: ${JWT_SECRET:tactile-gallery-jwt-secret-key-change-me-2026-very-long}
+    secret: ${JWT_SECRET}
     issuer: ${JWT_ISSUER:tactile-gallery-backend}
     access-token-ttl-minutes: ${JWT_ACCESS_TOKEN_TTL_MINUTES:720}
   catalog-import:

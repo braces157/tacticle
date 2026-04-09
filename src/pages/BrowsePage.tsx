@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/AsyncState";
-import { Button } from "../components/ui/Button";
+import { Button, buttonClassName } from "../components/ui/Button";
 import { ProductCard } from "../components/ui/ProductCard";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { catalogService } from "../services/storefrontApi";
@@ -112,11 +112,11 @@ export function BrowsePage() {
                 "Use the browse controls to move between complete boards, supporting accessories, and internal architecture."}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/search?q=tactile">
-                <Button>Search tactile</Button>
+              <Link to="/search?q=tactile" className={buttonClassName()}>
+                Search tactile
               </Link>
-              <Link to="/category/keyboards">
-                <Button variant="secondary">Jump to keyboards</Button>
+              <Link to="/category/keyboards" className={buttonClassName("secondary")}>
+                Jump to keyboards
               </Link>
             </div>
           </div>
@@ -206,24 +206,32 @@ export function BrowsePage() {
                 </span>
               </div>
               <div className="mt-5 space-y-4">
-                <input
-                  type="range"
-                  min={bounds.min}
-                  max={bounds.max}
-                  step={10}
-                  value={minPrice}
-                  onChange={(event) => setMinPrice(Number(event.target.value))}
-                  className="w-full accent-[var(--color-primary)]"
-                />
-                <input
-                  type="range"
-                  min={bounds.min}
-                  max={bounds.max}
-                  step={10}
-                  value={maxPrice}
-                  onChange={(event) => setMaxPrice(Number(event.target.value))}
-                  className="w-full accent-[var(--color-primary)]"
-                />
+                <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
+                  <span>Minimum price</span>
+                  <input
+                    type="range"
+                    min={bounds.min}
+                    max={bounds.max}
+                    step={10}
+                    value={minPrice}
+                    onChange={(event) => setMinPrice(Number(event.target.value))}
+                    className="w-full accent-[var(--color-primary)]"
+                    aria-label="Minimum price"
+                  />
+                </label>
+                <label className="flex flex-col gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-muted)]">
+                  <span>Maximum price</span>
+                  <input
+                    type="range"
+                    min={bounds.min}
+                    max={bounds.max}
+                    step={10}
+                    value={maxPrice}
+                    onChange={(event) => setMaxPrice(Number(event.target.value))}
+                    className="w-full accent-[var(--color-primary)]"
+                    aria-label="Maximum price"
+                  />
+                </label>
               </div>
             </div>
 

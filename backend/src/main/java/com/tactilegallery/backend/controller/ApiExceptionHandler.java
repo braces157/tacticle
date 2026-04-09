@@ -50,4 +50,20 @@ public class ApiExceptionHandler {
             )
         );
     }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<ApiError> handleNumberFormat(
+        NumberFormatException exception,
+        HttpServletRequest request
+    ) {
+        return ResponseEntity.badRequest().body(
+            new ApiError(
+                Instant.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                HttpStatus.BAD_REQUEST.getReasonPhrase(),
+                "Invalid numeric value.",
+                request.getRequestURI()
+            )
+        );
+    }
 }

@@ -84,11 +84,6 @@ public class ProfileService {
             profile.getPreferences().add(preference);
         }
 
-        orderRepository.findByUser_ExternalIdOrderByCreatedAtDesc(userId).forEach(order -> {
-            order.setCustomerName(user.getName());
-            order.setCustomerEmail(user.getEmail());
-        });
-
         return mapper.toUserProfile(user);
     }
 

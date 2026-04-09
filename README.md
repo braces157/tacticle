@@ -91,6 +91,7 @@ set DB_NAME=WorshopV2
 set DB_USERNAME=sa
 set DB_PASSWORD=your_password
 set JWT_SECRET=replace-with-a-long-random-secret
+set APP_DEMO_ACCOUNTS_ENABLED=true
 ```
 
 Then run:
@@ -100,6 +101,10 @@ mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 ```
 
 ## Demo Accounts
+
+Demo accounts are disabled by default in production-safe deployments.
+
+If you explicitly enable them for local development with `APP_DEMO_ACCOUNTS_ENABLED=true`, the seeded accounts are:
 
 - Customer: `member@tactile.gallery` / `quiet`
 - Admin: `admin@tactile.gallery` / `quiet`

@@ -6,18 +6,20 @@ import { buttonClassName } from "../components/ui/Button";
 import { InputField } from "../components/ui/InputField";
 import { useSession } from "../context/SessionContext";
 import { apiBaseUrl } from "../services/apiClient";
+import { storePostAuthRedirect } from "../services/authStorage";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const { login } = useSession();
-  const [email, setEmail] = useState("member@tactile.gallery");
-  const [password, setPassword] = useState("quiet");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const oauthError = searchParams.get("oauthError") ?? "";
   const googleLoginUrl = useMemo(() => `${apiBaseUrl.replace(/\/api$/, "")}/oauth2/authorization/google`, []);
+  const redirectPath = (location.state as { from?: string } | null)?.from ?? "/profile";
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,7 +28,7 @@ export function LoginPage() {
 
     try {
       await login(email, password);
-      navigate((location.state as { from?: string } | null)?.from ?? "/profile");
+      navigate(redirectPath);
     } catch (submissionError) {
       setError(
         submissionError instanceof Error
@@ -50,7 +52,11 @@ export function LoginPage() {
         <Button type="submit" disabled={submitting}>
           {submitting ? "Signing in…" : "Enter the gallery"}
         </Button>
-        <a href={googleLoginUrl} className={buttonClassName("secondary")}>
+        <a
+          href={googleLoginUrl}
+          className={buttonClassName("secondary")}
+          onClick={() => storePostAuthRedirect(redirectPath)}
+        >
           Continue with Google
         </a>
       </form>

@@ -33,6 +33,7 @@ public final class ApiRequests {
     }
 
     public record ChangePasswordRequest(
+        @NotBlank String currentPassword,
         @NotBlank @Size(min = 4) String password
     ) {
     }

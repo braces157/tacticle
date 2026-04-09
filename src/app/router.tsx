@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -7,34 +8,56 @@ import { AdminApp } from "./AdminApp";
 import { App } from "./App";
 import { StorefrontApp } from "./StorefrontApp";
 import { RequireAdmin, RequireAuth } from "../context/SessionContext";
-import { AdminCustomersPage } from "../pages/AdminCustomersPage";
-import { AdminCreateProductPage } from "../pages/AdminCreateProductPage";
-import { AdminDashboardPage } from "../pages/AdminDashboardPage";
-import { AdminEditProductPage } from "../pages/AdminEditProductPage";
-import { AdminInventoryPage } from "../pages/AdminInventoryPage";
-import { AdminOrderDetailPage } from "../pages/AdminOrderDetailPage";
-import { AdminOrdersPage } from "../pages/AdminOrdersPage";
-import { AdminReviewsPage } from "../pages/AdminReviewsPage";
-import { BrowsePage } from "../pages/BrowsePage";
-import { CartPage } from "../pages/CartPage";
-import { CategoryPage } from "../pages/CategoryPage";
-import { ChangePasswordPage } from "../pages/ChangePasswordPage";
-import { CheckoutPage } from "../pages/CheckoutPage";
-import { ForgotPasswordPage } from "../pages/ForgotPasswordPage";
-import { HomePage } from "../pages/HomePage";
-import { LoginPage } from "../pages/LoginPage";
-import { NotFoundPage } from "../pages/NotFoundPage";
-import { OrderDetailPage } from "../pages/OrderDetailPage";
-import { OrderHistoryPage } from "../pages/OrderHistoryPage";
-import { OAuthCallbackPage } from "../pages/OAuthCallbackPage";
-import { ProductPage } from "../pages/ProductPage";
-import { ProfilePage } from "../pages/ProfilePage";
-import { RegisterPage } from "../pages/RegisterPage";
-import { SearchPage } from "../pages/SearchPage";
+
+const AdminCustomersPage = lazy(() => import("../pages/AdminCustomersPage").then((module) => ({ default: module.AdminCustomersPage })));
+const AdminCreateProductPage = lazy(() => import("../pages/AdminCreateProductPage").then((module) => ({ default: module.AdminCreateProductPage })));
+const AdminDashboardPage = lazy(() => import("../pages/AdminDashboardPage").then((module) => ({ default: module.AdminDashboardPage })));
+const AdminEditProductPage = lazy(() => import("../pages/AdminEditProductPage").then((module) => ({ default: module.AdminEditProductPage })));
+const AdminInventoryPage = lazy(() => import("../pages/AdminInventoryPage").then((module) => ({ default: module.AdminInventoryPage })));
+const AdminOrderDetailPage = lazy(() => import("../pages/AdminOrderDetailPage").then((module) => ({ default: module.AdminOrderDetailPage })));
+const AdminOrdersPage = lazy(() => import("../pages/AdminOrdersPage").then((module) => ({ default: module.AdminOrdersPage })));
+const AdminReviewsPage = lazy(() => import("../pages/AdminReviewsPage").then((module) => ({ default: module.AdminReviewsPage })));
+const BrowsePage = lazy(() => import("../pages/BrowsePage").then((module) => ({ default: module.BrowsePage })));
+const CartPage = lazy(() => import("../pages/CartPage").then((module) => ({ default: module.CartPage })));
+const CategoryPage = lazy(() => import("../pages/CategoryPage").then((module) => ({ default: module.CategoryPage })));
+const ChangePasswordPage = lazy(() => import("../pages/ChangePasswordPage").then((module) => ({ default: module.ChangePasswordPage })));
+const CheckoutPage = lazy(() => import("../pages/CheckoutPage").then((module) => ({ default: module.CheckoutPage })));
+const ForgotPasswordPage = lazy(() => import("../pages/ForgotPasswordPage").then((module) => ({ default: module.ForgotPasswordPage })));
+const HomePage = lazy(() => import("../pages/HomePage").then((module) => ({ default: module.HomePage })));
+const LoginPage = lazy(() => import("../pages/LoginPage").then((module) => ({ default: module.LoginPage })));
+const NotFoundPage = lazy(() => import("../pages/NotFoundPage").then((module) => ({ default: module.NotFoundPage })));
+const OrderDetailPage = lazy(() => import("../pages/OrderDetailPage").then((module) => ({ default: module.OrderDetailPage })));
+const OrderHistoryPage = lazy(() => import("../pages/OrderHistoryPage").then((module) => ({ default: module.OrderHistoryPage })));
+const OAuthCallbackPage = lazy(() => import("../pages/OAuthCallbackPage").then((module) => ({ default: module.OAuthCallbackPage })));
+const ProductPage = lazy(() => import("../pages/ProductPage").then((module) => ({ default: module.ProductPage })));
+const ProfilePage = lazy(() => import("../pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
+const RegisterPage = lazy(() => import("../pages/RegisterPage").then((module) => ({ default: module.RegisterPage })));
+const SearchPage = lazy(() => import("../pages/SearchPage").then((module) => ({ default: module.SearchPage })));
+
+function RouteLoadingFallback() {
+  return (
+    <div className="mx-auto max-w-6xl px-6 py-24 text-sm text-[var(--color-muted)]">
+      Loading page...
+    </div>
+  );
+}
 
 export const routes = createRoutesFromElements(
-  <Route path="/" element={<App />}>
-    <Route element={<StorefrontApp />}>
+  <Route
+    path="/"
+    element={
+      <Suspense fallback={<RouteLoadingFallback />}>
+        <App />
+      </Suspense>
+    }
+  >
+    <Route
+      element={
+        <Suspense fallback={<RouteLoadingFallback />}>
+          <StorefrontApp />
+        </Suspense>
+      }
+    >
       <Route index element={<HomePage />} />
       <Route path="browse" element={<BrowsePage />} />
       <Route path="category/:slug" element={<CategoryPage />} />
@@ -83,7 +106,9 @@ export const routes = createRoutesFromElements(
       path="admin"
       element={
         <RequireAdmin>
-          <AdminApp />
+          <Suspense fallback={<RouteLoadingFallback />}>
+            <AdminApp />
+          </Suspense>
         </RequireAdmin>
       }
     >

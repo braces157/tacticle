@@ -1,5 +1,4 @@
 import type {
-  AuthSession,
   AuthUser,
   CartItem,
   CheckoutDraft,
@@ -19,7 +18,7 @@ import type {
   ProfileService,
   SearchService,
 } from "./interfaces";
-import { apiBaseUrl, apiRequest } from "./apiClient";
+import { apiRequest } from "./apiClient";
 import {
   clearStoredSession,
   getStoredSessionUser,
@@ -116,15 +115,10 @@ export const cartService: CartService = {
 
 export const authService: AuthService = {
   async getCurrentUser() {
-    const currentUser = getStoredSessionUser();
-    if (!currentUser) {
-      return null;
-    }
-
     const remoteUser = await apiRequest<AuthUser>(
       "/auth/me",
       undefined,
-      { allow404: true },
+      { allow401: true, allow404: true },
     );
 
     if (!remoteUser) {
@@ -132,43 +126,34 @@ export const authService: AuthService = {
       return null;
     }
 
-    const currentSession = readJson<AuthSession | null>("tactile.session", null);
-    if (currentSession?.token) {
-      writeStoredSession({ token: currentSession.token, user: remoteUser });
-    }
+    writeStoredSession(remoteUser);
     return remoteUser;
   },
   async login(email, password) {
-    const session = await apiRequest<AuthSession>("/auth/login", {
+    const user = await apiRequest<AuthUser>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
 
-    writeStoredSession(session as AuthSession);
-    return (session as AuthSession).user;
+    writeStoredSession(user as AuthUser);
+    return user as AuthUser;
   },
   async register(name, email, password) {
-    const session = await apiRequest<AuthSession>("/auth/register", {
+    const user = await apiRequest<AuthUser>("/auth/register", {
       method: "POST",
       body: JSON.stringify({ name, email, password }),
     });
 
-    writeStoredSession(session as AuthSession);
-    return (session as AuthSession).user;
+    writeStoredSession(user as AuthUser);
+    return user as AuthUser;
   },
-  async completeOAuthLogin(token) {
-    const response = await fetch(`${apiBaseUrl}/auth/me`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!response.ok) {
+  async completeOAuthLogin() {
+    const user = await apiRequest<AuthUser>("/auth/me", undefined, { allow401: true });
+    if (!user) {
       throw new Error("Unable to complete Google sign-in.");
     }
 
-    const user = (await response.json()) as AuthUser;
-    writeStoredSession({ token, user });
+    writeStoredSession(user);
     return user;
   },
   async logout() {
@@ -184,15 +169,10 @@ export const authService: AuthService = {
       body: JSON.stringify({ email }),
     });
   },
-  async changePassword(password) {
-    const currentUser = getStoredSessionUser();
-    if (!currentUser) {
-      throw new Error("You need to be signed in to change your password.");
-    }
-
+  async changePassword(currentPassword, password) {
     await apiRequest("/auth/change-password", {
       method: "POST",
-      body: JSON.stringify({ password }),
+      body: JSON.stringify({ currentPassword, password }),
     });
   },
 };

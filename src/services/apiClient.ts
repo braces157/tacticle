@@ -1,7 +1,8 @@
-import { clearStoredSession, getStoredAuthToken } from "./authStorage";
+import { clearStoredSession } from "./authStorage";
 
 type RequestOptions = {
   allow404?: boolean;
+  allow401?: boolean;
 };
 
 const defaultBaseUrl = "http://localhost:8081/api";
@@ -45,7 +46,6 @@ export async function apiRequest<T>(
   init?: RequestInit,
   options?: RequestOptions,
 ): Promise<T | null> {
-  const token = getStoredAuthToken();
   const headers = new Headers(init?.headers);
   const isFormDataRequest =
     typeof FormData !== "undefined" && init?.body instanceof FormData;
@@ -53,16 +53,17 @@ export async function apiRequest<T>(
   if (!isFormDataRequest && !headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
-  if (token && !headers.has("Authorization")) {
-    headers.set("Authorization", `Bearer ${token}`);
-  }
-
   const response = await fetch(buildUrl(path), {
     ...init,
     headers,
+    credentials: "include",
   });
 
   if (options?.allow404 && response.status === 404) {
+    return null;
+  }
+
+  if (options?.allow401 && response.status === 401) {
     return null;
   }
 

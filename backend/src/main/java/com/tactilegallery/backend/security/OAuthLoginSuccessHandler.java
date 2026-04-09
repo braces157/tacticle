@@ -20,10 +20,16 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
 
     private final AuthService authService;
     private final AppFrontendProperties frontendProperties;
+    private final AuthCookieService authCookieService;
 
-    public OAuthLoginSuccessHandler(AuthService authService, AppFrontendProperties frontendProperties) {
+    public OAuthLoginSuccessHandler(
+        AuthService authService,
+        AppFrontendProperties frontendProperties,
+        AuthCookieService authCookieService
+    ) {
         this.authService = authService;
         this.frontendProperties = frontendProperties;
+        this.authCookieService = authCookieService;
     }
 
     @Override
@@ -35,12 +41,19 @@ public class OAuthLoginSuccessHandler implements AuthenticationSuccessHandler {
         OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
 
         try {
+            if (!Boolean.TRUE.equals(oauthUser.getAttribute("email_verified"))) {
+                throw new ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST,
+                    "Google account email must be verified."
+                );
+            }
+
             DomainModels.AuthSession session = authService.loginWithGoogle(
                 attribute(oauthUser, "email"),
                 attribute(oauthUser, "name")
             );
-            String token = UriUtils.encode(session.token(), StandardCharsets.UTF_8);
-            response.sendRedirect(frontendCallbackUrl() + "#token=" + token);
+            authCookieService.writeSessionCookie(response, session.token());
+            response.sendRedirect(frontendCallbackUrl());
         } catch (ResponseStatusException exception) {
             String error = UriUtils.encode(exception.getReason(), StandardCharsets.UTF_8);
             response.sendRedirect(frontendLoginUrl() + "?oauthError=" + error);

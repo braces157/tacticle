@@ -44,10 +44,10 @@ export interface AuthService {
   getCurrentUser(): Promise<AuthUser | null>;
   login(email: string, password: string): Promise<AuthUser>;
   register(name: string, email: string, password: string): Promise<AuthUser>;
-  completeOAuthLogin(token: string): Promise<AuthUser>;
+  completeOAuthLogin(): Promise<AuthUser>;
   logout(): Promise<void>;
   requestPasswordReset(email: string): Promise<void>;
-  changePassword(password: string): Promise<void>;
+  changePassword(currentPassword: string, password: string): Promise<void>;
 }
 
 export interface ProfileService {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/AsyncState";
-import { Button } from "../components/ui/Button";
+import { Button, buttonClassName } from "../components/ui/Button";
 import { ProductCard } from "../components/ui/ProductCard";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { catalogService, searchService } from "../services/storefrontApi";
@@ -33,6 +33,8 @@ export function SearchPage() {
   const [visibleCount, setVisibleCount] = useState(initialVisibleCount);
 
   useEffect(() => {
+    let cancelled = false;
+
     setError(false);
     setResults(null);
     setVisibleCount(initialVisibleCount);
@@ -43,6 +45,10 @@ export function SearchPage() {
       catalogService.listFeaturedProducts(),
     ])
       .then(([categoryData, productResults, featured]) => {
+        if (cancelled) {
+          return;
+        }
+
         setCategories(categoryData);
         setResults(productResults);
         setCurated(featured);
@@ -53,7 +59,15 @@ export function SearchPage() {
         setMinPrice(bounds.min);
         setMaxPrice(bounds.max);
       })
-      .catch(() => setError(true));
+      .catch(() => {
+        if (!cancelled) {
+          setError(true);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
   }, [query]);
 
   if (error) {
@@ -270,11 +284,11 @@ export function SearchPage() {
               Try a broader material term, collection name, or browse the curated alternatives below.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link to="/browse">
-                <Button>Browse full gallery</Button>
+              <Link to="/browse" className={buttonClassName()}>
+                Browse full gallery
               </Link>
-              <Link to="/search?q=tactile">
-                <Button variant="secondary">Try a broader search</Button>
+              <Link to="/search?q=tactile" className={buttonClassName("secondary")}>
+                Try a broader search
               </Link>
             </div>
           </div>

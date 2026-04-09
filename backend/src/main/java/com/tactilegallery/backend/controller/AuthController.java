@@ -2,8 +2,10 @@ package com.tactilegallery.backend.controller;
 
 import com.tactilegallery.backend.dto.ApiRequests;
 import com.tactilegallery.backend.model.DomainModels;
+import com.tactilegallery.backend.security.AuthCookieService;
 import com.tactilegallery.backend.service.AuthService;
 import jakarta.validation.Valid;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final AuthService authService;
+    private final AuthCookieService authCookieService;
 
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, AuthCookieService authCookieService) {
         this.authService = authService;
+        this.authCookieService = authCookieService;
     }
 
     @GetMapping("/me")
@@ -28,14 +32,24 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public DomainModels.AuthSession login(@Valid @RequestBody ApiRequests.LoginRequest request) {
-        return authService.login(request);
+    public DomainModels.AuthUser login(
+        @Valid @RequestBody ApiRequests.LoginRequest request,
+        HttpServletResponse response
+    ) {
+        DomainModels.AuthSession session = authService.login(request);
+        authCookieService.writeSessionCookie(response, session.token());
+        return session.user();
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public DomainModels.AuthSession register(@Valid @RequestBody ApiRequests.RegisterRequest request) {
-        return authService.register(request);
+    public DomainModels.AuthUser register(
+        @Valid @RequestBody ApiRequests.RegisterRequest request,
+        HttpServletResponse response
+    ) {
+        DomainModels.AuthSession session = authService.register(request);
+        authCookieService.writeSessionCookie(response, session.token());
+        return session.user();
     }
 
     @PostMapping("/password-reset")
@@ -46,7 +60,8 @@ public class AuthController {
 
     @PostMapping("/logout")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void logout() {
+    public void logout(HttpServletResponse response) {
+        authCookieService.clearSessionCookie(response);
     }
 
     @PostMapping("/change-password")

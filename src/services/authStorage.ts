@@ -1,6 +1,7 @@
-import type { AuthSession, AuthUser } from "../types/domain";
+import type { AuthUser } from "../types/domain";
 
 const sessionKey = "tactile.session";
+const postAuthRedirectKey = "tactile.post-auth-redirect";
 
 function readJson<T>(key: string, fallback: T): T {
   if (typeof window === "undefined" || typeof window.localStorage?.getItem !== "function") {
@@ -27,28 +28,12 @@ function writeJson(key: string, value: unknown) {
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function readStoredSession(): AuthSession | null {
-  const value = readJson<AuthSession | AuthUser | null>(sessionKey, null);
-  if (!value) {
-    return null;
-  }
-
-  if ("token" in value && "user" in value) {
-    return value;
-  }
-
-  if ("id" in value && "email" in value) {
-    return {
-      token: "",
-      user: value,
-    };
-  }
-
-  return null;
+export function readStoredSession(): AuthUser | null {
+  return readJson<AuthUser | null>(sessionKey, null);
 }
 
-export function writeStoredSession(session: AuthSession) {
-  writeJson(sessionKey, session);
+export function writeStoredSession(user: AuthUser) {
+  writeJson(sessionKey, user);
 }
 
 export function clearStoredSession() {
@@ -60,21 +45,29 @@ export function clearStoredSession() {
 }
 
 export function updateStoredSessionUser(user: AuthUser) {
-  const current = readStoredSession();
-  if (!current) {
-    return;
+  if (readStoredSession()) {
+    writeStoredSession(user);
   }
-
-  writeStoredSession({
-    token: current.token,
-    user,
-  });
-}
-
-export function getStoredAuthToken() {
-  return readStoredSession()?.token ?? null;
 }
 
 export function getStoredSessionUser() {
-  return readStoredSession()?.user ?? null;
+  return readStoredSession();
+}
+
+export function storePostAuthRedirect(path: string) {
+  if (typeof window === "undefined" || typeof window.sessionStorage?.setItem !== "function") {
+    return;
+  }
+
+  window.sessionStorage.setItem(postAuthRedirectKey, path);
+}
+
+export function consumePostAuthRedirect(fallback: string) {
+  if (typeof window === "undefined" || typeof window.sessionStorage?.getItem !== "function") {
+    return fallback;
+  }
+
+  const storedPath = window.sessionStorage.getItem(postAuthRedirectKey);
+  window.sessionStorage.removeItem(postAuthRedirectKey);
+  return storedPath || fallback;
 }

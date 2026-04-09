@@ -569,7 +569,7 @@ public class AdminService {
     }
 
     private BigDecimal parsePrice(String value) {
-        return new BigDecimal(value.trim());
+        return parseBigDecimal(value, "product price");
     }
 
     private String formatMoney(double value) {
@@ -577,7 +577,7 @@ public class AdminService {
     }
 
     private int parseInteger(String value) {
-        return Integer.parseInt(value.trim());
+        return parseInteger(value, "product stock");
     }
 
     private String defaultDescription(DomainModels.AdminDraftProduct draft) {
@@ -820,7 +820,58 @@ public class AdminService {
 
     private double parsePriceDelta(String value) {
         String normalized = trimToEmpty(value);
-        return normalized.isBlank() ? 0 : Double.parseDouble(normalized);
+        if (normalized.isBlank()) {
+            return 0;
+        }
+
+        try {
+            return Double.parseDouble(normalized);
+        } catch (NumberFormatException exception) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Invalid price delta: " + value
+            );
+        }
+    }
+
+    private BigDecimal parseBigDecimal(String value, String fieldName) {
+        String normalized = trimToEmpty(value);
+        if (normalized.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, capitalize(fieldName) + " is required.");
+        }
+
+        try {
+            return new BigDecimal(normalized);
+        } catch (NumberFormatException exception) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Invalid " + fieldName + ": " + value
+            );
+        }
+    }
+
+    private int parseInteger(String value, String fieldName) {
+        String normalized = trimToEmpty(value);
+        if (normalized.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, capitalize(fieldName) + " is required.");
+        }
+
+        try {
+            return Integer.parseInt(normalized);
+        } catch (NumberFormatException exception) {
+            throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Invalid " + fieldName + ": " + value
+            );
+        }
+    }
+
+    private String capitalize(String value) {
+        if (value == null || value.isBlank()) {
+            return "";
+        }
+
+        return Character.toUpperCase(value.charAt(0)) + value.substring(1);
     }
 
     private String normalizedKey(String preferred, String fallback, int index) {

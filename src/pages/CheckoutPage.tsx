@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EmptyState } from "../components/ui/AsyncState";
-import { Button } from "../components/ui/Button";
+import { Button, buttonClassName } from "../components/ui/Button";
 import { InputField } from "../components/ui/InputField";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { useCart } from "../context/CartContext";
@@ -299,8 +299,8 @@ export function CheckoutPage() {
             <Button type="submit" disabled={submitting}>
               {submitting ? "Submitting…" : "Place order"}
             </Button>
-            <Link to="/cart">
-              <Button variant="secondary">Return to cart</Button>
+            <Link to="/cart" className={buttonClassName("secondary")}>
+              Return to cart
             </Link>
           </div>
           {submitError ? <p className="text-sm text-[var(--color-error)]">{submitError}</p> : null}

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Button } from "./Button";
+import { buttonClassName } from "./Button";
 
 export function LoadingState({ label = "Loading…" }: { label?: string }) {
   return (
@@ -27,8 +27,8 @@ export function EmptyState({
         {body}
       </p>
       {actionHref && actionLabel ? (
-        <Link to={actionHref} className="mt-6 inline-flex">
-          <Button>{actionLabel}</Button>
+        <Link to={actionHref} className={["mt-6 inline-flex", buttonClassName()].join(" ")}>
+          {actionLabel}
         </Link>
       ) : null}
     </div>

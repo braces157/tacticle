@@ -30,7 +30,11 @@ type CartContextValue = {
 const CartContext = createContext<CartContextValue | null>(null);
 
 function createCartId(productSlug: string, selectedOptions: Record<string, string>) {
-  return `${productSlug}-${Object.values(selectedOptions).join("-")}`;
+  const normalizedOptions = Object.entries(selectedOptions).sort(([leftKey], [rightKey]) =>
+    leftKey.localeCompare(rightKey),
+  );
+
+  return `${productSlug}:${JSON.stringify(normalizedOptions)}`;
 }
 
 function copyImage(image: ImageAsset): ImageAsset {
@@ -38,12 +42,8 @@ function copyImage(image: ImageAsset): ImageAsset {
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>([]);
+  const [items, setItems] = useState<CartItem[]>(() => cartService.loadCart());
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  useEffect(() => {
-    setItems(cartService.loadCart());
-  }, []);
 
   useEffect(() => {
     cartService.saveCart(items);

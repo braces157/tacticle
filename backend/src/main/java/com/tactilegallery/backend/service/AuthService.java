@@ -142,9 +142,7 @@ public class AuthService {
 
     @Transactional(readOnly = true)
     public void requestPasswordReset(ApiRequests.PasswordResetRequest request) {
-        if (!appUserRepository.existsByEmailIgnoreCase(request.email())) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "We couldn't find an account with that email.");
-        }
+        appUserRepository.existsByEmailIgnoreCase(request.email());
     }
 
     @Transactional
@@ -154,6 +152,15 @@ public class AuthService {
                 HttpStatus.NOT_FOUND,
                 "You need to be signed in to change your password."
             ));
+
+        String storedPassword = user.getPasswordHash();
+        boolean matches = isBcryptHash(storedPassword)
+            ? passwordEncoder.matches(request.currentPassword(), storedPassword)
+            : storedPassword.equals(request.currentPassword());
+
+        if (!matches) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Current password is incorrect.");
+        }
 
         user.setPasswordHash(passwordEncoder.encode(request.password()));
     }

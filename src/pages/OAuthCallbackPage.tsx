@@ -1,11 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSession } from "../context/SessionContext";
-
-function readTokenFromHash() {
-  const params = new URLSearchParams(window.location.hash.replace(/^#/, ""));
-  return params.get("token");
-}
+import { consumePostAuthRedirect } from "../services/authStorage";
 
 export function OAuthCallbackPage() {
   const navigate = useNavigate();
@@ -13,15 +9,9 @@ export function OAuthCallbackPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const token = readTokenFromHash();
-    if (!token) {
-      setError("Google sign-in did not return a session token.");
-      return;
-    }
-
-    completeOAuthLogin(token)
+    completeOAuthLogin()
       .then(() => {
-        navigate("/profile", { replace: true });
+        navigate(consumePostAuthRedirect("/profile"), { replace: true });
       })
       .catch((submissionError) => {
         setError(

@@ -6,6 +6,7 @@ import { useSession } from "../context/SessionContext";
 
 export function ChangePasswordPage() {
   const { changePassword } = useSession();
+  const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
@@ -15,8 +16,9 @@ export function ChangePasswordPage() {
     setError("");
 
     try {
-      await changePassword(password);
+      await changePassword(currentPassword, password);
       setSaved(true);
+      setCurrentPassword("");
       setPassword("");
     } catch (submissionError) {
       setSaved(false);
@@ -35,6 +37,12 @@ export function ChangePasswordPage() {
       description="A quiet, minimal account surface that can later be bound to Spring Security without restructuring the page."
     >
       <form className="space-y-5" onSubmit={handleSubmit}>
+        <InputField
+          label="Current password"
+          type="password"
+          value={currentPassword}
+          onChange={(event) => setCurrentPassword(event.target.value)}
+        />
         <InputField label="New password" type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
         <Button type="submit">Save password</Button>
       </form>

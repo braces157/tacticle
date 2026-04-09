@@ -147,7 +147,7 @@ public final class DomainModels {
         @NotBlank String productName,
         @Valid @NotNull ImageAsset image,
         double price,
-        int quantity,
+        @Min(1) int quantity,
         @NotNull Map<String, String> selectedOptions
     ) {
     }

@@ -15,7 +15,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     Optional<OrderEntity> findByOrderNumber(String orderNumber);
 
-    Optional<OrderEntity> findTopByOrderByIdDesc();
+    @Query(value = "select next value for dbo.order_number_sequence", nativeQuery = true)
+    Long nextOrderNumberValue();
 
     @Query("""
         select case when count(orderItem) > 0 then true else false end

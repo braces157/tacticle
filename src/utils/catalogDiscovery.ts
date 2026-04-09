@@ -2,7 +2,7 @@ import type { Category, ProductSummary } from "../types/domain";
 
 export type CatalogSort = "curated" | "price-asc" | "price-desc" | "name-asc";
 
-export type CatalogFilters = {
+type CatalogFilters = {
   categorySlug: string;
   material: string;
   minPrice: number;

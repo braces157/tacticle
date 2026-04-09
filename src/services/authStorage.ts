@@ -28,7 +28,7 @@ function writeJson(key: string, value: unknown) {
   window.localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function readStoredSession(): AuthUser | null {
+function readStoredSession(): AuthUser | null {
   return readJson<AuthUser | null>(sessionKey, null);
 }
 

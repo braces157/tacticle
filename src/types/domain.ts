@@ -130,11 +130,6 @@ export type AuthUser = {
   role: "customer" | "admin";
 };
 
-export type AuthSession = {
-  token: string;
-  user: AuthUser;
-};
-
 export type UserProfile = UserProfileDraft & {
   userId: string;
 };

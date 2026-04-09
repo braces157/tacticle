@@ -161,11 +161,6 @@ export async function rejectAdminProductReview(reviewId: string, note?: string) 
   })) as ProductReview;
 }
 
-export async function getAdminHeroImage() {
-  const response = await apiRequest<{ src: string }>("/admin/hero-image");
-  return response?.src ?? "";
-}
-
 export async function getAdminOrders() {
   return (await apiRequest<AdminOrderRecord[]>("/admin/orders")) ?? [];
 }

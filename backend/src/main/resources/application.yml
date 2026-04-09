@@ -22,6 +22,17 @@ spring:
   flyway:
     placeholders:
       demoAccountsEnabled: ${APP_DEMO_ACCOUNTS_ENABLED:false}
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 management:
   endpoints:
@@ -41,6 +52,10 @@ app:
   frontend:
     base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
     oauth-callback-path: ${FRONTEND_OAUTH_CALLBACK_PATH:/auth/callback}
+  mail:
+    enabled: ${APP_MAIL_ENABLED:true}
+    from: ${MAIL_FROM:${MAIL_USERNAME:}}
+    from-name: ${APP_MAIL_FROM_NAME:Tactile Gallery}
   jwt:
     secret: ${JWT_SECRET}
     issuer: ${JWT_ISSUER:tactile-gallery-backend}

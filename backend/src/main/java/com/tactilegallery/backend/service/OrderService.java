@@ -36,6 +36,7 @@ public class OrderService {
     private final SqlDomainMapper mapper;
     private final ObjectMapper objectMapper;
     private final CurrentUserService currentUserService;
+    private final EmailNotificationSender emailNotificationService;
 
     public OrderService(
         AppUserRepository appUserRepository,
@@ -43,7 +44,8 @@ public class OrderService {
         OrderRepository orderRepository,
         SqlDomainMapper mapper,
         ObjectMapper objectMapper,
-        CurrentUserService currentUserService
+        CurrentUserService currentUserService,
+        EmailNotificationSender emailNotificationService
     ) {
         this.appUserRepository = appUserRepository;
         this.productRepository = productRepository;
@@ -51,6 +53,7 @@ public class OrderService {
         this.mapper = mapper;
         this.objectMapper = objectMapper;
         this.currentUserService = currentUserService;
+        this.emailNotificationService = emailNotificationService;
     }
 
     @Transactional
@@ -119,7 +122,9 @@ public class OrderService {
 
         OrderEntity saved = orderRepository.save(order);
         touchedProducts.sort(Comparator.comparing(ProductEntity::getId));
-        return mapper.toOrderDetail(saved);
+        DomainModels.OrderDetail detail = mapper.toOrderDetail(saved);
+        emailNotificationService.sendOrderConfirmation(detail);
+        return detail;
     }
 
     private String nextOrderNumber() {

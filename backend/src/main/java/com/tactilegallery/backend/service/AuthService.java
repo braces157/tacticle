@@ -26,19 +26,22 @@ public class AuthService {
     private final JwtService jwtService;
     private final CurrentUserService currentUserService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailNotificationSender emailNotificationService;
 
     public AuthService(
         AppUserRepository appUserRepository,
         SqlDomainMapper mapper,
         JwtService jwtService,
         CurrentUserService currentUserService,
-        PasswordEncoder passwordEncoder
+        PasswordEncoder passwordEncoder,
+        EmailNotificationSender emailNotificationService
     ) {
         this.appUserRepository = appUserRepository;
         this.mapper = mapper;
         this.jwtService = jwtService;
         this.currentUserService = currentUserService;
         this.passwordEncoder = passwordEncoder;
+        this.emailNotificationService = emailNotificationService;
     }
 
     @Transactional(readOnly = true)
@@ -85,6 +88,7 @@ public class AuthService {
             request.email().trim().toLowerCase(),
             passwordEncoder.encode(request.password())
         ));
+        emailNotificationService.sendRegistrationConfirmation(saved);
         return new DomainModels.AuthSession(jwtService.issueToken(saved), mapper.toAuthUser(saved));
     }
 

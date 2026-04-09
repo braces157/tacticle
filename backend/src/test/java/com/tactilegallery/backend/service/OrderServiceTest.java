@@ -47,6 +47,9 @@ class OrderServiceTest {
     @Mock
     private OrderRepository orderRepository;
 
+    @Mock
+    private EmailNotificationSender emailNotificationService;
+
     private CurrentUserService currentUserService;
 
     private OrderService orderService;
@@ -60,7 +63,8 @@ class OrderServiceTest {
             orderRepository,
             new SqlDomainMapper(new ObjectMapper()),
             new ObjectMapper(),
-            currentUserService
+            currentUserService,
+            emailNotificationService
         );
     }
 
@@ -98,6 +102,7 @@ class OrderServiceTest {
         assertEquals(2, savedItem.getQuantity());
         assertEquals(0, savedItem.getUnitPrice().compareTo(BigDecimal.valueOf(450)));
         assertEquals(900.0, detail.total(), 0.0001);
+        verify(emailNotificationService).sendOrderConfirmation(detail);
     }
 
     @Test

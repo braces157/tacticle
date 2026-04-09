@@ -18,10 +18,12 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import static org.mockito.Mockito.verify;
 
 class AuthServiceTest {
 
     private final AppUserRepository appUserRepository = mock(AppUserRepository.class);
+    private final EmailNotificationSender emailNotificationService = mock(EmailNotificationSender.class);
     private final SqlDomainMapper mapper = new SqlDomainMapper(new ObjectMapper());
     private final JwtService jwtService = new JwtService(jwtProperties());
     private final CurrentUserService currentUserService = new CurrentUserService();
@@ -31,7 +33,8 @@ class AuthServiceTest {
         mapper,
         jwtService,
         currentUserService,
-        passwordEncoder
+        passwordEncoder,
+        emailNotificationService
     );
 
     @Test
@@ -53,6 +56,7 @@ class AuthServiceTest {
         assertThat(passwordEncoder.matches("secret123", savedUser.getPasswordHash())).isTrue();
         assertThat(savedUser.getProfile()).isNotNull();
         assertThat(savedUser.getProfile().getMembership()).isEqualTo("Gallery Member");
+        verify(emailNotificationService).sendRegistrationConfirmation(savedUser);
     }
 
     @Test

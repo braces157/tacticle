@@ -6,6 +6,7 @@ import com.tactilegallery.backend.config.AppAuthProperties;
 import com.tactilegallery.backend.config.AppFrontendProperties;
 import com.tactilegallery.backend.config.AppJwtProperties;
 import com.tactilegallery.backend.model.DomainModels;
+import com.tactilegallery.backend.service.EmailNotificationSender;
 import com.tactilegallery.backend.service.AuthService;
 import java.util.List;
 import java.util.Map;
@@ -142,7 +143,7 @@ class OAuthLoginSuccessHandlerTest {
         private String name;
 
         private StubAuthService(DomainModels.AuthSession session) {
-            super(null, null, null, null, null);
+            super(null, null, null, null, null, (EmailNotificationSender) null);
             this.session = session;
         }
 

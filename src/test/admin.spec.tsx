@@ -27,9 +27,9 @@ test("renders the admin dashboard and navigates to inventory edit", async () => 
 
   await userEvent.click(screen.getByRole("link", { name: /Customers/i }));
   expect(await screen.findByRole("heading", { name: /^Customers$/i })).toBeInTheDocument();
-  await userEvent.clear(screen.getByRole("textbox", { name: /^Name$/i }));
+  await userEvent.clear(await screen.findByRole("textbox", { name: /^Name$/i }));
   await userEvent.type(screen.getByRole("textbox", { name: /^Name$/i }), "Atelier Member Updated");
-  await userEvent.clear(screen.getByRole("textbox", { name: /^Phone$/i }));
+  await userEvent.clear(await screen.findByRole("textbox", { name: /^Phone$/i }));
   await userEvent.type(screen.getByRole("textbox", { name: /^Phone$/i }), "+66 88 000 1234");
   await userEvent.selectOptions(screen.getByRole("combobox", { name: /account status/i }), "Inactive");
   await userEvent.click(screen.getByRole("button", { name: /Save customer/i }));

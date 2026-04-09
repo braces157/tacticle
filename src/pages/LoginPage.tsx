@@ -1,18 +1,23 @@
-import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { AuthFormLayout } from "../components/layout/AuthFormLayout";
 import { Button } from "../components/ui/Button";
+import { buttonClassName } from "../components/ui/Button";
 import { InputField } from "../components/ui/InputField";
 import { useSession } from "../context/SessionContext";
+import { apiBaseUrl } from "../services/apiClient";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { login } = useSession();
   const [email, setEmail] = useState("member@tactile.gallery");
   const [password, setPassword] = useState("quiet");
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const oauthError = searchParams.get("oauthError") ?? "";
+  const googleLoginUrl = useMemo(() => `${apiBaseUrl.replace(/\/api$/, "")}/oauth2/authorization/google`, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -45,8 +50,13 @@ export function LoginPage() {
         <Button type="submit" disabled={submitting}>
           {submitting ? "Signing in…" : "Enter the gallery"}
         </Button>
+        <a href={googleLoginUrl} className={buttonClassName("secondary")}>
+          Continue with Google
+        </a>
       </form>
-      {error ? <p className="mt-4 text-sm text-[var(--color-error)]">{error}</p> : null}
+      {error || oauthError ? (
+        <p className="mt-4 text-sm text-[var(--color-error)]">{error || oauthError}</p>
+      ) : null}
       <div className="mt-6 flex flex-wrap gap-4 text-sm text-[var(--color-muted)]">
         <Link to="/forgot-password">Forgot password</Link>
         <Link to="/register">Create an account</Link>

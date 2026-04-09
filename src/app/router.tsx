@@ -26,6 +26,7 @@ import { LoginPage } from "../pages/LoginPage";
 import { NotFoundPage } from "../pages/NotFoundPage";
 import { OrderDetailPage } from "../pages/OrderDetailPage";
 import { OrderHistoryPage } from "../pages/OrderHistoryPage";
+import { OAuthCallbackPage } from "../pages/OAuthCallbackPage";
 import { ProductPage } from "../pages/ProductPage";
 import { ProfilePage } from "../pages/ProfilePage";
 import { RegisterPage } from "../pages/RegisterPage";
@@ -42,6 +43,7 @@ export const routes = createRoutesFromElements(
       <Route path="cart" element={<CartPage />} />
       <Route path="checkout" element={<CheckoutPage />} />
       <Route path="login" element={<LoginPage />} />
+      <Route path="auth/callback" element={<OAuthCallbackPage />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="forgot-password" element={<ForgotPasswordPage />} />
       <Route

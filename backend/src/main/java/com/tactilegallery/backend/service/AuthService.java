@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -24,17 +25,20 @@ public class AuthService {
     private final SqlDomainMapper mapper;
     private final JwtService jwtService;
     private final CurrentUserService currentUserService;
+    private final PasswordEncoder passwordEncoder;
 
     public AuthService(
         AppUserRepository appUserRepository,
         SqlDomainMapper mapper,
         JwtService jwtService,
-        CurrentUserService currentUserService
+        CurrentUserService currentUserService,
+        PasswordEncoder passwordEncoder
     ) {
         this.appUserRepository = appUserRepository;
         this.mapper = mapper;
         this.jwtService = jwtService;
         this.currentUserService = currentUserService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -45,13 +49,26 @@ public class AuthService {
             .orElse(null);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public DomainModels.AuthSession login(ApiRequests.LoginRequest request) {
         AppUserEntity user = appUserRepository.findByEmailIgnoreCase(request.email())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password."));
 
-        if (!user.isEnabled() || !user.getPasswordHash().equals(request.password())) {
+        if (!user.isEnabled()) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
+        }
+
+        String storedPassword = user.getPasswordHash();
+        boolean matches = isBcryptHash(storedPassword)
+            ? passwordEncoder.matches(request.password(), storedPassword)
+            : storedPassword.equals(request.password());
+
+        if (!matches) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
+        }
+
+        if (!isBcryptHash(storedPassword)) {
+            user.setPasswordHash(passwordEncoder.encode(request.password()));
         }
 
         return new DomainModels.AuthSession(jwtService.issueToken(user), mapper.toAuthUser(user));
@@ -63,12 +80,39 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "An account with this email already exists.");
         }
 
+        AppUserEntity saved = appUserRepository.save(newUser(
+            request.name().trim(),
+            request.email().trim().toLowerCase(),
+            passwordEncoder.encode(request.password())
+        ));
+        return new DomainModels.AuthSession(jwtService.issueToken(saved), mapper.toAuthUser(saved));
+    }
+
+    @Transactional
+    public DomainModels.AuthSession loginWithGoogle(String email, String name) {
+        String normalizedEmail = email.trim().toLowerCase();
+        AppUserEntity user = appUserRepository.findByEmailIgnoreCase(normalizedEmail)
+            .map(existing -> updateOAuthUser(existing, name))
+            .orElseGet(() -> appUserRepository.save(newUser(
+                name.trim(),
+                normalizedEmail,
+                passwordEncoder.encode(UUID.randomUUID().toString())
+            )));
+
+        if (!user.isEnabled()) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "This account is disabled.");
+        }
+
+        return new DomainModels.AuthSession(jwtService.issueToken(user), mapper.toAuthUser(user));
+    }
+
+    private AppUserEntity newUser(String name, String email, String passwordHash) {
         LocalDateTime now = LocalDateTime.now();
         AppUserEntity user = new AppUserEntity();
         user.setExternalId("user-" + UUID.randomUUID());
-        user.setName(request.name().trim());
-        user.setEmail(request.email().trim().toLowerCase());
-        user.setPasswordHash(request.password());
+        user.setName(name);
+        user.setEmail(email);
+        user.setPasswordHash(passwordHash);
         user.setRole("customer");
         user.setEnabled(true);
         user.setCreatedAt(now);
@@ -86,8 +130,14 @@ public class AuthService {
         )));
 
         user.setProfile(profile);
-        AppUserEntity saved = appUserRepository.save(user);
-        return new DomainModels.AuthSession(jwtService.issueToken(saved), mapper.toAuthUser(saved));
+        return user;
+    }
+
+    private AppUserEntity updateOAuthUser(AppUserEntity user, String name) {
+        if (!name.isBlank()) {
+            user.setName(name.trim());
+        }
+        return user;
     }
 
     @Transactional(readOnly = true)
@@ -105,7 +155,7 @@ public class AuthService {
                 "You need to be signed in to change your password."
             ));
 
-        user.setPasswordHash(request.password());
+        user.setPasswordHash(passwordEncoder.encode(request.password()));
     }
 
     private UserPreferenceEntity preference(UserProfileEntity profile, String text, int sortOrder) {
@@ -114,5 +164,10 @@ public class AuthService {
         preference.setPreferenceText(text);
         preference.setSortOrder(sortOrder);
         return preference;
+    }
+
+    private boolean isBcryptHash(String value) {
+        return value != null
+            && (value.startsWith("$2a$") || value.startsWith("$2b$") || value.startsWith("$2y$"));
     }
 }

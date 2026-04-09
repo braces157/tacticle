@@ -19,7 +19,7 @@ import type {
   ProfileService,
   SearchService,
 } from "./interfaces";
-import { apiRequest } from "./apiClient";
+import { apiBaseUrl, apiRequest } from "./apiClient";
 import {
   clearStoredSession,
   getStoredSessionUser,
@@ -155,6 +155,21 @@ export const authService: AuthService = {
 
     writeStoredSession(session as AuthSession);
     return (session as AuthSession).user;
+  },
+  async completeOAuthLogin(token) {
+    const response = await fetch(`${apiBaseUrl}/auth/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Unable to complete Google sign-in.");
+    }
+
+    const user = (await response.json()) as AuthUser;
+    writeStoredSession({ token, user });
+    return user;
   },
   async logout() {
     try {

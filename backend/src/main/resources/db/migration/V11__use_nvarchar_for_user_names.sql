@@ -1,0 +1,5 @@
+ALTER TABLE dbo.app_users
+ALTER COLUMN name NVARCHAR(200) NOT NULL;
+
+ALTER TABLE dbo.orders
+ALTER COLUMN customer_name NVARCHAR(200) NOT NULL;

@@ -20,3 +20,4 @@ coverage/
 backend/target/
 backend/uploads/
 backend/.idea/
+backend/secrets.properties

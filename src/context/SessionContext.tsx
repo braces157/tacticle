@@ -15,6 +15,7 @@ type SessionContextValue = {
   loading: boolean;
   login(email: string, password: string): Promise<AuthUser>;
   register(name: string, email: string, password: string): Promise<AuthUser>;
+  completeOAuthLogin(token: string): Promise<AuthUser>;
   logout(): Promise<void>;
   requestPasswordReset(email: string): Promise<void>;
   changePassword(password: string): Promise<void>;
@@ -53,6 +54,12 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     return currentUser;
   }
 
+  async function completeOAuthLogin(token: string) {
+    const currentUser = await authService.completeOAuthLogin(token);
+    setUser(currentUser);
+    return currentUser;
+  }
+
   async function logout() {
     await authService.logout();
     setUser(null);
@@ -78,6 +85,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         loading,
         login,
         register,
+        completeOAuthLogin,
         logout,
         requestPasswordReset,
         changePassword,

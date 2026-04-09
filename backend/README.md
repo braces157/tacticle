@@ -34,20 +34,21 @@ If you want a different port inside IntelliJ, add:
 
 ## SQL Server setup
 
-You provided:
+Configure SQL Server through environment variables or the ignored local `secrets.properties` file.
 
-- Port: `1433`
-- Username: `sa`
-- Password: `tnimwiln1@`
+Required connection values:
 
-I checked your Docker container `worshop-db-1` and found the rest of the connection details:
+- Host
+- Port
+- Database
+- Username
+- Password
+- JWT secret
 
-- Host: `localhost`
-- Database: `WorshopV2`
-- Encrypt: `true`
-- Trust server certificate: `true`
+Optional local-development values:
 
-I wired those into the optional SQL Server profile in [application-sqlserver.yml](C:\Users\PC\Downloads\Worshopv2\backend\src\main\resources\application-sqlserver.yml) using environment-variable overrides.
+- `APP_DEMO_ACCOUNTS_ENABLED=true`
+- `DB_TRUST_SERVER_CERTIFICATE=true`
 
 Run with SQL Server profile:
 
@@ -59,12 +60,12 @@ mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 Optional overrides:
 
 ```bash
-set DB_HOST=localhost
-set DB_NAME=WorshopV2
+set DB_HOST=your_sqlserver_host
+set DB_NAME=your_database_name
 set DB_PORT=1433
-set DB_USERNAME=sa
-set DB_PASSWORD=tnimwiln1@
-set JWT_SECRET=replace-with-a-long-random-secret
+set DB_USERNAME=your_database_username
+set DB_PASSWORD=your_database_password
+set JWT_SECRET=your_base64_or_long_random_jwt_secret
 set APP_DEMO_ACCOUNTS_ENABLED=true
 mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 ```

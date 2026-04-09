@@ -85,12 +85,12 @@ The backend runs by default at `http://localhost:8081` and uses the `sqlserver` 
 The backend reads configuration from environment variables:
 
 ```bash
-set DB_HOST=localhost
+set DB_HOST=your_sqlserver_host
 set DB_PORT=1433
-set DB_NAME=WorshopV2
-set DB_USERNAME=sa
-set DB_PASSWORD=your_password
-set JWT_SECRET=replace-with-a-long-random-secret
+set DB_NAME=your_database_name
+set DB_USERNAME=your_database_username
+set DB_PASSWORD=your_database_password
+set JWT_SECRET=your_base64_or_long_random_jwt_secret
 set APP_DEMO_ACCOUNTS_ENABLED=true
 ```
 

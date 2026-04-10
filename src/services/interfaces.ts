@@ -3,6 +3,7 @@ import type {
   CartItem,
   Category,
   CheckoutDraft,
+  PromoQuote,
   OrderDetail,
   OrderSummary,
   ProductDetail,
@@ -37,7 +38,8 @@ export interface CartService {
 }
 
 export interface CheckoutService {
-  submitOrder(draft: CheckoutDraft, items: CartItem[]): Promise<OrderDetail>;
+  submitOrder(draft: CheckoutDraft, items: CartItem[], promoCode?: string | null): Promise<OrderDetail>;
+  quotePromo(items: CartItem[], promoCode: string): Promise<PromoQuote>;
 }
 
 export interface AuthService {

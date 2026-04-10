@@ -2,6 +2,7 @@ package com.tactilegallery.backend.controller;
 
 import com.tactilegallery.backend.model.DomainModels;
 import com.tactilegallery.backend.service.AdminService;
+import com.tactilegallery.backend.service.AdminPromoService;
 import com.tactilegallery.backend.dto.ApiRequests;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -24,9 +25,11 @@ import org.springframework.web.server.ResponseStatusException;
 public class AdminController {
 
     private final AdminService adminService;
+    private final AdminPromoService adminPromoService;
 
-    public AdminController(AdminService adminService) {
+    public AdminController(AdminService adminService, AdminPromoService adminPromoService) {
         this.adminService = adminService;
+        this.adminPromoService = adminPromoService;
     }
 
     @GetMapping("/dashboard/metrics")
@@ -143,6 +146,7 @@ public class AdminController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found.");
         }
         return order;
+
     }
 
     @PutMapping("/orders/{orderId}/status")
@@ -164,6 +168,27 @@ public class AdminController {
         @Valid @RequestBody ApiRequests.UpdateCustomerStatusRequest request
     ) {
         return adminService.updateCustomerStatus(customerId, request.status());
+    }
+
+    @GetMapping("/promos")
+    public List<DomainModels.AdminPromoCode> getPromoCodes() {
+        return adminPromoService.getPromoCodes();
+    }
+
+    @PostMapping("/promos")
+    @ResponseStatus(HttpStatus.CREATED)
+    public DomainModels.AdminPromoCode createPromoCode(
+        @Valid @RequestBody ApiRequests.AdminPromoDraft draft
+    ) {
+        return adminPromoService.createPromoCode(draft);
+    }
+
+    @PutMapping("/promos/{promoId}")
+    public DomainModels.AdminPromoCode updatePromoCode(
+        @PathVariable Long promoId,
+        @Valid @RequestBody ApiRequests.AdminPromoDraft draft
+    ) {
+        return adminPromoService.updatePromoCode(promoId, draft);
     }
 
     @PostMapping("/shipping/describe")

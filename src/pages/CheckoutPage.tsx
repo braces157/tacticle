@@ -7,7 +7,7 @@ import { SectionHeading } from "../components/ui/SectionHeading";
 import { useCart } from "../context/CartContext";
 import { useSession } from "../context/SessionContext";
 import { checkoutService } from "../services/storefrontApi";
-import type { CheckoutDraft } from "../types/domain";
+import type { CheckoutDraft, PromoQuote } from "../types/domain";
 import { formatCurrency } from "../utils/currency";
 import {
   calculateCheckoutTotals,
@@ -44,6 +44,10 @@ export function CheckoutPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [promoCode, setPromoCode] = useState("");
+  const [promoQuote, setPromoQuote] = useState<PromoQuote | null>(null);
+  const [promoError, setPromoError] = useState("");
+  const [applyingPromo, setApplyingPromo] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -57,6 +61,22 @@ export function CheckoutPage() {
     }));
     setCardholderName((current) => current || user.name);
   }, [user]);
+
+  useEffect(() => {
+    setPromoQuote((current) => {
+      if (!current) {
+        return current;
+      }
+
+      const normalizedInput = promoCode.trim().toUpperCase();
+      if (!normalizedInput || current.code !== normalizedInput) {
+        return null;
+      }
+
+      return current;
+    });
+    setPromoError("");
+  }, [promoCode, items]);
 
   if (!items.length) {
     return (
@@ -72,11 +92,40 @@ export function CheckoutPage() {
   }
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
-  const { shipping, tax, total } = calculateCheckoutTotals(subtotal, itemCount, shippingMethod);
+  const appliedDiscount = promoQuote?.discount ?? 0;
+  const { discountedSubtotal, shipping, tax, total } = calculateCheckoutTotals(
+    subtotal,
+    itemCount,
+    shippingMethod,
+    appliedDiscount,
+  );
   const activeShippingMethod = getShippingMethod(shippingMethod);
 
   function updateField<K extends keyof CheckoutDraft>(key: K, value: CheckoutDraft[K]) {
     setDraft((current) => ({ ...current, [key]: value }));
+  }
+
+  async function handleApplyPromo() {
+    const normalizedCode = promoCode.trim();
+    if (!normalizedCode) {
+      setPromoQuote(null);
+      setPromoError("");
+      return;
+    }
+
+    setApplyingPromo(true);
+    setPromoError("");
+    try {
+      const quote = await checkoutService.quotePromo(items, normalizedCode);
+      setPromoQuote(quote);
+    } catch (error) {
+      setPromoQuote(null);
+      setPromoError(
+        error instanceof Error ? error.message : "Unable to apply the promo code right now.",
+      );
+    } finally {
+      setApplyingPromo(false);
+    }
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -130,6 +179,7 @@ export function CheckoutPage() {
             .join(" | "),
         },
         items,
+        promoQuote?.code ?? null,
       );
       clearCart();
       navigate(`/orders/${order.id}`);
@@ -295,6 +345,36 @@ export function CheckoutPage() {
             </div>
           </div>
 
+          <div className="surface-mat rounded-[1.5rem] p-6">
+            <p className="eyebrow">Step 04</p>
+            <h2 className="mt-3 font-['Manrope'] text-3xl font-extrabold tracking-[-0.04em]">
+              Promo code
+            </h2>
+            <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+              <InputField
+                label="Promotion"
+                value={promoCode}
+                onChange={(event) => setPromoCode(event.target.value.toUpperCase())}
+                placeholder="WELCOME10"
+                hint={promoQuote?.description ?? "Apply a code before placing the order."}
+                error={promoError || undefined}
+              />
+              <Button type="button" onClick={handleApplyPromo} disabled={applyingPromo}>
+                {applyingPromo ? "Applying…" : "Apply code"}
+              </Button>
+            </div>
+            {promoQuote?.code ? (
+              <div className="mt-4 rounded-[1.25rem] bg-white px-5 py-4 text-sm leading-6 text-[var(--color-muted)]">
+                <p className="font-semibold text-[var(--color-on-surface)]">
+                  {promoQuote.code} applied
+                </p>
+                <p className="mt-1">
+                  Discount unlocked: {formatCurrency(promoQuote.discount)}
+                </p>
+              </div>
+            ) : null}
+          </div>
+
           <div className="flex flex-wrap gap-3">
             <Button type="submit" disabled={submitting}>
               {submitting ? "Submitting…" : "Place order"}
@@ -325,12 +405,26 @@ export function CheckoutPage() {
             ))}
             <div className="section-divider" />
             <div className="flex justify-between text-sm text-[var(--color-muted)]">
+              <span>Subtotal</span>
+              <span>{formatCurrency(subtotal)}</span>
+            </div>
+            {promoQuote?.discount ? (
+              <div className="flex justify-between text-sm text-[var(--color-muted)]">
+                <span>Promo ({promoQuote.code})</span>
+                <span>-{formatCurrency(promoQuote.discount)}</span>
+              </div>
+            ) : null}
+            <div className="flex justify-between text-sm text-[var(--color-muted)]">
               <span>Shipping</span>
               <span>{shipping ? formatCurrency(shipping) : "Complimentary"}</span>
             </div>
             <div className="flex justify-between text-sm text-[var(--color-muted)]">
               <span>Estimated tax</span>
               <span>{formatCurrency(tax)}</span>
+            </div>
+            <div className="flex justify-between text-sm text-[var(--color-muted)]">
+              <span>Order subtotal after promo</span>
+              <span>{formatCurrency(discountedSubtotal)}</span>
             </div>
             <div className="flex items-center justify-between font-['Manrope'] text-xl font-bold">
               <span>Total</span>

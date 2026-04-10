@@ -59,6 +59,11 @@ export function OrderHistoryPage() {
                   <p className="mt-2 text-sm text-[var(--color-muted)]">
                     Placed on {order.createdAt} • {order.itemCount} items
                   </p>
+                  {order.discount > 0 && order.promoCode ? (
+                    <p className="mt-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)]">
+                      Promo applied: {order.promoCode}
+                    </p>
+                  ) : null}
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="font-['Manrope'] text-xl font-bold">

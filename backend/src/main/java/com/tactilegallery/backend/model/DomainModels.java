@@ -172,6 +172,15 @@ public final class DomainModels {
     ) {
     }
 
+    public record PromoQuote(
+        String code,
+        String description,
+        double subtotal,
+        double discount,
+        double total
+    ) {
+    }
+
     public record AuthUser(
         @NotBlank String id,
         @NotBlank String name,
@@ -206,8 +215,11 @@ public final class DomainModels {
         @NotBlank @Email String customerEmail,
         @NotBlank String createdAt,
         @NotBlank String status,
+        double subtotal,
+        double discount,
         double total,
-        int itemCount
+        int itemCount,
+        String promoCode
     ) {
     }
 
@@ -218,8 +230,11 @@ public final class DomainModels {
         @NotBlank @Email String customerEmail,
         @NotBlank String createdAt,
         @NotBlank String status,
+        double subtotal,
+        double discount,
         double total,
         int itemCount,
+        String promoCode,
         @NotEmpty List<@Valid CartItem> items,
         @Valid @NotNull ShippingAddress shippingAddress,
         @NotBlank String paymentStatus,
@@ -292,9 +307,12 @@ public final class DomainModels {
         @NotBlank @Email String customerEmail,
         @NotBlank String createdAt,
         @NotBlank String status,
+        double subtotal,
+        double discount,
         double total,
         int itemCount,
-        @NotBlank String fulfillment
+        @NotBlank String fulfillment,
+        String promoCode
     ) {
     }
 
@@ -305,8 +323,11 @@ public final class DomainModels {
         @NotBlank @Email String customerEmail,
         @NotBlank String createdAt,
         @NotBlank String status,
+        double subtotal,
+        double discount,
         double total,
         int itemCount,
+        String promoCode,
         @NotBlank String fulfillment,
         @Valid @NotNull ShippingAddress shippingAddress,
         @NotBlank String paymentStatus,
@@ -348,6 +369,23 @@ public final class DomainModels {
         int stock,
         @NotBlank String visibility,
         boolean archived
+    ) {
+    }
+
+    public record AdminPromoCode(
+        @NotBlank String id,
+        @NotBlank String code,
+        @NotBlank String description,
+        @NotBlank String discountType,
+        double discountValue,
+        double minimumSubtotal,
+        Integer usageLimit,
+        int usageCount,
+        boolean active,
+        String startsAt,
+        String endsAt,
+        @NotBlank String createdAt,
+        @NotBlank String updatedAt
     ) {
     }
 

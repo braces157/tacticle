@@ -61,16 +61,11 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
-        String storedPassword = user.getPasswordHash();
-        boolean matches = isBcryptHash(storedPassword)
-            ? passwordEncoder.matches(request.password(), storedPassword)
-            : storedPassword.equals(request.password());
-
-        if (!matches) {
+        if (!passwordMatches(user, request.password())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
-        if (!isBcryptHash(storedPassword)) {
+        if (!isBcryptHash(user.getPasswordHash())) {
             user.setPasswordHash(passwordEncoder.encode(request.password()));
         }
 
@@ -157,12 +152,7 @@ public class AuthService {
                 "You need to be signed in to change your password."
             ));
 
-        String storedPassword = user.getPasswordHash();
-        boolean matches = isBcryptHash(storedPassword)
-            ? passwordEncoder.matches(request.currentPassword(), storedPassword)
-            : storedPassword.equals(request.currentPassword());
-
-        if (!matches) {
+        if (!passwordMatches(user, request.currentPassword())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Current password is incorrect.");
         }
 
@@ -175,6 +165,13 @@ public class AuthService {
         preference.setPreferenceText(text);
         preference.setSortOrder(sortOrder);
         return preference;
+    }
+
+    private boolean passwordMatches(AppUserEntity user, String rawPassword) {
+        String storedPassword = user.getPasswordHash();
+        return isBcryptHash(storedPassword)
+            ? passwordEncoder.matches(rawPassword, storedPassword)
+            : storedPassword.equals(rawPassword);
     }
 
     private boolean isBcryptHash(String value) {

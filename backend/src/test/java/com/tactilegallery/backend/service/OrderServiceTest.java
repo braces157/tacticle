@@ -18,6 +18,7 @@ import com.tactilegallery.backend.persistence.entity.ProductOptionValueEntity;
 import com.tactilegallery.backend.persistence.repository.AppUserRepository;
 import com.tactilegallery.backend.persistence.repository.OrderRepository;
 import com.tactilegallery.backend.persistence.repository.ProductRepository;
+import com.tactilegallery.backend.persistence.repository.PromoCodeRepository;
 import com.tactilegallery.backend.security.AuthenticatedUser;
 import com.tactilegallery.backend.security.CurrentUserService;
 import java.math.BigDecimal;
@@ -50,6 +51,10 @@ class OrderServiceTest {
     @Mock
     private EmailNotificationSender emailNotificationService;
 
+    private PromoCodeService promoCodeService;
+
+    private DomainModels.PromoQuote nextPromoQuote;
+
     private CurrentUserService currentUserService;
 
     private OrderService orderService;
@@ -57,6 +62,7 @@ class OrderServiceTest {
     @BeforeEach
     void setUp() {
         currentUserService = new CurrentUserService();
+        promoCodeService = new PromoCodeServiceStub();
         orderService = new OrderService(
             appUserRepository,
             productRepository,
@@ -64,8 +70,10 @@ class OrderServiceTest {
             new SqlDomainMapper(new ObjectMapper()),
             new ObjectMapper(),
             currentUserService,
-            emailNotificationService
+            emailNotificationService,
+            promoCodeService
         );
+        nextPromoQuote = null;
     }
 
     @AfterEach
@@ -83,6 +91,7 @@ class OrderServiceTest {
         when(productRepository.findBySlug(product.getSlug())).thenReturn(Optional.of(product));
         when(orderRepository.nextOrderNumberValue()).thenReturn(2099L);
         when(orderRepository.save(any(OrderEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        nextPromoQuote = noPromoQuote(900.0);
 
         authenticate(user);
         DomainModels.OrderDetail detail = orderService.submitOrder(request);
@@ -95,6 +104,8 @@ class OrderServiceTest {
         assertEquals("TG-2099", savedOrder.getOrderNumber());
         assertEquals(2, savedOrder.getItemCount());
         assertEquals(0, product.getStock());
+        assertEquals(0, savedOrder.getSubtotalAmount().compareTo(BigDecimal.valueOf(900)));
+        assertEquals(0, savedOrder.getDiscountAmount().compareTo(BigDecimal.ZERO));
         assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(900)));
         assertEquals(1, savedOrder.getItems().size());
 
@@ -121,13 +132,15 @@ class OrderServiceTest {
                 "Card",
                 null
             ),
-            request.items()
+            request.items(),
+            null
         );
 
         when(appUserRepository.findByExternalId(user.getExternalId())).thenReturn(Optional.of(user));
         when(productRepository.findBySlug(product.getSlug())).thenReturn(Optional.of(product));
         when(orderRepository.nextOrderNumberValue()).thenReturn(2099L);
         when(orderRepository.save(any(OrderEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        nextPromoQuote = noPromoQuote(450.0);
 
         authenticate(user);
         orderService.submitOrder(request);
@@ -139,6 +152,39 @@ class OrderServiceTest {
         OrderEntity savedOrder = orderCaptor.getValue();
         assertEquals("Atelier Member", savedOrder.getCustomerName());
         assertEquals("member@tactile.gallery", savedOrder.getCustomerEmail());
+    }
+
+    @Test
+    void submitOrderPersistsPromoDiscounts() {
+        AppUserEntity user = enabledUser();
+        ProductEntity product = productWithOptionPricing();
+        ApiRequests.CheckoutRequest request = new ApiRequests.CheckoutRequest(
+            checkoutRequest(420.00, 1, Map.of("Plate Material", "Brass")).draft(),
+            checkoutRequest(420.00, 1, Map.of("Plate Material", "Brass")).items(),
+            "QUIET50"
+        );
+
+        when(appUserRepository.findByExternalId(user.getExternalId())).thenReturn(Optional.of(user));
+        when(productRepository.findBySlug(product.getSlug())).thenReturn(Optional.of(product));
+        when(orderRepository.nextOrderNumberValue()).thenReturn(2100L);
+        when(orderRepository.save(any(OrderEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        nextPromoQuote = new DomainModels.PromoQuote("QUIET50", "$50 off orders above $400", 450.0, 50.0, 400.0);
+
+        authenticate(user);
+        DomainModels.OrderDetail detail = orderService.submitOrder(request);
+
+        ArgumentCaptor<OrderEntity> orderCaptor = ArgumentCaptor.forClass(OrderEntity.class);
+        verify(orderRepository).save(orderCaptor.capture());
+
+        OrderEntity savedOrder = orderCaptor.getValue();
+        assertEquals("QUIET50", savedOrder.getPromoCode());
+        assertEquals(0, savedOrder.getSubtotalAmount().compareTo(BigDecimal.valueOf(450)));
+        assertEquals(0, savedOrder.getDiscountAmount().compareTo(BigDecimal.valueOf(50)));
+        assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(400)));
+        assertEquals(450.0, detail.subtotal(), 0.0001);
+        assertEquals(50.0, detail.discount(), 0.0001);
+        assertEquals(400.0, detail.total(), 0.0001);
+        assertEquals("QUIET50", detail.promoCode());
     }
 
     private AppUserEntity enabledUser() {
@@ -225,7 +271,11 @@ class OrderServiceTest {
             selectedOptions
         );
 
-        return new ApiRequests.CheckoutRequest(draft, List.of(cartItem));
+        return new ApiRequests.CheckoutRequest(draft, List.of(cartItem), null);
+    }
+
+    private DomainModels.PromoQuote noPromoQuote(double subtotal) {
+        return new DomainModels.PromoQuote(null, null, subtotal, 0.0, subtotal);
     }
 
     private void authenticate(AppUserEntity user) {
@@ -236,5 +286,22 @@ class OrderServiceTest {
                 List.of()
             )
         );
+    }
+
+    private class PromoCodeServiceStub extends PromoCodeService {
+
+        private PromoCodeServiceStub() {
+            super((PromoCodeRepository) null);
+        }
+
+        @Override
+        public DomainModels.PromoQuote quote(String promoCode, BigDecimal subtotal) {
+            return nextPromoQuote != null ? nextPromoQuote : noPromoQuote(subtotal.doubleValue());
+        }
+
+        @Override
+        public DomainModels.PromoQuote redeem(String promoCode, BigDecimal subtotal) {
+            return nextPromoQuote != null ? nextPromoQuote : noPromoQuote(subtotal.doubleValue());
+        }
     }
 }

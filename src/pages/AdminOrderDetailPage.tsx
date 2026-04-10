@@ -116,6 +116,12 @@ export function AdminOrderDetailPage() {
             <span className="text-[var(--color-muted)]">Total</span>
             <span className="font-semibold">{formatCurrency(order.total)}</span>
           </div>
+          {order.discount > 0 && order.promoCode ? (
+            <div className="flex items-center justify-between">
+              <span className="text-[var(--color-muted)]">Promo</span>
+              <span className="font-semibold">{order.promoCode}</span>
+            </div>
+          ) : null}
           <form className="mt-2 space-y-3 border-t border-[rgba(173,179,180,0.12)] pt-4" onSubmit={handleStatusUpdate}>
             <label className="flex flex-col gap-2">
               <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
@@ -257,6 +263,18 @@ export function AdminOrderDetailPage() {
             <div className="mt-6 space-y-4 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-[var(--color-muted)]">Subtotal</span>
+                <span className="font-semibold">{formatCurrency(order.subtotal)}</span>
+              </div>
+              {order.discount > 0 ? (
+                <div className="flex items-center justify-between">
+                  <span className="text-[var(--color-muted)]">
+                    Promo{order.promoCode ? ` (${order.promoCode})` : ""}
+                  </span>
+                  <span className="font-semibold">-{formatCurrency(order.discount)}</span>
+                </div>
+              ) : null}
+              <div className="flex items-center justify-between">
+                <span className="text-[var(--color-muted)]">Net order total</span>
                 <span className="font-semibold">{formatCurrency(order.total)}</span>
               </div>
               <div className="flex items-center justify-between">

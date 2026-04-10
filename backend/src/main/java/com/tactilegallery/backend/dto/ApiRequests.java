@@ -40,7 +40,14 @@ public final class ApiRequests {
 
     public record CheckoutRequest(
         @Valid DomainModels.CheckoutDraft draft,
-        @Valid @NotEmpty List<DomainModels.CartItem> items
+        @Valid @NotEmpty List<DomainModels.CartItem> items,
+        @Size(max = 80) String promoCode
+    ) {
+    }
+
+    public record PromoQuoteRequest(
+        @Valid @NotEmpty List<DomainModels.CartItem> items,
+        @Size(max = 80) String promoCode
     ) {
     }
 
@@ -63,6 +70,19 @@ public final class ApiRequests {
 
     public record UpdateCustomerStatusRequest(
         @NotBlank String status
+    ) {
+    }
+
+    public record AdminPromoDraft(
+        @NotBlank @Size(max = 80) String code,
+        @NotBlank @Size(max = 255) String description,
+        @NotBlank String discountType,
+        @NotBlank String discountValue,
+        @NotBlank String minimumSubtotal,
+        String usageLimit,
+        boolean active,
+        String startsAt,
+        String endsAt
     ) {
     }
 }

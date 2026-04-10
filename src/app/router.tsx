@@ -16,6 +16,7 @@ const AdminEditProductPage = lazy(() => import("../pages/AdminEditProductPage").
 const AdminInventoryPage = lazy(() => import("../pages/AdminInventoryPage").then((module) => ({ default: module.AdminInventoryPage })));
 const AdminOrderDetailPage = lazy(() => import("../pages/AdminOrderDetailPage").then((module) => ({ default: module.AdminOrderDetailPage })));
 const AdminOrdersPage = lazy(() => import("../pages/AdminOrdersPage").then((module) => ({ default: module.AdminOrdersPage })));
+const AdminPromosPage = lazy(() => import("../pages/AdminPromosPage").then((module) => ({ default: module.AdminPromosPage })));
 const AdminReviewsPage = lazy(() => import("../pages/AdminReviewsPage").then((module) => ({ default: module.AdminReviewsPage })));
 const BrowsePage = lazy(() => import("../pages/BrowsePage").then((module) => ({ default: module.BrowsePage })));
 const CartPage = lazy(() => import("../pages/CartPage").then((module) => ({ default: module.CartPage })));
@@ -118,6 +119,7 @@ export const routes = createRoutesFromElements(
       <Route path="reviews" element={<AdminReviewsPage />} />
       <Route path="customers" element={<AdminCustomersPage />} />
       <Route path="inventory" element={<AdminInventoryPage />} />
+      <Route path="promos" element={<AdminPromosPage />} />
       <Route path="products/new" element={<AdminCreateProductPage />} />
       <Route path="products/:slug/edit" element={<AdminEditProductPage />} />
     </Route>

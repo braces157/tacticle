@@ -16,9 +16,9 @@ import com.tactilegallery.backend.persistence.repository.OrderRepository;
 import com.tactilegallery.backend.persistence.repository.ProductRepository;
 import com.tactilegallery.backend.security.CurrentUserService;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +37,7 @@ public class OrderService {
     private final ObjectMapper objectMapper;
     private final CurrentUserService currentUserService;
     private final EmailNotificationSender emailNotificationService;
+    private final PromoCodeService promoCodeService;
 
     public OrderService(
         AppUserRepository appUserRepository,
@@ -45,7 +46,8 @@ public class OrderService {
         SqlDomainMapper mapper,
         ObjectMapper objectMapper,
         CurrentUserService currentUserService,
-        EmailNotificationSender emailNotificationService
+        EmailNotificationSender emailNotificationService,
+        PromoCodeService promoCodeService
     ) {
         this.appUserRepository = appUserRepository;
         this.productRepository = productRepository;
@@ -54,6 +56,13 @@ public class OrderService {
         this.objectMapper = objectMapper;
         this.currentUserService = currentUserService;
         this.emailNotificationService = emailNotificationService;
+        this.promoCodeService = promoCodeService;
+    }
+
+    @Transactional(readOnly = true)
+    public DomainModels.PromoQuote quotePromo(ApiRequests.PromoQuoteRequest request) {
+        PreparedOrder preparedOrder = prepareOrderItems(request.items(), false);
+        return promoCodeService.quote(request.promoCode(), preparedOrder.subtotal());
     }
 
     @Transactional
@@ -64,10 +73,8 @@ public class OrderService {
                 HttpStatus.UNAUTHORIZED,
                 "Please sign in before placing an order."
             ));
-
-        List<ProductEntity> touchedProducts = new ArrayList<>();
-        BigDecimal total = BigDecimal.ZERO;
-        int itemCount = 0;
+        PreparedOrder preparedOrder = prepareOrderItems(request.items(), true);
+        DomainModels.PromoQuote promoQuote = promoCodeService.redeem(request.promoCode(), preparedOrder.subtotal());
 
         OrderEntity order = new OrderEntity();
         order.setUser(user);
@@ -81,9 +88,46 @@ public class OrderService {
         order.setShippingCountry(request.draft().country());
         order.setPaymentStatus("Paid");
         order.setCreatedAt(LocalDateTime.now());
+        order.setOrderNumber(nextOrderNumber());
+        order.setSubtotalAmount(scaleMoney(BigDecimal.valueOf(promoQuote.subtotal())));
+        order.setDiscountAmount(scaleMoney(BigDecimal.valueOf(promoQuote.discount())));
+        order.setPromoCode(promoQuote.code());
+        order.setTotalAmount(scaleMoney(BigDecimal.valueOf(promoQuote.total())));
+        order.setItemCount(preparedOrder.itemCount());
+        order.setItems(preparedOrder.items().stream()
+            .map(preparedItem -> toOrderItem(order, preparedItem.product(), preparedItem.cartItem(), preparedItem.unitPrice()))
+            .toList());
+        order.setTimelineEntries(new ArrayList<>(List.of(
+            timelineEntry(order, "Order placed", 1),
+            timelineEntry(order, "Payment confirmed", 2),
+            timelineEntry(order, "Assembly queued", 3)
+        )));
 
-        List<OrderItemEntity> orderItems = new ArrayList<>();
-        for (DomainModels.CartItem item : request.items()) {
+        if (promoQuote.code() != null) {
+            order.getTimelineEntries().add(timelineEntry(order, "Promo applied: " + promoQuote.code(), 4));
+        }
+
+        for (PreparedOrderItem preparedItem : preparedOrder.items()) {
+            ProductEntity product = preparedItem.product();
+            product.setStock(product.getStock() - preparedItem.cartItem().quantity());
+        }
+
+        OrderEntity saved = orderRepository.save(order);
+        DomainModels.OrderDetail detail = mapper.toOrderDetail(saved);
+        emailNotificationService.sendOrderConfirmation(detail);
+        return detail;
+    }
+
+    private String nextOrderNumber() {
+        return "TG-" + orderRepository.nextOrderNumberValue();
+    }
+
+    private PreparedOrder prepareOrderItems(List<DomainModels.CartItem> items, boolean enforceStock) {
+        List<PreparedOrderItem> preparedItems = new ArrayList<>();
+        BigDecimal subtotal = BigDecimal.ZERO;
+        int itemCount = 0;
+
+        for (DomainModels.CartItem item : items) {
             if (item.quantity() <= 0) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Quantity must be at least 1.");
             }
@@ -96,39 +140,19 @@ public class OrderService {
             }
 
             BigDecimal unitPrice = resolveUnitPrice(product, item.selectedOptions());
-            if (product.getStock() < item.quantity()) {
+            if (enforceStock && product.getStock() < item.quantity()) {
                 throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Only " + product.getStock() + " units of " + product.getName() + " remain in stock."
                 );
             }
 
-            product.setStock(product.getStock() - item.quantity());
-            touchedProducts.add(product);
-            total = total.add(unitPrice.multiply(BigDecimal.valueOf(item.quantity())));
+            preparedItems.add(new PreparedOrderItem(product, item, unitPrice));
+            subtotal = subtotal.add(unitPrice.multiply(BigDecimal.valueOf(item.quantity())));
             itemCount += item.quantity();
-            orderItems.add(toOrderItem(order, product, item, unitPrice));
         }
 
-        order.setOrderNumber(nextOrderNumber());
-        order.setTotalAmount(total);
-        order.setItemCount(itemCount);
-        order.setItems(orderItems);
-        order.setTimelineEntries(new ArrayList<>(List.of(
-            timelineEntry(order, "Order placed", 1),
-            timelineEntry(order, "Payment confirmed", 2),
-            timelineEntry(order, "Assembly queued", 3)
-        )));
-
-        OrderEntity saved = orderRepository.save(order);
-        touchedProducts.sort(Comparator.comparing(ProductEntity::getId));
-        DomainModels.OrderDetail detail = mapper.toOrderDetail(saved);
-        emailNotificationService.sendOrderConfirmation(detail);
-        return detail;
-    }
-
-    private String nextOrderNumber() {
-        return "TG-" + orderRepository.nextOrderNumberValue();
+        return new PreparedOrder(preparedItems, scaleMoney(subtotal), itemCount);
     }
 
     private OrderItemEntity toOrderItem(
@@ -199,5 +223,23 @@ public class OrderService {
         } catch (JsonProcessingException exception) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to store order selections.");
         }
+    }
+
+    private BigDecimal scaleMoney(BigDecimal value) {
+        return value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private record PreparedOrder(
+        List<PreparedOrderItem> items,
+        BigDecimal subtotal,
+        int itemCount
+    ) {
+    }
+
+    private record PreparedOrderItem(
+        ProductEntity product,
+        DomainModels.CartItem cartItem,
+        BigDecimal unitPrice
+    ) {
     }
 }

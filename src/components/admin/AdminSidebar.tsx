@@ -9,6 +9,7 @@ const navItems = [
   { to: "/admin/reviews", label: "Reviews", icon: "reviews" as const },
   { to: "/admin/customers", label: "Customers", icon: "users" as const },
   { to: "/admin/inventory", label: "Inventory", icon: "inventory" as const },
+  { to: "/admin/promos", label: "Promos", icon: "ticket" as const },
   { to: "/admin/products/new", label: "New Product", icon: "plus" as const },
 ];
 

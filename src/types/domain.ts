@@ -104,6 +104,14 @@ export type ShippingAddress = {
   country: string;
 };
 
+export type PromoQuote = {
+  code: string | null;
+  description: string | null;
+  subtotal: number;
+  discount: number;
+  total: number;
+};
+
 export type OrderStatus =
   | "Payment Review"
   | "Processing"
@@ -141,8 +149,11 @@ export type OrderSummary = {
   customerEmail: string;
   createdAt: string;
   status: OrderStatus;
+  subtotal: number;
+  discount: number;
   total: number;
   itemCount: number;
+  promoCode: string | null;
 };
 
 export type OrderDetail = OrderSummary & {
@@ -225,9 +236,12 @@ export type AdminOrderRecord = {
   customerEmail: string;
   createdAt: string;
   status: OrderStatus;
+  subtotal: number;
+  discount: number;
   total: number;
   itemCount: number;
   fulfillment: string;
+  promoCode: string | null;
 };
 
 export type AdminOrderDetail = AdminOrderRecord & {
@@ -254,4 +268,34 @@ export type AdminProductRecord = ProductDetail & {
   stock: number;
   visibility: "Active" | "Hidden";
   archived: boolean;
+};
+
+export type PromoDiscountType = "PERCENTAGE" | "FIXED";
+
+export type AdminPromoCode = {
+  id: string;
+  code: string;
+  description: string;
+  discountType: PromoDiscountType;
+  discountValue: number;
+  minimumSubtotal: number;
+  usageLimit: number | null;
+  usageCount: number;
+  active: boolean;
+  startsAt: string;
+  endsAt: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminPromoDraft = {
+  code: string;
+  description: string;
+  discountType: PromoDiscountType;
+  discountValue: string;
+  minimumSubtotal: string;
+  usageLimit: string;
+  active: boolean;
+  startsAt: string;
+  endsAt: string;
 };

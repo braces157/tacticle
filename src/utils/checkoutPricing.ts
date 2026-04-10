@@ -55,12 +55,15 @@ export function calculateCheckoutTotals(
   subtotal: number,
   itemCount: number,
   methodId: ShippingMethod["id"],
+  discount = 0,
 ) {
   const shipping = calculateShippingEstimate(subtotal, itemCount, methodId);
-  const tax = calculateTaxEstimate(subtotal);
+  const discountedSubtotal = Math.max(0, subtotal - discount);
+  const tax = calculateTaxEstimate(discountedSubtotal);
   return {
+    discountedSubtotal,
     shipping,
     tax,
-    total: subtotal + shipping + tax,
+    total: discountedSubtotal + shipping + tax,
   };
 }

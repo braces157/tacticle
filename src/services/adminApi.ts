@@ -5,6 +5,8 @@ import type {
   AdminInventoryItem,
   AdminOrderDetail,
   AdminOrderRecord,
+  AdminPromoCode,
+  AdminPromoDraft,
   AdminProductRecord,
   OrderStatus,
   ProductReview,
@@ -222,6 +224,24 @@ export async function updateAdminCustomerProfile(userId: string, draft: UserProf
     method: "PUT",
     body: JSON.stringify(draft satisfies UserProfileDraft),
   })) as UserProfile;
+}
+
+export async function getAdminPromoCodes() {
+  return (await apiRequest<AdminPromoCode[]>("/admin/promos")) ?? [];
+}
+
+export async function createAdminPromoCode(draft: AdminPromoDraft) {
+  return (await apiRequest<AdminPromoCode>("/admin/promos", {
+    method: "POST",
+    body: JSON.stringify(draft),
+  })) as AdminPromoCode;
+}
+
+export async function updateAdminPromoCode(promoId: string, draft: AdminPromoDraft) {
+  return (await apiRequest<AdminPromoCode>(`/admin/promos/${encodeURIComponent(promoId)}`, {
+    method: "PUT",
+    body: JSON.stringify(draft),
+  })) as AdminPromoCode;
 }
 
 export function describeShippingAddress(address: ShippingAddress) {

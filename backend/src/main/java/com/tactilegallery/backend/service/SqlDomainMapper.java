@@ -11,6 +11,7 @@ import com.tactilegallery.backend.persistence.entity.OrderItemEntity;
 import com.tactilegallery.backend.persistence.entity.ProductEntity;
 import com.tactilegallery.backend.persistence.entity.ProductOptionEntity;
 import com.tactilegallery.backend.persistence.entity.ProductReviewEntity;
+import com.tactilegallery.backend.persistence.entity.PromoCodeEntity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -183,8 +184,11 @@ public class SqlDomainMapper {
             entity.getCustomerEmail(),
             formatDateTime(entity.getCreatedAt()),
             entity.getStatus(),
+            moneyToDouble(entity.getSubtotalAmount()),
+            moneyToDouble(entity.getDiscountAmount()),
             moneyToDouble(entity.getTotalAmount()),
-            entity.getItemCount()
+            entity.getItemCount(),
+            entity.getPromoCode()
         );
     }
 
@@ -197,8 +201,11 @@ public class SqlDomainMapper {
             adminOrderDetail.customerEmail(),
             adminOrderDetail.createdAt(),
             adminOrderDetail.status(),
+            adminOrderDetail.subtotal(),
+            adminOrderDetail.discount(),
             adminOrderDetail.total(),
             adminOrderDetail.itemCount(),
+            adminOrderDetail.promoCode(),
             adminOrderDetail.items(),
             adminOrderDetail.shippingAddress(),
             adminOrderDetail.paymentStatus(),
@@ -215,9 +222,12 @@ public class SqlDomainMapper {
             entity.getCustomerEmail(),
             formatDateTime(entity.getCreatedAt()),
             entity.getStatus(),
+            moneyToDouble(entity.getSubtotalAmount()),
+            moneyToDouble(entity.getDiscountAmount()),
             moneyToDouble(entity.getTotalAmount()),
             entity.getItemCount(),
-            entity.getFulfillment()
+            entity.getFulfillment(),
+            entity.getPromoCode()
         );
     }
 
@@ -229,8 +239,11 @@ public class SqlDomainMapper {
             entity.getCustomerEmail(),
             formatDateTime(entity.getCreatedAt()),
             entity.getStatus(),
+            moneyToDouble(entity.getSubtotalAmount()),
+            moneyToDouble(entity.getDiscountAmount()),
             moneyToDouble(entity.getTotalAmount()),
             entity.getItemCount(),
+            entity.getPromoCode(),
             entity.getFulfillment(),
             new DomainModels.ShippingAddress(
                 entity.getShippingLine1(),
@@ -270,6 +283,24 @@ public class SqlDomainMapper {
             entity.getStatus(),
             formatDateTime(entity.getCreatedAt()),
             entity.getAdminNote()
+        );
+    }
+
+    public DomainModels.AdminPromoCode toAdminPromoCode(PromoCodeEntity entity) {
+        return new DomainModels.AdminPromoCode(
+            String.valueOf(entity.getId()),
+            entity.getCode(),
+            entity.getDescription(),
+            entity.getDiscountType(),
+            moneyToDouble(entity.getDiscountValue()),
+            moneyToDouble(entity.getMinimumSubtotal()),
+            entity.getUsageLimit(),
+            entity.getUsageCount(),
+            entity.isActive(),
+            formatDateTime(entity.getStartsAt()),
+            formatDateTime(entity.getEndsAt()),
+            formatDateTime(entity.getCreatedAt()),
+            formatDateTime(entity.getUpdatedAt())
         );
     }
 

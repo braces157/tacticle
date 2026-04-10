@@ -109,6 +109,10 @@ export function OrderDetailPage() {
                 { label: "Item count", value: String(order.itemCount) },
                 { label: "Shipping", value: describeShippingAddress(order.shippingAddress) },
                 { label: "Payment", value: order.paymentStatus },
+                { label: "Subtotal", value: formatCurrency(order.subtotal) },
+                ...(order.discount > 0
+                  ? [{ label: `Promo${order.promoCode ? ` (${order.promoCode})` : ""}`, value: `-${formatCurrency(order.discount)}` }]
+                  : []),
                 { label: "Total", value: formatCurrency(order.total) },
               ]}
             />

@@ -27,6 +27,10 @@ function image(src: string, alt: string) {
   return { src, alt };
 }
 
+function normalizePromoCode(value: string | null | undefined) {
+  return String(value ?? "").trim().toUpperCase();
+}
+
 function shippingAddress(line1: string, city: string, postalCode: string, country: string) {
   return { line1, city, postalCode, country };
 }
@@ -50,6 +54,34 @@ const orderTransitions = {
 } as const;
 
 type MockOrderStatus = keyof typeof orderTransitions;
+type MockOrderItem = {
+  id: string;
+  productSlug: string;
+  productName: string;
+  image: { src: string; alt: string };
+  price: number;
+  quantity: number;
+  selectedOptions: Record<string, string>;
+};
+
+type MockOrder = {
+  id: string;
+  userId: string;
+  customerName: string;
+  customerEmail: string;
+  createdAt: string;
+  status: MockOrderStatus;
+  subtotal: number;
+  discount: number;
+  total: number;
+  itemCount: number;
+  promoCode: string | null;
+  fulfillment: string;
+  shippingAddress: ReturnType<typeof shippingAddress>;
+  paymentStatus: string;
+  timeline: string[];
+  items: MockOrderItem[];
+};
 
 function allowedNextStatuses(status: MockOrderStatus) {
   return [...orderTransitions[status]];
@@ -304,7 +336,7 @@ function createMockState() {
     ["user-atelier", defaultProfile({ id: "user-atelier", name: "Atelier Member", email: "member@tactile.gallery" })],
   ]);
 
-  const orders = [
+  const orders: MockOrder[] = [
     {
       id: "TG-2048",
       userId: "user-atelier",
@@ -312,8 +344,11 @@ function createMockState() {
       customerEmail: "member@tactile.gallery",
       createdAt: "2026-03-21",
       status: "Delivered" as MockOrderStatus,
+      subtotal: 588,
+      discount: 0,
       total: 588,
       itemCount: 2,
+      promoCode: null,
       fulfillment: "Complete",
       shippingAddress: shippingAddress("49 Charoen Nakhon Rd", "Bangkok", "10600", "Thailand"),
       paymentStatus: "Paid",
@@ -351,8 +386,11 @@ function createMockState() {
       customerEmail: "member@tactile.gallery",
       createdAt: "2026-04-06",
       status: "Processing" as MockOrderStatus,
+      subtotal: 420,
+      discount: 0,
       total: 420,
       itemCount: 1,
+      promoCode: null,
       fulfillment: "Assembly queued",
       shippingAddress: shippingAddress("49 Charoen Nakhon Rd", "Bangkok", "10600", "Thailand"),
       paymentStatus: "Paid",
@@ -381,6 +419,50 @@ function createMockState() {
     orders,
     nextOrderNumber: 2100,
   };
+}
+
+function quotePromo(subtotal: number, promoCode: string) {
+  const normalizedCode = normalizePromoCode(promoCode);
+  if (!normalizedCode) {
+    return {
+      code: null,
+      description: null,
+      subtotal,
+      discount: 0,
+      total: subtotal,
+    };
+  }
+
+  if (normalizedCode === "WELCOME10") {
+    if (subtotal < 150) {
+      throw new Error("Promo code requires a subtotal of $150.00 or more.");
+    }
+
+    const discount = Number((subtotal * 0.1).toFixed(2));
+    return {
+      code: "WELCOME10",
+      description: "10% off first atelier order",
+      subtotal,
+      discount,
+      total: Number((subtotal - discount).toFixed(2)),
+    };
+  }
+
+  if (normalizedCode === "QUIET50") {
+    if (subtotal < 400) {
+      throw new Error("Promo code requires a subtotal of $400.00 or more.");
+    }
+
+    return {
+      code: "QUIET50",
+      description: "$50 off orders above $400",
+      subtotal,
+      discount: 50,
+      total: Number((subtotal - 50).toFixed(2)),
+    };
+  }
+
+  throw new Error("Promo code is invalid.");
 }
 
 let mockState = createMockState();
@@ -759,8 +841,11 @@ async function handleApiRequest(input: RequestInfo | URL, init?: RequestInit) {
         customerEmail: order.customerEmail,
         createdAt: order.createdAt,
         status: order.status,
+        subtotal: order.subtotal,
+        discount: order.discount,
         total: order.total,
         itemCount: order.itemCount,
+        promoCode: order.promoCode,
       })),
     );
   }
@@ -771,9 +856,31 @@ async function handleApiRequest(input: RequestInfo | URL, init?: RequestInit) {
     return order ? jsonResponse(order) : jsonResponse({ message: "Order not found." }, 404);
   }
 
+  if (path === "/orders/promo/quote" && method === "POST") {
+    const body = await parseBody(init);
+    const subtotal = (body?.items ?? []).reduce(
+      (sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity,
+      0,
+    );
+
+    try {
+      return jsonResponse(quotePromo(subtotal, body?.promoCode));
+    } catch (error) {
+      return jsonResponse(
+        { message: error instanceof Error ? error.message : "Promo code is invalid." },
+        400,
+      );
+    }
+  }
+
   if (path === "/orders/checkout" && method === "POST") {
     const body = await parseBody(init);
     const orderId = `TG-${mockState.nextOrderNumber++}`;
+    const subtotal = (body?.items ?? []).reduce(
+      (sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity,
+      0,
+    );
+    const promo = quotePromo(subtotal, body?.promoCode);
     const nextOrder = {
       id: orderId,
       userId: sessionUser?.id ?? "guest-checkout",
@@ -781,8 +888,11 @@ async function handleApiRequest(input: RequestInfo | URL, init?: RequestInit) {
       customerEmail: body?.draft?.email ?? "",
       createdAt: "2026-04-07",
       status: "Processing" as MockOrderStatus,
-      total: (body?.items ?? []).reduce((sum: number, item: { price: number; quantity: number }) => sum + item.price * item.quantity, 0),
+      subtotal: promo.subtotal,
+      discount: promo.discount,
+      total: promo.total,
       itemCount: (body?.items ?? []).reduce((sum: number, item: { quantity: number }) => sum + item.quantity, 0),
+      promoCode: promo.code,
       fulfillment: "Picking parts",
       shippingAddress: shippingAddress(
         body?.draft?.address ?? "",
@@ -841,9 +951,12 @@ async function handleApiRequest(input: RequestInfo | URL, init?: RequestInit) {
         customerEmail: order.customerEmail,
         createdAt: order.createdAt,
         status: order.status,
+        subtotal: order.subtotal,
+        discount: order.discount,
         total: order.total,
         itemCount: order.itemCount,
         fulfillment: order.fulfillment,
+        promoCode: order.promoCode,
       })),
     );
   }

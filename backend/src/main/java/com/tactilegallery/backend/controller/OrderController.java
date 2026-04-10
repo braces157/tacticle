@@ -21,6 +21,11 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    @PostMapping("/promo/quote")
+    public DomainModels.PromoQuote quotePromo(@Valid @RequestBody ApiRequests.PromoQuoteRequest request) {
+        return orderService.quotePromo(request);
+    }
+
     @PostMapping("/checkout")
     @ResponseStatus(HttpStatus.CREATED)
     public DomainModels.OrderDetail submitOrder(@Valid @RequestBody ApiRequests.CheckoutRequest request) {

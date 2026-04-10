@@ -2,6 +2,7 @@ import type {
   AuthUser,
   CartItem,
   CheckoutDraft,
+  PromoQuote,
   OrderDetail,
   OrderSummary,
   UserProfileDraft,
@@ -178,7 +179,7 @@ export const authService: AuthService = {
 };
 
 export const checkoutService: CheckoutService = {
-  async submitOrder(draft: CheckoutDraft, items: CartItem[]) {
+  async submitOrder(draft: CheckoutDraft, items: CartItem[], promoCode?: string | null) {
     const currentUser = getStoredSessionUser();
     if (!currentUser) {
       throw new Error("Please sign in before placing an order.");
@@ -189,8 +190,18 @@ export const checkoutService: CheckoutService = {
       body: JSON.stringify({
         draft,
         items,
+        promoCode,
       }),
     })) as OrderDetail;
+  },
+  async quotePromo(items: CartItem[], promoCode: string) {
+    return (await apiRequest<PromoQuote>("/orders/promo/quote", {
+      method: "POST",
+      body: JSON.stringify({
+        items,
+        promoCode,
+      }),
+    })) as PromoQuote;
   },
 };
 

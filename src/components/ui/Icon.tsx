@@ -17,7 +17,8 @@ type IconName =
   | "trash"
   | "chart"
   | "users"
-  | "reviews";
+  | "reviews"
+  | "ticket";
 
 const paths: Record<IconName, ReactNode> = {
   "arrow-right": (
@@ -178,6 +179,18 @@ const paths: Record<IconName, ReactNode> = {
     <>
       <path d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v6A2.5 2.5 0 0 1 16.5 15H10l-4 4v-4H7.5A2.5 2.5 0 0 1 5 12.5v-6Z" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinejoin="round" />
       <path d="M9 8.5h6M9 11.5h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </>
+  ),
+  ticket: (
+    <>
+      <path
+        d="M5 7.5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v2a1.5 1.5 0 0 0 0 3v2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2a1.5 1.5 0 0 0 0-3v-2Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="none"
+        strokeLinejoin="round"
+      />
+      <path d="M12 7.5v9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </>
   ),
 };

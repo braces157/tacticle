@@ -60,6 +60,7 @@ export function AdminCustomersPage() {
   const [formError, setFormError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [saving, setSaving] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     getAdminCustomers()
@@ -118,9 +119,19 @@ export function AdminCustomersPage() {
     return <LoadingState label="Loading customers…" />;
   }
 
-  const activeCount = customers.filter((customer) => customer.status === "Active").length;
-  const totalSpend = customers.reduce((sum, customer) => sum + customer.totalSpend, 0);
-  const inactiveCount = customers.filter((customer) => customer.status === "Inactive").length;
+  const filteredCustomers = customers.filter((customer) => {
+    if (!searchQuery.trim()) return true;
+    const lowerQuery = searchQuery.trim().toLowerCase();
+    return (
+      customer.name.toLowerCase().includes(lowerQuery) ||
+      customer.email.toLowerCase().includes(lowerQuery) ||
+      customer.id.toLowerCase() === lowerQuery
+    );
+  });
+
+  const activeCount = filteredCustomers.filter((customer) => customer.status === "Active").length;
+  const totalSpend = filteredCustomers.reduce((sum, customer) => sum + customer.totalSpend, 0);
+  const inactiveCount = filteredCustomers.filter((customer) => customer.status === "Inactive").length;
 
   function updateDraft<K extends keyof UserProfileDraft>(key: K, value: UserProfileDraft[K]) {
     setDraft((current) => (current ? { ...current, [key]: value } : current));
@@ -229,9 +240,22 @@ export function AdminCustomersPage() {
             leaving the admin workspace.
           </p>
         </div>
-        <div className="rounded-[1.25rem] bg-[var(--color-surface-low)] px-5 py-4 text-sm text-[var(--color-muted)]">
-          Select a customer row to open their workspace. Guest checkouts remain read-only.
-        </div>
+      </section>
+
+      <section className="grid gap-4 rounded-[1.25rem] bg-[var(--color-surface-low)] p-5 lg:grid-cols-2">
+        <label className="flex flex-col gap-2">
+          <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]">
+            Search customers
+          </span>
+          <span className="input-shell flex">
+            <input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search by name, email, or exact ID"
+              className="w-full bg-transparent px-4 py-3 outline-none"
+            />
+          </span>
+        </label>
       </section>
 
       <section className="grid gap-4 md:grid-cols-3">
@@ -261,27 +285,28 @@ export function AdminCustomersPage() {
         </div>
       </section>
 
-      <section className="grid gap-6 2xl:grid-cols-[minmax(0,1.2fr)_420px]">
-        <div className="overflow-hidden rounded-xl bg-white shadow-[0_20px_50px_rgba(45,52,53,0.04)]">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[760px] border-collapse text-left">
-              <thead>
-                <tr className="bg-[var(--color-surface-low)]">
-                  {["Customer", "Orders", "Total Spend", "Last Order", "Status"].map((label) => (
-                    <th
-                      key={label}
-                      className="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]"
-                    >
-                      {label}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {customers.map((customer) => {
-                  const selected = customer.id === selectedCustomerId;
-                  return (
-                    <tr
+      <section className="flex flex-col-reverse gap-6 2xl:grid 2xl:grid-cols-[minmax(0,1.2fr)_420px]">
+        {filteredCustomers.length ? (
+          <div className="overflow-hidden rounded-xl bg-white shadow-[0_20px_50px_rgba(45,52,53,0.04)]">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[760px] border-collapse text-left">
+                <thead>
+                  <tr className="bg-[var(--color-surface-low)]">
+                    {["Customer", "Orders", "Total Spend", "Last Order", "Status"].map((label) => (
+                      <th
+                        key={label}
+                        className="px-6 py-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]"
+                      >
+                        {label}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredCustomers.map((customer) => {
+                    const selected = customer.id === selectedCustomerId;
+                    return (
+                      <tr
                       key={customer.id}
                       onClick={() => setSelectedCustomerId(customer.id)}
                       className={[
@@ -313,14 +338,23 @@ export function AdminCustomersPage() {
                         </span>
                       </td>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+        ) : (
+          <EmptyState
+            title="No customers match this view"
+            body="Try widening your search terms to bring more customers back into frame."
+            actionLabel="Clear search"
+            actionHref="/admin/customers"
+            onAction={() => setSearchQuery("")}
+          />
+        )}
 
-        <aside className="space-y-6 2xl:sticky 2xl:top-24 self-start">
+        <aside className="space-y-6 2xl:sticky 2xl:top-[88px] self-start">
           <div className="rounded-[1.5rem] bg-[var(--color-surface-low)] p-6">
             <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]">
               Customer workspace

@@ -19,11 +19,15 @@ export function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
   const oauthError = searchParams.get("oauthError") ?? "";
   const googleLoginUrl = useMemo(() => {
-    const targetUrl = new URL(apiBaseUrl, window.location.origin);
-    targetUrl.pathname = `${targetUrl.pathname.replace(/\/api$/, "").replace(/\/$/, "")}/oauth2/authorization/google`;
-    targetUrl.search = "";
-    targetUrl.hash = "";
-    return targetUrl.toString();
+    if (/^https?:\/\//.test(apiBaseUrl)) {
+      const targetUrl = new URL(apiBaseUrl);
+      targetUrl.pathname = `${targetUrl.pathname.replace(/\/api$/, "").replace(/\/$/, "")}/oauth2/authorization/google`;
+      targetUrl.search = "";
+      targetUrl.hash = "";
+      return targetUrl.toString();
+    }
+
+    return "/oauth2/authorization/google";
   }, []);
   const redirectPath = (location.state as { from?: string } | null)?.from ?? "/profile";
 

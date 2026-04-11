@@ -45,6 +45,20 @@ function normalizeDateTime(value: string) {
   return value.length === 16 ? `${value}:00` : value;
 }
 
+function formatPromoDateTime(value: string) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(date);
+}
+
 function draftFromPromo(promo: AdminPromoCode): AdminPromoDraft {
   return {
     code: promo.code,
@@ -70,6 +84,41 @@ function normalizeDraft(draft: AdminPromoDraft): AdminPromoDraft {
     startsAt: normalizeDateTime(draft.startsAt.trim()),
     endsAt: normalizeDateTime(draft.endsAt.trim()),
   };
+}
+
+type PromoActiveSwitchProps = {
+  checked: boolean;
+  onChange(nextValue: boolean): void;
+  disabled?: boolean;
+  label: string;
+};
+
+function PromoActiveSwitch({ checked, onChange, disabled = false, label }: PromoActiveSwitchProps) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      disabled={disabled}
+      onClick={() => onChange(!checked)}
+      className={[
+        "relative inline-flex h-7 w-12 shrink-0 items-center rounded-full border transition-colors duration-200",
+        checked
+          ? "border-[var(--color-primary)] bg-[var(--color-primary)]/20"
+          : "border-[rgba(35,40,41,0.18)] bg-[var(--color-surface-low)]",
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer",
+      ].join(" ")}
+    >
+      <span className="sr-only">{label}</span>
+      <span
+        className={[
+          "absolute left-1 h-5 w-5 rounded-full bg-white shadow-[0_6px_16px_rgba(15,20,21,0.18)] transition-transform duration-200",
+          checked ? "translate-x-5 bg-[var(--color-primary)]" : "",
+        ].join(" ")}
+      />
+    </button>
+  );
 }
 
 export function AdminPromosPage() {
@@ -288,21 +337,15 @@ export function AdminPromosPage() {
             <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]">
               Active
             </span>
-            <span className="input-shell flex items-center justify-between px-4 py-3">
+            <span className="input-shell flex items-center justify-between gap-4 px-4 py-3">
               <span className="text-xs font-semibold text-[var(--color-muted)]">
                 {createDraft.active ? "Enabled" : "Disabled"}
               </span>
-              <span className="relative inline-flex h-7 w-12 items-center rounded-full border border-[rgba(35,40,41,0.2)] bg-[var(--color-surface-low)] transition-colors peer-checked:bg-[rgba(35,40,41,0.12)]">
-                <input
-                  type="checkbox"
-                  checked={createDraft.active}
-                  onChange={(event) =>
-                    setCreateDraft((prev) => ({ ...prev, active: event.target.checked }))
-                  }
-                  className="peer sr-only"
-                />
-                <span className="absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow-[0_6px_16px_rgba(15,20,21,0.18)] transition-all peer-checked:translate-x-5 peer-checked:bg-[var(--color-primary)]" />
-              </span>
+              <PromoActiveSwitch
+                checked={createDraft.active}
+                onChange={(active) => setCreateDraft((prev) => ({ ...prev, active }))}
+                label="Set new promo active status"
+              />
             </span>
           </label>
           <div className="flex items-end justify-end">
@@ -337,14 +380,14 @@ export function AdminPromosPage() {
                       key={label}
                       className={[
                         "px-4 py-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]",
-                        label === "Code" ? "w-[18%]" : "",
+                        label === "Code" ? "w-[20%]" : "",
                         label === "Type" ? "w-[10%]" : "",
-                        label === "Discount" ? "w-[10%]" : "",
-                        label === "Min" ? "w-[9%]" : "",
+                        label === "Discount" ? "w-[12%]" : "",
+                        label === "Min" ? "w-[10%]" : "",
                         label === "Usage" ? "w-[10%]" : "",
-                        label === "Active" ? "w-[6%]" : "",
-                        label === "Window" ? "w-[20%]" : "",
-                        label === "Actions" ? "w-[8%] text-right" : "",
+                        label === "Active" ? "w-[10%] text-center" : "",
+                        label === "Window" ? "w-[16%]" : "",
+                        label === "Actions" ? "w-[12%] text-right" : "",
                       ].join(" ")}
                     >
                       {label}
@@ -362,10 +405,8 @@ export function AdminPromosPage() {
                       : formatCurrency(promo.discountValue);
                   const usageLabel =
                     promo.usageLimit === null ? `${promo.usageCount}` : `${promo.usageCount}/${promo.usageLimit}`;
-                  const windowLabel =
-                    promo.startsAt || promo.endsAt
-                      ? `${promo.startsAt || "Now"} → ${promo.endsAt || "Open"}`
-                      : "Always active";
+                  const startsAtLabel = formatPromoDateTime(promo.startsAt);
+                  const endsAtLabel = formatPromoDateTime(promo.endsAt);
 
                   return (
                     <tr key={promo.id} className="border-t border-[rgba(173,179,180,0.12)]">
@@ -467,26 +508,32 @@ export function AdminPromosPage() {
                           usageLabel
                         )}
                       </td>
-                      <td className="px-4 py-4 text-xs font-semibold">
+                      <td className="px-4 py-4 text-xs font-semibold text-center">
                         {isEditing ? (
-                          <label className="flex items-center gap-3 text-xs text-[var(--color-muted)]">
-                            <span className="relative inline-flex h-7 w-12 items-center rounded-full border border-[rgba(35,40,41,0.2)] bg-[var(--color-surface-low)] transition-colors">
-                              <input
-                                type="checkbox"
-                                checked={draft.active}
-                                onChange={(event) =>
-                                  setEditDraft((prev) => prev && ({ ...prev, active: event.target.checked }))
-                                }
-                                className="peer sr-only"
-                              />
-                              <span className="absolute left-1 top-1 h-5 w-5 rounded-full bg-white shadow-[0_6px_16px_rgba(15,20,21,0.18)] transition-all peer-checked:translate-x-5 peer-checked:bg-[var(--color-primary)]" />
+                          <div className="flex flex-col items-center gap-2">
+                            <PromoActiveSwitch
+                              checked={draft.active}
+                              onChange={(active) =>
+                                setEditDraft((prev) => prev && ({ ...prev, active }))
+                              }
+                              disabled={saving}
+                              label={`Set ${draft.code || "promo"} active status`}
+                            />
+                            <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                              {draft.active ? "On" : "Off"}
                             </span>
-                            {draft.active ? "Active" : "Off"}
-                          </label>
-                        ) : promo.active ? (
-                          "Active"
+                          </div>
                         ) : (
-                          "Paused"
+                          <span
+                            className={[
+                              "inline-flex min-w-[4.75rem] items-center justify-center rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.18em]",
+                              promo.active
+                                ? "bg-[rgba(35,40,41,0.08)] text-[var(--color-on-surface)]"
+                                : "bg-[rgba(173,179,180,0.16)] text-[var(--color-muted)]",
+                            ].join(" ")}
+                          >
+                            {promo.active ? "Active" : "Paused"}
+                          </span>
                         )}
                       </td>
                       <td className="px-4 py-4 text-xs text-[var(--color-muted)]">
@@ -510,7 +557,14 @@ export function AdminPromosPage() {
                             />
                           </div>
                         ) : (
-                          windowLabel
+                          <div className="space-y-1">
+                            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+                              {startsAtLabel ? `Starts ${startsAtLabel}` : "Starts immediately"}
+                            </p>
+                            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-muted)]">
+                              {endsAtLabel ? `Ends ${endsAtLabel}` : "No end date"}
+                            </p>
+                          </div>
                         )}
                       </td>
                       <td className="px-4 py-4 text-right text-xs font-semibold">

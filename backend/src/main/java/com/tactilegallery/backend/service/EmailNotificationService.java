@@ -8,12 +8,16 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.StringJoiner;
+import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.StringUtils;
 
 @Service
@@ -25,17 +29,20 @@ public class EmailNotificationService implements EmailNotificationSender {
     private final AppMailProperties mailProperties;
     private final AppFrontendProperties frontendProperties;
     private final EmailTemplateRenderer templateRenderer;
+    private final Executor emailNotificationExecutor;
 
     public EmailNotificationService(
         JavaMailSender mailSender,
         AppMailProperties mailProperties,
         AppFrontendProperties frontendProperties,
-        EmailTemplateRenderer templateRenderer
+        EmailTemplateRenderer templateRenderer,
+        @Qualifier("emailNotificationExecutor") Executor emailNotificationExecutor
     ) {
         this.mailSender = mailSender;
         this.mailProperties = mailProperties;
         this.frontendProperties = frontendProperties;
         this.templateRenderer = templateRenderer;
+        this.emailNotificationExecutor = emailNotificationExecutor;
     }
 
     @Override
@@ -73,6 +80,21 @@ public class EmailNotificationService implements EmailNotificationSender {
     }
 
     private void send(String recipient, String subject, String plainBody, String htmlBody) {
+        Runnable sendTask = () -> sendNow(recipient, subject, plainBody, htmlBody);
+        if (TransactionSynchronizationManager.isActualTransactionActive()) {
+            TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+                @Override
+                public void afterCommit() {
+                    emailNotificationExecutor.execute(sendTask);
+                }
+            });
+            return;
+        }
+
+        emailNotificationExecutor.execute(sendTask);
+    }
+
+    private void sendNow(String recipient, String subject, String plainBody, String htmlBody) {
         try {
             var message = mailSender.createMimeMessage();
             var helper = new MimeMessageHelper(message, true, "UTF-8");

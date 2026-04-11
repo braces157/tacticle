@@ -61,12 +61,12 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
-        if (!passwordMatches(user, request.password())) {
+        if (!isBcryptHash(user.getPasswordHash())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
-        if (!isBcryptHash(user.getPasswordHash())) {
-            user.setPasswordHash(passwordEncoder.encode(request.password()));
+        if (!passwordMatches(user, request.password())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
         return new DomainModels.AuthSession(jwtService.issueToken(user), mapper.toAuthUser(user));
@@ -114,6 +114,7 @@ public class AuthService {
         user.setPasswordHash(passwordHash);
         user.setRole("customer");
         user.setEnabled(true);
+        user.setTokenVersion(0);
         user.setCreatedAt(now);
 
         UserProfileEntity profile = new UserProfileEntity();
@@ -157,6 +158,17 @@ public class AuthService {
         }
 
         user.setPasswordHash(passwordEncoder.encode(request.password()));
+        user.setTokenVersion(user.getTokenVersion() + 1);
+    }
+
+    @Transactional
+    public void logoutCurrentUser() {
+        AppUserEntity user = appUserRepository.findByExternalId(currentUserService.getRequiredUser().userId())
+            .orElseThrow(() -> new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "You need to be signed in to log out."
+            ));
+        user.setTokenVersion(user.getTokenVersion() + 1);
     }
 
     private UserPreferenceEntity preference(UserProfileEntity profile, String text, int sortOrder) {
@@ -168,10 +180,7 @@ public class AuthService {
     }
 
     private boolean passwordMatches(AppUserEntity user, String rawPassword) {
-        String storedPassword = user.getPasswordHash();
-        return isBcryptHash(storedPassword)
-            ? passwordEncoder.matches(rawPassword, storedPassword)
-            : storedPassword.equals(rawPassword);
+        return passwordEncoder.matches(rawPassword, user.getPasswordHash());
     }
 
     private boolean isBcryptHash(String value) {

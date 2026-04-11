@@ -5,7 +5,7 @@ type RequestOptions = {
   allow401?: boolean;
 };
 
-const defaultBaseUrl = "http://localhost:8081/api";
+const defaultBaseUrl = "/api";
 
 const apiBaseUrl = (
   (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? defaultBaseUrl

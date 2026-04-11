@@ -413,4 +413,38 @@ public final class DomainModels {
         @NotBlank String status
     ) {
     }
+
+    public record ChatThreadSummary(
+        @NotBlank String id,
+        @NotBlank String status,
+        @NotBlank String subject,
+        @NotBlank String createdAt,
+        @NotBlank String updatedAt,
+        String lastMessageAt,
+        String lastMessagePreview,
+        String lastMessageSenderRole,
+        @NotBlank String customerId,
+        @NotBlank String customerName,
+        @NotBlank @Email String customerEmail,
+        String productSlug,
+        String productName
+    ) {
+    }
+
+    public record ChatMessage(
+        @NotBlank String id,
+        @NotBlank String threadId,
+        @NotBlank String senderId,
+        @NotBlank String senderName,
+        @NotBlank String senderRole,
+        @NotBlank String body,
+        @NotBlank String createdAt
+    ) {
+    }
+
+    public record ChatThreadDetail(
+        @Valid @NotNull ChatThreadSummary thread,
+        @NotNull List<@Valid ChatMessage> messages
+    ) {
+    }
 }

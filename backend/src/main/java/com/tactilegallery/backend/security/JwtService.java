@@ -3,6 +3,7 @@ package com.tactilegallery.backend.security;
 import com.tactilegallery.backend.config.AppJwtProperties;
 import com.tactilegallery.backend.persistence.entity.AppUserEntity;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -35,21 +36,30 @@ public class JwtService {
             .expiration(Date.from(expiresAt))
             .claim("email", user.getEmail())
             .claim("role", user.getRole())
+            .claim("ver", user.getTokenVersion())
             .signWith(signingKey)
             .compact();
     }
 
-    public AuthenticatedUser parseToken(String token) {
+    public ParsedToken parseToken(String token) {
         Claims claims = Jwts.parser()
             .verifyWith(signingKey)
             .build()
             .parseSignedClaims(token)
             .getPayload();
 
-        return new AuthenticatedUser(
-            claims.getSubject(),
-            claims.get("email", String.class),
-            claims.get("role", String.class)
+        Integer tokenVersion = claims.get("ver", Integer.class);
+        if (tokenVersion == null) {
+            throw new JwtException("Token version is missing.");
+        }
+
+        return new ParsedToken(
+            new AuthenticatedUser(
+                claims.getSubject(),
+                claims.get("email", String.class),
+                claims.get("role", String.class)
+            ),
+            tokenVersion
         );
     }
 
@@ -59,5 +69,11 @@ public class JwtService {
         } catch (RuntimeException ignored) {
             return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         }
+    }
+
+    public record ParsedToken(
+        AuthenticatedUser user,
+        int tokenVersion
+    ) {
     }
 }

@@ -299,3 +299,66 @@ export type AdminPromoDraft = {
   startsAt: string;
   endsAt: string;
 };
+
+export type ChatThreadStatus = "OPEN" | "CLOSED";
+
+export type ChatMessageSenderRole = "customer" | "admin";
+
+export type ChatThreadSummary = {
+  id: string;
+  status: ChatThreadStatus;
+  subject: string;
+  createdAt: string;
+  updatedAt: string;
+  lastMessageAt: string | null;
+  lastMessagePreview: string | null;
+  lastMessageSenderRole: ChatMessageSenderRole | null;
+  customerId: string;
+  customerName: string;
+  customerEmail: string;
+  productSlug: string | null;
+  productName: string | null;
+};
+
+export type ChatMessage = {
+  id: string;
+  threadId: string;
+  senderId: string;
+  senderName: string;
+  senderRole: ChatMessageSenderRole;
+  body: string;
+  createdAt: string;
+};
+
+export type ChatThreadDetail = {
+  thread: ChatThreadSummary;
+  messages: ChatMessage[];
+};
+
+export type ChatRealtimeEvent =
+  | {
+      type: "CONNECTED";
+      payload: {
+        userId: string;
+        role: "customer" | "admin";
+      };
+    }
+  | {
+      type: "CHAT_MESSAGE_CREATED";
+      payload: {
+        thread: ChatThreadSummary;
+        message: ChatMessage;
+      };
+    }
+  | {
+      type: "CHAT_THREAD_UPDATED";
+      payload: {
+        thread: ChatThreadSummary;
+      };
+    }
+  | {
+      type: "ERROR";
+      payload: {
+        message: string;
+      };
+    };

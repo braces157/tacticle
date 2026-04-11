@@ -16,6 +16,33 @@ import {
   type ShippingMethod,
 } from "../utils/checkoutPricing";
 
+const vietQrConfig = {
+  bankId: "VCB",
+  accountNo: "1042361535",
+  accountName: "Tactile shop",
+  template: "compact",
+} as const;
+
+const paymentMethods = [
+  {
+    id: "vietqr",
+    label: "VietQR bank transfer",
+    description: "Scan the QR and transfer the order amount from your banking app.",
+  },
+  {
+    id: "credit-card",
+    label: "Credit card",
+    description: "Pay immediately with a saved or new credit card.",
+  },
+  {
+    id: "pay-on-delivery",
+    label: "Pay on delivery",
+    description: "Confirm the order now and settle the payment when it arrives.",
+  },
+] as const;
+
+type PaymentMethodId = (typeof paymentMethods)[number]["id"];
+
 const initialDraft: CheckoutDraft = {
   fullName: "",
   email: "",
@@ -23,7 +50,7 @@ const initialDraft: CheckoutDraft = {
   city: "",
   postalCode: "",
   country: "",
-  paymentMethod: "Card ending 2148",
+  paymentMethod: "Credit card",
   notes: "",
 };
 
@@ -31,12 +58,27 @@ export function CheckoutPage() {
   const navigate = useNavigate();
   const { user } = useSession();
   const { items, subtotal, clearCart } = useCart();
+  const [paymentReference] = useState(() => {
+    const now = new Date();
+    const timestamp = [
+      now.getFullYear(),
+      String(now.getMonth() + 1).padStart(2, "0"),
+      String(now.getDate()).padStart(2, "0"),
+      String(now.getHours()).padStart(2, "0"),
+      String(now.getMinutes()).padStart(2, "0"),
+      String(now.getSeconds()).padStart(2, "0"),
+    ].join("");
+    const randomSuffix = Math.random().toString(36).slice(2, 6).toUpperCase();
+
+    return `TG${timestamp}${randomSuffix}`;
+  });
   const [draft, setDraft] = useState<CheckoutDraft>({
     ...initialDraft,
     fullName: user?.name ?? "",
     email: user?.email ?? "",
   });
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod["id"]>("standard");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethodId>("credit-card");
   const [cardholderName, setCardholderName] = useState(user?.name ?? "");
   const [cardNumber, setCardNumber] = useState("");
   const [expiry, setExpiry] = useState("");
@@ -93,13 +135,27 @@ export function CheckoutPage() {
 
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   const appliedDiscount = promoQuote?.discount ?? 0;
-  const { discountedSubtotal, shipping, tax, total } = calculateCheckoutTotals(
+  const { discountedSubtotal, shipping, tax } = calculateCheckoutTotals(
     subtotal,
     itemCount,
     shippingMethod,
     appliedDiscount,
   );
+  const orderTotal = discountedSubtotal + shipping + tax;
   const activeShippingMethod = getShippingMethod(shippingMethod);
+  const selectedPaymentMethod = paymentMethods.find((method) => method.id === paymentMethod) ?? paymentMethods[1];
+  const vietQrUrl = new URL(
+    `https://img.vietqr.io/image/${vietQrConfig.bankId}-${vietQrConfig.accountNo}-${vietQrConfig.template}.png`,
+  );
+  vietQrUrl.searchParams.set("amount", String(Math.round(orderTotal)));
+  vietQrUrl.searchParams.set("addInfo", paymentReference);
+  vietQrUrl.searchParams.set("accountName", vietQrConfig.accountName);
+  const amountLabel =
+    paymentMethod === "pay-on-delivery"
+      ? "Amount due on delivery"
+      : paymentMethod === "vietqr"
+        ? "Amount to transfer"
+        : "Amount charged today";
 
   function updateField<K extends keyof CheckoutDraft>(key: K, value: CheckoutDraft[K]) {
     setDraft((current) => ({ ...current, [key]: value }));
@@ -139,17 +195,19 @@ export function CheckoutPage() {
       }
     }
 
-    if (!cardholderName.trim()) {
-      nextErrors.cardholderName = "Cardholder name is required.";
-    }
-    if (cardNumber.replace(/\s+/g, "").length < 12) {
-      nextErrors.cardNumber = "Enter a valid card number.";
-    }
-    if (!/^\d{2}\/\d{2}$/.test(expiry.trim())) {
-      nextErrors.expiry = "Use MM/YY format.";
-    }
-    if (!/^\d{3,4}$/.test(cvc.trim())) {
-      nextErrors.cvc = "Enter a valid security code.";
+    if (paymentMethod === "credit-card") {
+      if (!cardholderName.trim()) {
+        nextErrors.cardholderName = "Cardholder name is required.";
+      }
+      if (cardNumber.replace(/\s+/g, "").length < 12) {
+        nextErrors.cardNumber = "Enter a valid card number.";
+      }
+      if (!/^\d{2}\/\d{2}$/.test(expiry.trim())) {
+        nextErrors.expiry = "Use MM/YY format.";
+      }
+      if (!/^\d{3,4}$/.test(cvc.trim())) {
+        nextErrors.cvc = "Enter a valid security code.";
+      }
     }
 
     setErrors(nextErrors);
@@ -166,14 +224,31 @@ export function CheckoutPage() {
     setSubmitting(true);
     try {
       const normalizedCardNumber = cardNumber.replace(/\s+/g, "");
+      const paymentSummary =
+        paymentMethod === "credit-card"
+          ? `Credit card / ${activeShippingMethod.label} / Card ending ${normalizedCardNumber.slice(-4)}`
+          : paymentMethod === "vietqr"
+            ? `VietQR / ${activeShippingMethod.label} / ${vietQrConfig.bankId} ${vietQrConfig.accountNo}`
+            : `Pay on delivery / ${activeShippingMethod.label}`;
+      const paymentNotes =
+        paymentMethod === "credit-card"
+          ? [`Cardholder: ${cardholderName.trim()}`]
+          : paymentMethod === "vietqr"
+            ? [
+                `VietQR bank: ${vietQrConfig.bankId}`,
+                `VietQR account: ${vietQrConfig.accountNo}`,
+                `Transfer reference: ${paymentReference}`,
+                `Transfer amount shown at checkout: ${formatCurrency(orderTotal)}`,
+              ]
+            : ["Payment will be collected on delivery."];
       const order = await checkoutService.submitOrder(
         {
           ...draft,
-          paymentMethod: `${activeShippingMethod.label} / Card ending ${normalizedCardNumber.slice(-4)}`,
+          paymentMethod: paymentSummary,
           notes: [
             draft.notes.trim(),
             `Shipping method: ${activeShippingMethod.label}`,
-            `Cardholder: ${cardholderName.trim()}`,
+            ...paymentNotes,
           ]
             .filter(Boolean)
             .join(" | "),
@@ -297,43 +372,119 @@ export function CheckoutPage() {
             <h2 className="mt-3 font-['Manrope'] text-3xl font-extrabold tracking-[-0.04em]">
               Payment details
             </h2>
-            <div className="mt-6 grid gap-5 md:grid-cols-2">
-              <InputField
-                label="Cardholder name"
-                value={cardholderName}
-                onChange={(event) => setCardholderName(event.target.value)}
-                error={errors.cardholderName}
-              />
-              <InputField
-                label="Card number"
-                inputMode="numeric"
-                value={cardNumber}
-                onChange={(event) => setCardNumber(event.target.value)}
-                error={errors.cardNumber}
-              />
+            <div className="surface-mat mt-6 grid gap-3 rounded-[1.25rem] p-3">
+              {paymentMethods.map((method) => {
+                const active = paymentMethod === method.id;
+
+                return (
+                  <button
+                    key={method.id}
+                    type="button"
+                    onClick={() => setPaymentMethod(method.id)}
+                    className={[
+                      "rounded-[1.25rem] px-5 py-4 text-left transition",
+                      active
+                        ? "bg-[var(--color-on-surface)] text-white"
+                        : "bg-white text-[var(--color-on-surface)]",
+                    ].join(" ")}
+                  >
+                    <p className="font-semibold">{method.label}</p>
+                    <p className={active ? "mt-1 text-white/70" : "mt-1 text-[var(--color-muted)]"}>
+                      {method.description}
+                    </p>
+                  </button>
+                );
+              })}
             </div>
-            <div className="mt-5 grid gap-5 md:grid-cols-3">
-              <InputField
-                label="Expiry"
-                placeholder="MM/YY"
-                value={expiry}
-                onChange={(event) => setExpiry(event.target.value)}
-                error={errors.expiry}
-              />
-              <InputField
-                label="Security code"
-                inputMode="numeric"
-                value={cvc}
-                onChange={(event) => setCvc(event.target.value)}
-                error={errors.cvc}
-              />
-              <InputField
-                label="Payment summary"
-                value={`Card ending ${cardNumber.replace(/\s+/g, "").slice(-4) || "----"}`}
-                readOnly
-                hint="Your saved payment details appear here."
-              />
-            </div>
+            {paymentMethod === "credit-card" ? (
+              <>
+                <div className="mt-6 grid gap-5 md:grid-cols-2">
+                  <InputField
+                    label="Cardholder name"
+                    value={cardholderName}
+                    onChange={(event) => setCardholderName(event.target.value)}
+                    error={errors.cardholderName}
+                  />
+                  <InputField
+                    label="Card number"
+                    inputMode="numeric"
+                    value={cardNumber}
+                    onChange={(event) => setCardNumber(event.target.value)}
+                    error={errors.cardNumber}
+                  />
+                </div>
+                <div className="mt-5 grid gap-5 md:grid-cols-3">
+                  <InputField
+                    label="Expiry"
+                    placeholder="MM/YY"
+                    value={expiry}
+                    onChange={(event) => setExpiry(event.target.value)}
+                    error={errors.expiry}
+                  />
+                  <InputField
+                    label="Security code"
+                    inputMode="numeric"
+                    value={cvc}
+                    onChange={(event) => setCvc(event.target.value)}
+                    error={errors.cvc}
+                  />
+                  <InputField
+                    label="Payment summary"
+                    value={`Card ending ${cardNumber.replace(/\s+/g, "").slice(-4) || "----"}`}
+                    readOnly
+                    hint="Your saved payment details appear here."
+                  />
+                </div>
+              </>
+            ) : null}
+            {paymentMethod === "vietqr" ? (
+              <div className="mt-6 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+                <div className="overflow-hidden rounded-[1.25rem] bg-white p-4">
+                  <img
+                    src={vietQrUrl.toString()}
+                    alt="VietQR payment for Tactile shop"
+                    className="mx-auto aspect-square w-full max-w-sm rounded-2xl object-contain"
+                  />
+                </div>
+                <div className="rounded-[1.25rem] bg-[var(--color-surface-alt)] p-5 text-sm leading-6 text-[var(--color-muted)]">
+                  <p className="font-semibold text-[var(--color-on-surface)]">{selectedPaymentMethod.label}</p>
+                  <p className="mt-1">
+                    Scan this QR with your banking app and transfer the full order total shown here.
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    <p>
+                      <span className="font-semibold text-[var(--color-on-surface)]">Bank:</span> {vietQrConfig.bankId}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--color-on-surface)]">Account number:</span> {vietQrConfig.accountNo}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--color-on-surface)]">Account name:</span> {vietQrConfig.accountName}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--color-on-surface)]">Transfer amount:</span> {formatCurrency(orderTotal)}
+                    </p>
+                    <p>
+                      <span className="font-semibold text-[var(--color-on-surface)]">Transfer note:</span> {paymentReference}
+                    </p>
+                  </div>
+                  <p className="mt-4 rounded-[1rem] bg-white px-4 py-3 text-sm leading-6 text-[var(--color-muted)] ghost-border">
+                    Include the transfer note exactly as shown so the receiving account can match your payment quickly.
+                  </p>
+                </div>
+              </div>
+            ) : null}
+            {paymentMethod === "pay-on-delivery" ? (
+              <div className="mt-6 rounded-[1.25rem] bg-[var(--color-surface-alt)] p-5 text-sm leading-6 text-[var(--color-muted)]">
+                <p className="font-semibold text-[var(--color-on-surface)]">{selectedPaymentMethod.label}</p>
+                <p className="mt-1">
+                  We will confirm the order now and collect the full order total when the parcel arrives.
+                </p>
+                <p className="mt-3">
+                  Keep your delivery phone number and address accurate so the courier can complete handoff without delay.
+                </p>
+              </div>
+            ) : null}
             <div className="mt-5">
               <InputField
                 as="textarea"
@@ -350,7 +501,7 @@ export function CheckoutPage() {
             <h2 className="mt-3 font-['Manrope'] text-3xl font-extrabold tracking-[-0.04em]">
               Promo code
             </h2>
-            <div className="mt-6 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+            <div className="mt-6 grid gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-start">
               <InputField
                 label="Promotion"
                 value={promoCode}
@@ -359,7 +510,12 @@ export function CheckoutPage() {
                 hint={promoQuote?.description ?? "Apply a code before placing the order."}
                 error={promoError || undefined}
               />
-              <Button type="button" onClick={handleApplyPromo} disabled={applyingPromo}>
+              <Button
+                type="button"
+                onClick={handleApplyPromo}
+                disabled={applyingPromo}
+                className="md:self-center"
+              >
                 {applyingPromo ? "Applying…" : "Apply code"}
               </Button>
             </div>
@@ -423,18 +579,25 @@ export function CheckoutPage() {
               <span>{formatCurrency(tax)}</span>
             </div>
             <div className="flex justify-between text-sm text-[var(--color-muted)]">
-              <span>Order subtotal after promo</span>
+              <span>Merchandise total</span>
               <span>{formatCurrency(discountedSubtotal)}</span>
             </div>
+            <div className="flex justify-between text-sm text-[var(--color-muted)]">
+              <span>Order total</span>
+              <span>{formatCurrency(orderTotal)}</span>
+            </div>
             <div className="flex items-center justify-between font-['Manrope'] text-xl font-bold">
-              <span>Total</span>
-              <span>{formatCurrency(total)}</span>
+              <span>{amountLabel}</span>
+              <span>{formatCurrency(orderTotal)}</span>
             </div>
           </div>
           <div className="mt-8 rounded-[1.25rem] bg-white px-5 py-4 text-sm leading-6 text-[var(--color-muted)]">
             <p className="font-semibold text-[var(--color-on-surface)]">{activeShippingMethod.label}</p>
             <p className="mt-1">{activeShippingMethod.description}</p>
           </div>
+          <p className="mt-4 text-sm leading-6 text-[var(--color-muted)]">
+            Shipping and tax are included in the checkout total shown above for the selected payment method.
+          </p>
         </aside>
       </div>
     </section>

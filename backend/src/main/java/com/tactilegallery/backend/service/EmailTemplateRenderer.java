@@ -446,10 +446,6 @@ public class EmailTemplateRenderer {
     }
 
     private String trimTrailingSlash(String value) {
-        if (!StringUtils.hasText(value)) {
-            return "http://localhost:5173";
-        }
-
         String normalized = value.trim();
         while (normalized.endsWith("/")) {
             normalized = normalized.substring(0, normalized.length() - 1);

@@ -3,6 +3,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { EmptyState, ErrorState, LoadingState } from "../components/ui/AsyncState";
 import { Button } from "../components/ui/Button";
 import { Icon } from "../components/ui/Icon";
+import { Modal } from "../components/ui/Modal";
 import {
   archiveAdminProduct,
   getAdminInventoryItems,
@@ -23,6 +24,8 @@ export function AdminInventoryPage() {
   const [items, setItems] = useState<AdminInventoryItem[] | null>(null);
   const [alertCount, setAlertCount] = useState<number | null>(null);
   const [error, setError] = useState(false);
+  const [archiveTarget, setArchiveTarget] = useState<string | null>(null);
+  const [archiving, setArchiving] = useState(false);
   const query = searchParams.get("query") ?? "";
   const category = searchParams.get("category") ?? "All Categories";
   const stockStatus = searchParams.get("stockStatus") ?? "All Status";
@@ -68,9 +71,20 @@ export function AdminInventoryPage() {
     setSearchParams({}, { replace: true });
   }
 
-  async function handleArchive(slug: string) {
-    await archiveAdminProduct(slug);
-    setRefreshKey((current) => current + 1);
+  function handleArchive(slug: string) {
+    setArchiveTarget(slug);
+  }
+
+  async function confirmArchive() {
+    if (!archiveTarget) return;
+    setArchiving(true);
+    try {
+      await archiveAdminProduct(archiveTarget);
+      setRefreshKey((current) => current + 1);
+    } finally {
+      setArchiving(false);
+      setArchiveTarget(null);
+    }
   }
 
   if (error) {
@@ -172,13 +186,13 @@ export function AdminInventoryPage() {
                       key={label}
                       className={[
                         "px-4 py-4 text-[10px] font-bold uppercase tracking-[0.22em] text-[var(--color-muted)]",
-                        label === "Product" ? "w-[38%]" : "",
-                        label === "Category" ? "w-[12%]" : "",
-                        label === "SKU" ? "w-[8%]" : "",
-                        label === "Price" ? "w-[7%] whitespace-nowrap" : "",
-                        label === "Stock" ? "w-[6%] whitespace-nowrap" : "",
+                        label === "Product" ? "w-[40%]" : "",
+                        label === "Category" ? "w-[15%]" : "",
+                        label === "SKU" ? "w-[10%]" : "",
+                        label === "Price" ? "w-[8%] whitespace-nowrap" : "",
+                        label === "Stock" ? "w-[7%] whitespace-nowrap" : "",
                         label === "Status" ? "w-[10%] whitespace-nowrap" : "",
-                        label === "Actions" ? "w-[7%] whitespace-nowrap text-right" : "",
+                        label === "Actions" ? "w-[10%] whitespace-nowrap text-right" : "",
                       ].join(" ")}
                     >
                       {label}
@@ -263,6 +277,17 @@ export function AdminInventoryPage() {
           actionHref="/admin/inventory"
         />
       )}
+
+      <Modal
+        open={archiveTarget !== null}
+        onClose={() => setArchiveTarget(null)}
+        onConfirm={() => void confirmArchive()}
+        loading={archiving}
+        variant="destructive"
+        title="Archive product"
+        description={`Are you sure you want to archive ${items.find(i => i.productSlug === archiveTarget)?.name ?? "this product"}? This product will be hidden from the storefront immediately.`}
+        confirmLabel="Archive"
+      />
     </div>
   );
 }

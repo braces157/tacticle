@@ -75,32 +75,39 @@ public class OrderService {
             ));
         PreparedOrder preparedOrder = prepareOrderItems(request.items(), true);
         DomainModels.PromoQuote promoQuote = promoCodeService.redeem(request.promoCode(), preparedOrder.subtotal());
+        PaymentFlow paymentFlow = PaymentFlow.from(request.draft().paymentMethod());
+        CheckoutAmounts checkoutAmounts = CheckoutAmounts.from(
+            preparedOrder.subtotal(),
+            scaleMoney(BigDecimal.valueOf(promoQuote.discount())),
+            preparedOrder.itemCount(),
+            request.draft().paymentMethod()
+        );
 
         OrderEntity order = new OrderEntity();
         order.setUser(user);
         order.setCustomerName(request.draft().fullName().isBlank() ? user.getName() : request.draft().fullName().trim());
         order.setCustomerEmail(request.draft().email().isBlank() ? user.getEmail() : request.draft().email().trim().toLowerCase());
-        order.setStatus(DomainModels.OrderStatus.PROCESSING.getLabel());
-        order.setFulfillment("Assembly queued");
+        order.setStatus(paymentFlow.status().getLabel());
+        order.setFulfillment(paymentFlow.fulfillment());
         order.setShippingLine1(request.draft().address());
         order.setShippingCity(request.draft().city());
         order.setShippingPostalCode(request.draft().postalCode());
         order.setShippingCountry(request.draft().country());
-        order.setPaymentStatus("Paid");
+        order.setPaymentStatus(paymentFlow.paymentStatus());
         order.setCreatedAt(LocalDateTime.now());
         order.setOrderNumber(nextOrderNumber());
-        order.setSubtotalAmount(scaleMoney(BigDecimal.valueOf(promoQuote.subtotal())));
-        order.setDiscountAmount(scaleMoney(BigDecimal.valueOf(promoQuote.discount())));
+        order.setSubtotalAmount(checkoutAmounts.subtotal());
+        order.setDiscountAmount(checkoutAmounts.discount());
         order.setPromoCode(promoQuote.code());
-        order.setTotalAmount(scaleMoney(BigDecimal.valueOf(promoQuote.total())));
+        order.setTotalAmount(checkoutAmounts.total());
         order.setItemCount(preparedOrder.itemCount());
         order.setItems(preparedOrder.items().stream()
             .map(preparedItem -> toOrderItem(order, preparedItem.product(), preparedItem.cartItem(), preparedItem.unitPrice()))
             .toList());
         order.setTimelineEntries(new ArrayList<>(List.of(
             timelineEntry(order, "Order placed", 1),
-            timelineEntry(order, "Payment confirmed", 2),
-            timelineEntry(order, "Assembly queued", 3)
+            timelineEntry(order, paymentFlow.paymentTimelineEntry(), 2),
+            timelineEntry(order, paymentFlow.fulfillmentTimelineEntry(), 3)
         )));
 
         if (promoQuote.code() != null) {
@@ -126,6 +133,7 @@ public class OrderService {
         List<PreparedOrderItem> preparedItems = new ArrayList<>();
         BigDecimal subtotal = BigDecimal.ZERO;
         int itemCount = 0;
+        Map<String, Integer> requestedQuantitiesByProduct = new HashMap<>();
 
         for (DomainModels.CartItem item : items) {
             if (item.quantity() <= 0) {
@@ -140,7 +148,12 @@ public class OrderService {
             }
 
             BigDecimal unitPrice = resolveUnitPrice(product, item.selectedOptions());
-            if (enforceStock && product.getStock() < item.quantity()) {
+            int requestedQuantity = requestedQuantitiesByProduct.merge(
+                product.getSlug(),
+                item.quantity(),
+                Integer::sum
+            );
+            if (enforceStock && product.getStock() < requestedQuantity) {
                 throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,
                     "Only " + product.getStock() + " units of " + product.getName() + " remain in stock."
@@ -227,6 +240,111 @@ public class OrderService {
 
     private BigDecimal scaleMoney(BigDecimal value) {
         return value.setScale(2, RoundingMode.HALF_UP);
+    }
+
+    private record PaymentFlow(
+        DomainModels.OrderStatus status,
+        String fulfillment,
+        String paymentStatus,
+        String paymentTimelineEntry,
+        String fulfillmentTimelineEntry
+    ) {
+        private static PaymentFlow from(String paymentMethod) {
+            String normalized = paymentMethod == null ? "" : paymentMethod.trim().toLowerCase();
+
+            if (normalized.contains("vietqr") || normalized.contains("qr")) {
+                return new PaymentFlow(
+                    DomainModels.OrderStatus.PAYMENT_REVIEW,
+                    "Awaiting payment review",
+                    "Awaiting VietQR transfer",
+                    "Awaiting VietQR transfer",
+                    "Awaiting payment review"
+                );
+            }
+
+            if (
+                normalized.contains("pay on delivery")
+                || normalized.contains("cash on delivery")
+                || normalized.contains("delivery")
+            ) {
+                return new PaymentFlow(
+                    DomainModels.OrderStatus.PAYMENT_REVIEW,
+                    "Awaiting payment review",
+                    "Payment due on delivery",
+                    "Payment due on delivery",
+                    "Awaiting payment review"
+                );
+            }
+
+            return new PaymentFlow(
+                DomainModels.OrderStatus.PROCESSING,
+                "Assembly queued",
+                "Paid",
+                "Payment confirmed",
+                "Assembly queued"
+            );
+        }
+    }
+
+    private record CheckoutAmounts(
+        BigDecimal subtotal,
+        BigDecimal discount,
+        BigDecimal shipping,
+        BigDecimal tax,
+        BigDecimal total
+    ) {
+        private static final BigDecimal TAX_RATE = BigDecimal.valueOf(0.07);
+
+        private static CheckoutAmounts from(
+            BigDecimal subtotal,
+            BigDecimal discount,
+            int itemCount,
+            String paymentMethod
+        ) {
+            BigDecimal normalizedSubtotal = subtotal == null ? BigDecimal.ZERO : subtotal;
+            BigDecimal normalizedDiscount = discount == null ? BigDecimal.ZERO : discount;
+            BigDecimal discountedSubtotal = normalizedSubtotal.subtract(normalizedDiscount).max(BigDecimal.ZERO);
+            BigDecimal shipping = shippingEstimate(discountedSubtotal, itemCount, paymentMethod);
+            BigDecimal tax = discountedSubtotal.multiply(TAX_RATE).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal total = discountedSubtotal.add(shipping).add(tax).setScale(2, RoundingMode.HALF_UP);
+            return new CheckoutAmounts(
+                normalizedSubtotal.setScale(2, RoundingMode.HALF_UP),
+                normalizedDiscount.setScale(2, RoundingMode.HALF_UP),
+                shipping,
+                tax,
+                total
+            );
+        }
+
+        private static BigDecimal shippingEstimate(BigDecimal discountedSubtotal, int itemCount, String paymentMethod) {
+            String shippingLabel = extractShippingLabel(paymentMethod);
+            int baseRate = switch (shippingLabel) {
+                case "Priority dispatch" -> 34;
+                case "White-glove delivery" -> 56;
+                default -> 18;
+            };
+            int itemAdjustment = Math.max(0, itemCount - 1) * 4;
+
+            if ("Standard courier".equals(shippingLabel) && discountedSubtotal.compareTo(BigDecimal.valueOf(600)) >= 0) {
+                return BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+            }
+
+            return BigDecimal.valueOf(baseRate + itemAdjustment).setScale(2, RoundingMode.HALF_UP);
+        }
+
+        private static String extractShippingLabel(String paymentMethod) {
+            if (paymentMethod == null || paymentMethod.isBlank()) {
+                return "Standard courier";
+            }
+
+            String[] parts = paymentMethod.split("/");
+            if (parts.length < 2) {
+                return "Standard courier";
+            }
+
+            String label = parts[1].trim();
+            return label.isBlank() ? "Standard courier" : label;
+        }
     }
 
     private record PreparedOrder(

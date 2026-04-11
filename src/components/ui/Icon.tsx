@@ -18,7 +18,9 @@ type IconName =
   | "chart"
   | "users"
   | "reviews"
-  | "ticket";
+  | "ticket"
+  | "chat"
+  | "menu";
 
 const paths: Record<IconName, ReactNode> = {
   "arrow-right": (
@@ -192,6 +194,27 @@ const paths: Record<IconName, ReactNode> = {
       />
       <path d="M12 7.5v9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </>
+  ),
+  chat: (
+    <>
+      <path
+        d="M5 6.5A2.5 2.5 0 0 1 7.5 4h9A2.5 2.5 0 0 1 19 6.5v7A2.5 2.5 0 0 1 16.5 16H10l-4 4v-4H7.5A2.5 2.5 0 0 1 5 13.5v-7Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="none"
+        strokeLinejoin="round"
+      />
+      <path d="M9 8.5h6M9 11.5h4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </>
+  ),
+  menu: (
+    <path
+      d="M4 6h16M4 12h16M4 18h16"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      fill="none"
+    />
   ),
 };
 

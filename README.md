@@ -91,6 +91,7 @@ set DB_NAME=your_database_name
 set DB_USERNAME=your_database_username
 set DB_PASSWORD=your_database_password
 set JWT_SECRET=your_base64_or_long_random_jwt_secret
+set FRONTEND_BASE_URL=http://localhost:5173
 set MAIL_USERNAME=your_smtp_username
 set MAIL_PASSWORD=your_smtp_password
 set APP_DEMO_ACCOUNTS_ENABLED=true
@@ -101,6 +102,8 @@ Then run:
 ```bash
 mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 ```
+
+`FRONTEND_BASE_URL` is required by the backend for OAuth redirects and generated frontend links. In local development it should usually match the Vite dev server origin, `http://localhost:5173`.
 
 ## Demo Accounts
 

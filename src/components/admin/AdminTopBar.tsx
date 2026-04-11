@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useAdminReviewNotifications } from "../../context/AdminReviewNotificationsContext";
 import { Icon } from "../ui/Icon";
+
+const navItems = [
+  { to: "/admin", label: "Dashboard", icon: "dashboard" as const, end: true },
+  { to: "/admin/orders", label: "Orders", icon: "cart" as const },
+  { to: "/admin/reviews", label: "Reviews", icon: "reviews" as const },
+  { to: "/admin/customers", label: "Customers", icon: "users" as const },
+  { to: "/admin/inventory", label: "Inventory", icon: "inventory" as const },
+  { to: "/admin/promos", label: "Promos", icon: "ticket" as const },
+  { to: "/admin/products/new", label: "New Product", icon: "plus" as const },
+];
 
 export function AdminTopBar() {
   const location = useLocation();
@@ -10,6 +20,7 @@ export function AdminTopBar() {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { pendingReviews, pendingCount, loading } = useAdminReviewNotifications();
   const inventoryQuery = searchParams.get("query") ?? "";
 
@@ -38,21 +49,31 @@ export function AdminTopBar() {
   }
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-6 border-b border-[rgba(173,179,180,0.12)] bg-[rgba(249,249,249,0.82)] px-6 backdrop-blur-xl">
-      <form
-        className="input-shell flex max-w-md items-center gap-2 px-3"
-        role="search"
-        onSubmit={handleSearchSubmit}
-      >
-        <Icon name="search" className="h-4 w-4 text-[var(--color-muted)]" />
-        <input
-          aria-label="Search admin inventory"
-          value={searchValue}
-          onChange={(event) => setSearchValue(event.target.value)}
-          placeholder="Search inventory..."
-          className="w-full bg-transparent py-2 text-sm outline-none"
-        />
-      </form>
+    <header className="sticky top-0 z-30 flex min-h-16 flex-col border-b border-[rgba(173,179,180,0.12)] bg-[rgba(249,249,249,0.82)] backdrop-blur-xl">
+      <div className="flex h-16 items-center justify-between gap-6 px-6">
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            className="lg:hidden rounded-full p-2 text-[var(--color-primary)] hover:bg-[var(--color-surface-low)]"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <Icon name={mobileMenuOpen ? "close" : "menu"} className="h-5 w-5" />
+          </button>
+          <form
+            className="input-shell hidden max-w-md items-center gap-2 px-3 lg:flex"
+            role="search"
+            onSubmit={handleSearchSubmit}
+          >
+            <Icon name="search" className="h-4 w-4 text-[var(--color-muted)]" />
+            <input
+              aria-label="Search admin inventory"
+              value={searchValue}
+              onChange={(event) => setSearchValue(event.target.value)}
+              placeholder="Search inventory..."
+              className="w-full bg-transparent py-2 text-sm outline-none"
+            />
+          </form>
+        </div>
       <div className="flex items-center gap-4">
         <div className="relative">
           <button
@@ -161,11 +182,54 @@ export function AdminTopBar() {
         </div>
         <Link
           to="/"
-          className="hidden rounded-sm border border-[var(--color-outline)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)] transition hover:bg-[var(--color-surface-low)] md:inline-flex"
+          className="hidden rounded-sm border border-[var(--color-outline)] px-3 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--color-primary)] transition hover:bg-[var(--color-surface-low)] lg:inline-flex"
         >
           View Store
         </Link>
       </div>
+      </div>
+      {mobileMenuOpen ? (
+        <div className="lg:hidden border-t border-[var(--color-outline)] px-6 py-4">
+          <form
+            className="input-shell flex w-full items-center gap-2 px-3 mb-6"
+            role="search"
+            onSubmit={(e) => {
+              handleSearchSubmit(e);
+              setMobileMenuOpen(false);
+            }}
+          >
+            <Icon name="search" className="h-4 w-4 text-[var(--color-muted)]" />
+            <input
+              aria-label="Search admin inventory"
+              value={searchValue}
+              onChange={(event) => setSearchValue(event.target.value)}
+              placeholder="Search inventory..."
+              className="w-full bg-transparent py-2 text-sm outline-none"
+            />
+          </form>
+          <nav className="flex flex-col gap-2">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.end}
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  [
+                    "flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-colors",
+                    isActive
+                      ? "bg-[var(--color-surface-low)] text-[var(--color-on-surface)]"
+                      : "text-[var(--color-muted)] hover:bg-[var(--color-surface-low)] hover:text-[var(--color-on-surface)]",
+                  ].join(" ")
+                }
+              >
+                <Icon name={item.icon} className="h-5 w-5" />
+                <span>{item.label}</span>
+              </NavLink>
+            ))}
+          </nav>
+        </div>
+      ) : null}
     </header>
   );
 }

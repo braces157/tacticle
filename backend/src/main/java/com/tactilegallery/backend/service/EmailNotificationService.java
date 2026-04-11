@@ -155,9 +155,6 @@ public class EmailNotificationService implements EmailNotificationSender {
 
     private String frontendUrl(String path) {
         String baseUrl = frontendProperties.getBaseUrl();
-        if (!StringUtils.hasText(baseUrl)) {
-            baseUrl = "http://localhost:5173";
-        }
         if (baseUrl.endsWith("/")) {
             baseUrl = baseUrl.substring(0, baseUrl.length() - 1);
         }

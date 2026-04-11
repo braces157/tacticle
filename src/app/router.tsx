@@ -11,6 +11,7 @@ import { RequireAdmin, RequireAuth } from "../context/SessionContext";
 
 const AdminCustomersPage = lazy(() => import("../pages/AdminCustomersPage").then((module) => ({ default: module.AdminCustomersPage })));
 const AdminCreateProductPage = lazy(() => import("../pages/AdminCreateProductPage").then((module) => ({ default: module.AdminCreateProductPage })));
+const AdminChatPage = lazy(() => import("../pages/AdminChatPage").then((module) => ({ default: module.AdminChatPage })));
 const AdminDashboardPage = lazy(() => import("../pages/AdminDashboardPage").then((module) => ({ default: module.AdminDashboardPage })));
 const AdminEditProductPage = lazy(() => import("../pages/AdminEditProductPage").then((module) => ({ default: module.AdminEditProductPage })));
 const AdminInventoryPage = lazy(() => import("../pages/AdminInventoryPage").then((module) => ({ default: module.AdminInventoryPage })));
@@ -34,6 +35,7 @@ const ProductPage = lazy(() => import("../pages/ProductPage").then((module) => (
 const ProfilePage = lazy(() => import("../pages/ProfilePage").then((module) => ({ default: module.ProfilePage })));
 const RegisterPage = lazy(() => import("../pages/RegisterPage").then((module) => ({ default: module.RegisterPage })));
 const SearchPage = lazy(() => import("../pages/SearchPage").then((module) => ({ default: module.SearchPage })));
+const SupportPage = lazy(() => import("../pages/SupportPage").then((module) => ({ default: module.SupportPage })));
 
 function RouteLoadingFallback() {
   return (
@@ -79,6 +81,14 @@ export const routes = createRoutesFromElements(
         }
       />
       <Route
+        path="support"
+        element={
+          <RequireAuth>
+            <SupportPage />
+          </RequireAuth>
+        }
+      />
+      <Route
         path="profile"
         element={
           <RequireAuth>
@@ -114,6 +124,7 @@ export const routes = createRoutesFromElements(
       }
     >
       <Route index element={<AdminDashboardPage />} />
+      <Route path="chat" element={<AdminChatPage />} />
       <Route path="orders" element={<AdminOrdersPage />} />
       <Route path="orders/:orderId" element={<AdminOrderDetailPage />} />
       <Route path="reviews" element={<AdminReviewsPage />} />

@@ -18,7 +18,13 @@ export function LoginPage() {
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const oauthError = searchParams.get("oauthError") ?? "";
-  const googleLoginUrl = useMemo(() => `${apiBaseUrl.replace(/\/api$/, "")}/oauth2/authorization/google`, []);
+  const googleLoginUrl = useMemo(() => {
+    const targetUrl = new URL(apiBaseUrl, window.location.origin);
+    targetUrl.pathname = `${targetUrl.pathname.replace(/\/api$/, "").replace(/\/$/, "")}/oauth2/authorization/google`;
+    targetUrl.search = "";
+    targetUrl.hash = "";
+    return targetUrl.toString();
+  }, []);
   const redirectPath = (location.state as { from?: string } | null)?.from ?? "/profile";
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {

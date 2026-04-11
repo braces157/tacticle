@@ -39,7 +39,7 @@ public final class ApiRequests {
     }
 
     public record CheckoutRequest(
-        @Valid DomainModels.CheckoutDraft draft,
+        @Valid @NotNull DomainModels.CheckoutDraft draft,
         @Valid @NotEmpty List<DomainModels.CartItem> items,
         @Size(max = 80) String promoCode
     ) {
@@ -83,6 +83,22 @@ public final class ApiRequests {
         boolean active,
         String startsAt,
         String endsAt
+    ) {
+    }
+
+    public record CreateChatThreadRequest(
+        @Size(max = 160) String productSlug,
+        @Size(max = 255) String subject
+    ) {
+    }
+
+    public record CreateChatMessageRequest(
+        @NotBlank @Size(max = 4000) String body
+    ) {
+    }
+
+    public record UpdateChatThreadStatusRequest(
+        @NotBlank String status
     ) {
     }
 }

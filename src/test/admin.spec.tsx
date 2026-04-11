@@ -12,7 +12,7 @@ beforeEach(() => {
 test("renders the admin dashboard and navigates to inventory edit", async () => {
   renderRoute(["/admin"]);
 
-  expect(await screen.findByRole("heading", { name: /Tactile Gallery/i })).toBeInTheDocument();
+  expect(await screen.findByRole("heading", { name: /Tactile Admin/i })).toBeInTheDocument();
 
   await userEvent.click(screen.getByRole("link", { name: /Orders/i }));
   expect(await screen.findByRole("heading", { name: /^Orders$/i })).toBeInTheDocument();

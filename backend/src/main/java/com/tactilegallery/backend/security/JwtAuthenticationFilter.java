@@ -47,12 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         try {
-            AuthenticatedUser tokenUser = jwtService.parseToken(token);
+            JwtService.ParsedToken parsedToken = jwtService.parseToken(token);
+            AuthenticatedUser tokenUser = parsedToken.user();
             AppUserEntity user = appUserRepository.findByExternalId(tokenUser.userId())
                 .filter(AppUserEntity::isEnabled)
                 .orElse(null);
 
-            if (user != null) {
+            if (user != null && user.getTokenVersion() == parsedToken.tokenVersion()) {
                 AuthenticatedUser authenticatedUser =
                     new AuthenticatedUser(user.getExternalId(), user.getEmail(), user.getRole());
                 UsernamePasswordAuthenticationToken authentication =
@@ -62,6 +63,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase(Locale.ROOT)))
                     );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                SecurityContextHolder.clearContext();
             }
         } catch (JwtException ignored) {
             SecurityContextHolder.clearContext();

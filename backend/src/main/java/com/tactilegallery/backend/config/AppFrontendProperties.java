@@ -1,11 +1,15 @@
 package com.tactilegallery.backend.config;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @ConfigurationProperties(prefix = "app.frontend")
 public class AppFrontendProperties {
 
-    private String baseUrl = "http://localhost:5173";
+    @NotBlank
+    private String baseUrl;
     private String oauthCallbackPath = "/auth/callback";
 
     public String getBaseUrl() {

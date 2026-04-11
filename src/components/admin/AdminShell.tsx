@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { AdminReviewNotificationsProvider } from "../../context/AdminReviewNotificationsContext";
+import { AdminChatWidget } from "../chat/AdminChatWidget";
 import { AdminSidebar } from "./AdminSidebar";
 import { AdminTopBar } from "./AdminTopBar";
 
@@ -14,6 +15,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             <main className="mx-auto w-full max-w-[1680px] px-8 py-8 xl:px-10 2xl:px-12">
               {children}
             </main>
+            <AdminChatWidget />
           </div>
         </div>
       </div>

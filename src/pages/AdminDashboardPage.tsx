@@ -123,7 +123,7 @@ export function AdminDashboardPage() {
             </div>
           </div>
           {salesPeak > 0 ? (
-            <div className="grid h-[320px] grid-cols-6 items-end gap-4">
+            <div className="grid h-[320px] grid-cols-6 items-end gap-1 sm:gap-2 md:gap-4">
               {salesSeries.map((point, index) => {
                 const barHeight = Math.max(14, Math.round((point.value / salesPeak) * 220));
 

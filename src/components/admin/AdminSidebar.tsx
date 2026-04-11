@@ -25,7 +25,7 @@ export function AdminSidebar() {
       .toUpperCase() || "AU";
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col bg-[var(--color-surface)] px-4 py-8 md:flex">
+    <aside className="hidden w-64 shrink-0 flex-col bg-[var(--color-surface)] px-4 py-8 lg:flex">
       <div className="mb-10 px-4">
         <h1 className="font-['Manrope'] text-lg font-bold tracking-[-0.05em] text-[var(--color-on-surface)]">
           Tactile Admin

@@ -1,6 +1,7 @@
 package com.tactilegallery.backend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -35,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.server.ResponseStatusException;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
@@ -106,13 +108,13 @@ class OrderServiceTest {
         assertEquals(0, product.getStock());
         assertEquals(0, savedOrder.getSubtotalAmount().compareTo(BigDecimal.valueOf(900)));
         assertEquals(0, savedOrder.getDiscountAmount().compareTo(BigDecimal.ZERO));
-        assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(900)));
+        assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(963.00)));
         assertEquals(1, savedOrder.getItems().size());
 
         OrderItemEntity savedItem = savedOrder.getItems().get(0);
         assertEquals(2, savedItem.getQuantity());
         assertEquals(0, savedItem.getUnitPrice().compareTo(BigDecimal.valueOf(450)));
-        assertEquals(900.0, detail.total(), 0.0001);
+        assertEquals(963.0, detail.total(), 0.0001);
         verify(emailNotificationService).sendOrderConfirmation(detail);
     }
 
@@ -180,11 +182,124 @@ class OrderServiceTest {
         assertEquals("QUIET50", savedOrder.getPromoCode());
         assertEquals(0, savedOrder.getSubtotalAmount().compareTo(BigDecimal.valueOf(450)));
         assertEquals(0, savedOrder.getDiscountAmount().compareTo(BigDecimal.valueOf(50)));
-        assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(400)));
+        assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(446.00)));
         assertEquals(450.0, detail.subtotal(), 0.0001);
         assertEquals(50.0, detail.discount(), 0.0001);
-        assertEquals(400.0, detail.total(), 0.0001);
+        assertEquals(446.0, detail.total(), 0.0001);
         assertEquals("QUIET50", detail.promoCode());
+    }
+
+    @Test
+    void submitOrderMarksVietQrOrdersForPaymentReview() {
+        AppUserEntity user = enabledUser();
+        ProductEntity product = productWithOptionPricing();
+        ApiRequests.CheckoutRequest request = checkoutRequest(420.00, 1, Map.of("Plate Material", "Brass"));
+        request = new ApiRequests.CheckoutRequest(
+            new DomainModels.CheckoutDraft(
+                request.draft().fullName(),
+                request.draft().email(),
+                request.draft().address(),
+                request.draft().city(),
+                request.draft().postalCode(),
+                request.draft().country(),
+                "VietQR / Standard courier / VCB 1042361535",
+                request.draft().notes()
+            ),
+            request.items(),
+            null
+        );
+
+        when(appUserRepository.findByExternalId(user.getExternalId())).thenReturn(Optional.of(user));
+        when(productRepository.findBySlug(product.getSlug())).thenReturn(Optional.of(product));
+        when(orderRepository.nextOrderNumberValue()).thenReturn(2101L);
+        when(orderRepository.save(any(OrderEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        nextPromoQuote = noPromoQuote(450.0);
+
+        authenticate(user);
+        DomainModels.OrderDetail detail = orderService.submitOrder(request);
+
+        ArgumentCaptor<OrderEntity> orderCaptor = ArgumentCaptor.forClass(OrderEntity.class);
+        verify(orderRepository).save(orderCaptor.capture());
+
+        OrderEntity savedOrder = orderCaptor.getValue();
+        assertEquals("Payment Review", savedOrder.getStatus());
+        assertEquals("Awaiting payment review", savedOrder.getFulfillment());
+        assertEquals("Awaiting VietQR transfer", savedOrder.getPaymentStatus());
+        assertEquals(499.5, detail.total(), 0.0001);
+        assertEquals(List.of("Order placed", "Awaiting VietQR transfer", "Awaiting payment review"), detail.timeline());
+    }
+
+    @Test
+    void submitOrderMarksPayOnDeliveryOrdersForPaymentReview() {
+        AppUserEntity user = enabledUser();
+        ProductEntity product = productWithOptionPricing();
+        ApiRequests.CheckoutRequest request = checkoutRequest(420.00, 1, Map.of("Plate Material", "Brass"));
+        request = new ApiRequests.CheckoutRequest(
+            new DomainModels.CheckoutDraft(
+                request.draft().fullName(),
+                request.draft().email(),
+                request.draft().address(),
+                request.draft().city(),
+                request.draft().postalCode(),
+                request.draft().country(),
+                "Pay on delivery / Standard shipping",
+                request.draft().notes()
+            ),
+            request.items(),
+            null
+        );
+
+        when(appUserRepository.findByExternalId(user.getExternalId())).thenReturn(Optional.of(user));
+        when(productRepository.findBySlug(product.getSlug())).thenReturn(Optional.of(product));
+        when(orderRepository.nextOrderNumberValue()).thenReturn(2102L);
+        when(orderRepository.save(any(OrderEntity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+        nextPromoQuote = noPromoQuote(450.0);
+
+        authenticate(user);
+        DomainModels.OrderDetail detail = orderService.submitOrder(request);
+
+        ArgumentCaptor<OrderEntity> orderCaptor = ArgumentCaptor.forClass(OrderEntity.class);
+        verify(orderRepository).save(orderCaptor.capture());
+
+        OrderEntity savedOrder = orderCaptor.getValue();
+        assertEquals("Payment Review", savedOrder.getStatus());
+        assertEquals("Awaiting payment review", savedOrder.getFulfillment());
+        assertEquals("Payment due on delivery", savedOrder.getPaymentStatus());
+        assertEquals(0, savedOrder.getTotalAmount().compareTo(BigDecimal.valueOf(499.50)));
+        assertEquals(List.of("Order placed", "Payment due on delivery", "Awaiting payment review"), detail.timeline());
+    }
+
+    @Test
+    void submitOrderRejectsDuplicateCartLinesThatExceedStock() {
+        AppUserEntity user = enabledUser();
+        ProductEntity product = productWithOptionPricing();
+        product.setStock(1);
+        ApiRequests.CheckoutRequest request = new ApiRequests.CheckoutRequest(
+            checkoutRequest(420.00, 1, Map.of("Plate Material", "Brass")).draft(),
+            List.of(
+                checkoutRequest(420.00, 1, Map.of("Plate Material", "Brass")).items().get(0),
+                new DomainModels.CartItem(
+                    "cart-2",
+                    "tactile-core-65",
+                    "Tactile Core-65",
+                    new DomainModels.ImageAsset("https://example.com/product.png", "Product image"),
+                    420.00,
+                    1,
+                    Map.of("Plate Material", "Brass")
+                )
+            ),
+            null
+        );
+
+        when(appUserRepository.findByExternalId(user.getExternalId())).thenReturn(Optional.of(user));
+        when(productRepository.findBySlug(product.getSlug())).thenReturn(Optional.of(product));
+
+        authenticate(user);
+
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> orderService.submitOrder(request));
+        assertEquals(400, exception.getStatusCode().value());
+        assertEquals("Only 1 units of Tactile Core-65 remain in stock.", exception.getReason());
+        verify(orderRepository, never()).save(any(OrderEntity.class));
     }
 
     private AppUserEntity enabledUser() {

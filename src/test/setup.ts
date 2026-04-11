@@ -125,6 +125,69 @@ function timelineTextForStatus(status: MockOrderStatus) {
   }
 }
 
+function paymentOutcomeForMethod(paymentMethod: string | null | undefined) {
+  const normalized = String(paymentMethod ?? "").trim().toLowerCase();
+
+  if (normalized.includes("vietqr") || normalized.includes("qr")) {
+    return {
+      status: "Payment Review" as MockOrderStatus,
+      fulfillment: "Awaiting payment review",
+      paymentStatus: "Awaiting VietQR transfer",
+      timeline: ["Order placed", "Awaiting VietQR transfer", "Awaiting payment review"],
+    };
+  }
+
+  if (
+    normalized.includes("pay on delivery")
+    || normalized.includes("cash on delivery")
+    || normalized.includes("delivery")
+  ) {
+    return {
+      status: "Payment Review" as MockOrderStatus,
+      fulfillment: "Awaiting payment review",
+      paymentStatus: "Payment due on delivery",
+      timeline: ["Order placed", "Payment due on delivery", "Awaiting payment review"],
+    };
+  }
+
+  return {
+    status: "Processing" as MockOrderStatus,
+    fulfillment: "Picking parts",
+    paymentStatus: "Paid",
+    timeline: ["Order placed", "Payment captured", "Picking parts"],
+  };
+}
+
+function extractShippingLabel(paymentMethod: string | null | undefined) {
+  const parts = String(paymentMethod ?? "").split("/");
+  const label = parts[1]?.trim();
+  return label || "Standard courier";
+}
+
+function checkoutTotalForMethod(
+  subtotal: number,
+  discount: number,
+  itemCount: number,
+  paymentMethod: string | null | undefined,
+) {
+  const discountedSubtotal = Math.max(0, subtotal - discount);
+  const shippingLabel = extractShippingLabel(paymentMethod);
+  const baseRate =
+    shippingLabel === "Priority dispatch"
+      ? 34
+      : shippingLabel === "White-glove delivery"
+        ? 56
+        : 18;
+  const itemAdjustment = Math.max(0, itemCount - 1) * 4;
+  const shipping =
+    shippingLabel === "Standard courier" && discountedSubtotal >= 600
+      ? 0
+      : baseRate + itemAdjustment;
+  const tax = Number((discountedSubtotal * 0.07).toFixed(2));
+
+  return Number((discountedSubtotal + shipping + tax).toFixed(2));
+}
+
 function defaultProfile(user: { id: string; name: string; email: string }) {
   return {
     userId: user.id,
@@ -881,27 +944,29 @@ async function handleApiRequest(input: RequestInfo | URL, init?: RequestInit) {
       0,
     );
     const promo = quotePromo(subtotal, body?.promoCode);
+    const paymentOutcome = paymentOutcomeForMethod(body?.draft?.paymentMethod);
+    const itemCount = (body?.items ?? []).reduce((sum: number, item: { quantity: number }) => sum + item.quantity, 0);
     const nextOrder = {
       id: orderId,
       userId: sessionUser?.id ?? "guest-checkout",
       customerName: body?.draft?.fullName ?? "",
       customerEmail: body?.draft?.email ?? "",
       createdAt: "2026-04-07",
-      status: "Processing" as MockOrderStatus,
+      status: paymentOutcome.status,
       subtotal: promo.subtotal,
       discount: promo.discount,
-      total: promo.total,
-      itemCount: (body?.items ?? []).reduce((sum: number, item: { quantity: number }) => sum + item.quantity, 0),
+      total: checkoutTotalForMethod(subtotal, promo.discount, itemCount, body?.draft?.paymentMethod),
+      itemCount,
       promoCode: promo.code,
-      fulfillment: "Picking parts",
+      fulfillment: paymentOutcome.fulfillment,
       shippingAddress: shippingAddress(
         body?.draft?.address ?? "",
         body?.draft?.city ?? "",
         body?.draft?.postalCode ?? "",
         body?.draft?.country ?? "",
       ),
-      paymentStatus: "Paid",
-      timeline: ["Order placed", "Payment captured", "Picking parts"],
+      paymentStatus: paymentOutcome.paymentStatus,
+      timeline: paymentOutcome.timeline,
       items: body?.items ?? [],
     };
     mockState.orders.unshift(nextOrder);

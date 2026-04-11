@@ -49,8 +49,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/api/products/*/reviews").authenticated()
                 .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                 .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/password-reset").permitAll()
+                .requestMatchers("/ws/**").permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .requestMatchers("/api/auth/me", "/api/auth/logout", "/api/auth/change-password", "/api/orders/**", "/api/users/**").authenticated()
+                .requestMatchers("/api/auth/me", "/api/auth/logout", "/api/auth/change-password", "/api/orders/**", "/api/users/**", "/api/chat/**").authenticated()
                 .anyRequest().denyAll()
             )
             .oauth2Login(oauth -> oauth

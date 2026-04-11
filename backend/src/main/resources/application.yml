@@ -50,7 +50,7 @@ app:
       - http://localhost:5173
       - http://127.0.0.1:5173
   frontend:
-    base-url: ${FRONTEND_BASE_URL:http://localhost:5173}
+    base-url: ${FRONTEND_BASE_URL}
     oauth-callback-path: ${FRONTEND_OAUTH_CALLBACK_PATH:/auth/callback}
   mail:
     enabled: ${APP_MAIL_ENABLED:true}

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tactilegallery.backend.model.DomainModels;
 import com.tactilegallery.backend.persistence.entity.AppUserEntity;
 import com.tactilegallery.backend.persistence.entity.CategoryEntity;
+import com.tactilegallery.backend.persistence.entity.ChatMessageEntity;
+import com.tactilegallery.backend.persistence.entity.ChatThreadEntity;
 import com.tactilegallery.backend.persistence.entity.OrderEntity;
 import com.tactilegallery.backend.persistence.entity.OrderItemEntity;
 import com.tactilegallery.backend.persistence.entity.ProductEntity;
@@ -301,6 +303,45 @@ public class SqlDomainMapper {
             formatDateTime(entity.getEndsAt()),
             formatDateTime(entity.getCreatedAt()),
             formatDateTime(entity.getUpdatedAt())
+        );
+    }
+
+    public DomainModels.ChatThreadSummary toChatThreadSummary(ChatThreadEntity entity) {
+        return new DomainModels.ChatThreadSummary(
+            String.valueOf(entity.getId()),
+            entity.getStatus(),
+            entity.getSubject(),
+            formatDateTime(entity.getCreatedAt()),
+            formatDateTime(entity.getUpdatedAt()),
+            formatDateTime(entity.getLastMessageAt()),
+            entity.getLastMessagePreview(),
+            entity.getLastMessageSenderRole(),
+            entity.getCustomer().getExternalId(),
+            entity.getCustomer().getName(),
+            entity.getCustomer().getEmail(),
+            entity.getProduct() == null ? null : entity.getProduct().getSlug(),
+            entity.getProduct() == null ? null : entity.getProduct().getName()
+        );
+    }
+
+    public DomainModels.ChatMessage toChatMessage(ChatMessageEntity entity) {
+        return new DomainModels.ChatMessage(
+            String.valueOf(entity.getId()),
+            String.valueOf(entity.getThread().getId()),
+            entity.getSender().getExternalId(),
+            entity.getSender().getName(),
+            entity.getSender().getRole(),
+            entity.getBody(),
+            formatDateTime(entity.getCreatedAt())
+        );
+    }
+
+    public DomainModels.ChatThreadDetail toChatThreadDetail(ChatThreadEntity entity) {
+        return new DomainModels.ChatThreadDetail(
+            toChatThreadSummary(entity),
+            entity.getMessages().stream()
+                .map(this::toChatMessage)
+                .toList()
         );
     }
 

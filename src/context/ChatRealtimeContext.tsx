@@ -43,6 +43,8 @@ export function ChatRealtimeProvider({ children }: { children: ReactNode }) {
   const shouldReconnectRef = useRef(false);
   const hasConnectedRef = useRef(false);
   const reconnectAttemptsRef = useRef(0);
+  const lastConnectedAtRef = useRef<number | null>(null);
+  const rapidCloseCountRef = useRef(0);
   const wsDisabledRef = useRef(
     typeof window !== "undefined" && window.sessionStorage.getItem(WS_DISABLED_SESSION_KEY) === "1",
   );
@@ -121,6 +123,8 @@ export function ChatRealtimeProvider({ children }: { children: ReactNode }) {
     socket.onopen = () => {
       hasConnectedRef.current = true;
       reconnectAttemptsRef.current = 0;
+      lastConnectedAtRef.current = Date.now();
+      rapidCloseCountRef.current = 0;
        enableWebSocketForSession();
       setConnectionState("connected");
     };
@@ -149,7 +153,21 @@ export function ChatRealtimeProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      const now = Date.now();
+      const lastConnectedAt = lastConnectedAtRef.current;
+      if (lastConnectedAt && now - lastConnectedAt < 8000) {
+        rapidCloseCountRef.current += 1;
+      } else {
+        rapidCloseCountRef.current = 0;
+      }
+
       if (!hasConnectedRef.current && reconnectAttemptsRef.current >= 2) {
+        disableWebSocketForSession();
+        setConnectionState("disconnected");
+        return;
+      }
+
+      if (hasConnectedRef.current && rapidCloseCountRef.current >= 3) {
         disableWebSocketForSession();
         setConnectionState("disconnected");
         return;

@@ -8,6 +8,8 @@ spring:
     name: tactile-gallery-backend
   profiles:
     default: sqlserver
+  cache:
+    type: redis
   security:
     oauth2:
       client:
@@ -33,6 +35,12 @@ spring:
           auth: true
           starttls:
             enable: true
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      database: ${REDIS_DATABASE:0}
 
 management:
   endpoints:

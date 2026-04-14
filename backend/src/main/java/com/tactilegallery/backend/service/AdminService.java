@@ -1,5 +1,6 @@
 package com.tactilegallery.backend.service;
 
+import com.tactilegallery.backend.config.CacheNames;
 import com.tactilegallery.backend.model.DomainModels;
 import com.tactilegallery.backend.persistence.entity.CategoryEntity;
 import com.tactilegallery.backend.persistence.entity.OrderEntity;
@@ -29,6 +30,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -191,6 +194,12 @@ public class AdminService {
     }
 
     @Transactional
+    @Caching(evict = {
+        @CacheEvict(value = CacheNames.FEATURED_PRODUCTS, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCTS_BY_CATEGORY, allEntries = true),
+        @CacheEvict(value = CacheNames.RELATED_PRODUCTS, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCT_SEARCH, allEntries = true)
+    })
     public DomainModels.AdminProductRecord createProduct(DomainModels.AdminDraftProduct draft) {
         CategoryEntity category = resolveCategory(draft.category());
         String slug = uniqueSlug(slugify(draft.name()));
@@ -231,6 +240,13 @@ public class AdminService {
     }
 
     @Transactional
+    @Caching(evict = {
+        @CacheEvict(value = CacheNames.FEATURED_PRODUCTS, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCTS_BY_CATEGORY, allEntries = true),
+        @CacheEvict(value = CacheNames.RELATED_PRODUCTS, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCT_SEARCH, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCT_DETAILS, key = "#slug")
+    })
     public DomainModels.AdminProductRecord updateProduct(String slug, DomainModels.AdminDraftProduct draft) {
         ProductEntity product = productRepository.findBySlug(slug).orElse(null);
         if (product == null) {
@@ -273,6 +289,14 @@ public class AdminService {
     }
 
     @Transactional
+    @Caching(evict = {
+        @CacheEvict(value = CacheNames.FEATURED_PRODUCTS, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCTS_BY_CATEGORY, allEntries = true),
+        @CacheEvict(value = CacheNames.RELATED_PRODUCTS, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCT_SEARCH, allEntries = true),
+        @CacheEvict(value = CacheNames.PRODUCT_DETAILS, key = "#slug"),
+        @CacheEvict(value = CacheNames.APPROVED_REVIEWS, key = "#slug")
+    })
     public void archiveProduct(String slug) {
         productRepository.findBySlug(slug).ifPresent(product -> product.setArchived(true));
     }
@@ -379,6 +403,7 @@ public class AdminService {
     }
 
     @Transactional
+    @CacheEvict(value = CacheNames.APPROVED_REVIEWS, key = "#result.productSlug()", condition = "#result != null")
     public DomainModels.ProductReview moderateReview(Long reviewId, String nextStatus, String note) {
         ProductReviewEntity review = productReviewRepository.findById(reviewId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Review not found."));

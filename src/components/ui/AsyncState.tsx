@@ -14,11 +14,13 @@ export function EmptyState({
   body,
   actionLabel,
   actionHref,
+  onAction,
 }: {
   title: string;
   body: string;
   actionLabel?: string;
   actionHref?: string;
+  onAction?: () => void;
 }) {
   return (
     <div className="surface-mat rounded-xl px-6 py-12 text-center">
@@ -26,7 +28,11 @@ export function EmptyState({
       <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-[var(--color-muted)]">
         {body}
       </p>
-      {actionHref && actionLabel ? (
+      {onAction && actionLabel ? (
+        <button type="button" onClick={onAction} className={["mt-6 inline-flex", buttonClassName()].join(" ")}>
+          {actionLabel}
+        </button>
+      ) : actionHref && actionLabel ? (
         <Link to={actionHref} className={["mt-6 inline-flex", buttonClassName()].join(" ")}>
           {actionLabel}
         </Link>

@@ -1,7 +1,7 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "tertiary";
+  variant?: "primary" | "secondary" | "tertiary" | "destructive";
   children: ReactNode;
 };
 
@@ -10,6 +10,7 @@ export function buttonClassName(variant: ButtonProps["variant"] = "primary") {
   if (variant === "primary") classes.push("button-primary");
   if (variant === "secondary") classes.push("button-secondary");
   if (variant === "tertiary") classes.push("button-tertiary");
+  if (variant === "destructive") classes.push("button-destructive");
   return classes.join(" ");
 }
 

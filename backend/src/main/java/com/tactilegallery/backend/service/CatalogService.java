@@ -1,5 +1,6 @@
 package com.tactilegallery.backend.service;
 
+import com.tactilegallery.backend.config.CacheNames;
 import com.tactilegallery.backend.model.DomainModels;
 import com.tactilegallery.backend.persistence.entity.AppUserEntity;
 import com.tactilegallery.backend.persistence.entity.ProductEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.time.LocalDateTime;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -72,18 +74,21 @@ public class CatalogService {
         this.currentUserService = currentUserService;
     }
 
+    @Cacheable(CacheNames.CATEGORIES)
     public List<DomainModels.Category> listCategories() {
         return categoryRepository.findAll().stream()
             .map(mapper::toCategory)
             .toList();
     }
 
+    @Cacheable(value = CacheNames.CATEGORY_BY_SLUG, key = "#slug", unless = "#result == null")
     public DomainModels.Category getCategory(String slug) {
         return categoryRepository.findBySlug(slug)
             .map(mapper::toCategory)
             .orElse(null);
     }
 
+    @Cacheable(CacheNames.FEATURED_PRODUCTS)
     public List<DomainModels.ProductSummary> listFeaturedProducts() {
         return activeProducts().stream()
             .filter(ProductEntity::isFeatured)
@@ -91,6 +96,7 @@ public class CatalogService {
             .toList();
     }
 
+    @Cacheable(value = CacheNames.PRODUCTS_BY_CATEGORY, key = "#slug")
     public List<DomainModels.ProductSummary> listProductsByCategory(String slug) {
         return activeProducts().stream()
             .filter(product -> product.getCategory().getSlug().equals(slug))
@@ -98,6 +104,7 @@ public class CatalogService {
             .toList();
     }
 
+    @Cacheable(value = CacheNames.PRODUCT_DETAILS, key = "#slug", unless = "#result == null")
     public DomainModels.ProductDetail getProduct(String slug) {
         return productRepository.findBySlug(slug)
             .filter(this::isActive)
@@ -105,6 +112,7 @@ public class CatalogService {
             .orElse(null);
     }
 
+    @Cacheable(value = CacheNames.RELATED_PRODUCTS, key = "#slug")
     public List<DomainModels.ProductSummary> listRelatedProducts(String slug) {
         ProductEntity current = productRepository.findBySlug(slug).orElse(null);
         if (current == null) {
@@ -126,6 +134,7 @@ public class CatalogService {
             .toList();
     }
 
+    @Cacheable(value = CacheNames.PRODUCT_SEARCH, key = "#query == null ? '' : #query.trim().toLowerCase()")
     public List<DomainModels.ProductSummary> searchProducts(String query) {
         String normalized = query == null ? "" : query.trim().toLowerCase();
         if (normalized.isBlank()) {
@@ -138,6 +147,7 @@ public class CatalogService {
             .toList();
     }
 
+    @Cacheable(value = CacheNames.APPROVED_REVIEWS, key = "#slug")
     public List<DomainModels.ProductReview> listApprovedReviews(String slug) {
         return productReviewRepository.findByProduct_SlugAndStatusOrderByCreatedAtDesc(slug, "Approved").stream()
             .map(mapper::toProductReview)

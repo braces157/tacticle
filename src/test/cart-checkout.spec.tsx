@@ -114,3 +114,52 @@ test("checkout supports VietQR and pay on delivery flows", async () => {
   expect((await screen.findAllByText(/this field is required/i)).length).toBeGreaterThan(0);
   expect(screen.queryByText(/enter a valid card number/i)).not.toBeInTheDocument();
 });
+
+test("submits a checkout successfully, clears the cart, and lands on the new order detail", async () => {
+  window.localStorage.setItem("tactile.session", JSON.stringify(defaultUser));
+  window.localStorage.setItem(
+    "tactile.users",
+    JSON.stringify([{ ...defaultUser, password: "quiet", enabled: true }]),
+  );
+  window.localStorage.setItem(
+    "tactile.cart",
+    JSON.stringify([
+      {
+        id: "tactile-core-65:[[\"Plate Material\",\"Brass\"],[\"Switch Variant\",\"Obsidian Tactile\"]]",
+        productSlug: "tactile-core-65",
+        productName: "Tactile Core-65",
+        image: {
+          src: "https://example.com/core-65.jpg",
+          alt: "Tactile Core-65.",
+        },
+        price: 420,
+        quantity: 1,
+        selectedOptions: {
+          "Switch Variant": "Obsidian Tactile",
+          "Plate Material": "Brass",
+        },
+      },
+    ]),
+  );
+
+  renderRoute(["/checkout"]);
+
+  await userEvent.type(await screen.findByRole("textbox", { name: /address/i }), "88 Assembly Lane");
+  await userEvent.type(screen.getByRole("textbox", { name: /^city$/i }), "Bangkok");
+  await userEvent.type(screen.getByRole("textbox", { name: /postal code/i }), "10500");
+  await userEvent.type(screen.getByRole("textbox", { name: /^country$/i }), "Thailand");
+  await userEvent.type(screen.getByRole("textbox", { name: /promotion/i }), "QUIET50");
+  await userEvent.click(screen.getByRole("button", { name: /apply code/i }));
+  expect(await screen.findByText(/quiet50 applied/i)).toBeInTheDocument();
+
+  await userEvent.type(screen.getByRole("textbox", { name: /card number/i }), "4242424242424242");
+  await userEvent.type(screen.getByRole("textbox", { name: /expiry/i }), "12/28");
+  await userEvent.type(screen.getByRole("textbox", { name: /security code/i }), "123");
+  await userEvent.click(screen.getByRole("button", { name: /place order/i }));
+
+  expect(await screen.findByRole("heading", { name: /order processing/i })).toBeInTheDocument();
+  expect(await screen.findByText(/TG-2100/i)).toBeInTheDocument();
+  expect(await screen.findByText(/promo \(QUIET50\)/i)).toBeInTheDocument();
+  expect(await screen.findByText(/order placed/i)).toBeInTheDocument();
+  expect(window.localStorage.getItem("tactile.cart")).toBe(JSON.stringify([]));
+});

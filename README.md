@@ -127,6 +127,11 @@ mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 
 If you use the local Docker Redis container shown above, keep `REDIS_PASSWORD` empty.
 
+## Deployment
+
+- Frontend deployment guide: `docs/frontend-deployment.md`
+- Backend deployment guide: `docs/backend-deployment.md`
+
 ## Demo Accounts
 
 Demo accounts are disabled by default in production-safe deployments.
@@ -180,5 +185,5 @@ docker exec redis sh -c 'redis-cli --scan --pattern "tactile-gallery::*" | while
 
 ## Suggested Next Steps
 
-- Split deployment instructions for frontend and backend into separate documentation
-- Add broader end-to-end coverage for checkout, profile, and admin workflows
+- Add CI coverage for backend packaging and frontend production smoke checks
+- Add end-to-end browser coverage against a running frontend and backend stack

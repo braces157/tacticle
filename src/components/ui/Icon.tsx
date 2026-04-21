@@ -20,7 +20,8 @@ type IconName =
   | "reviews"
   | "ticket"
   | "chat"
-  | "menu";
+  | "menu"
+  | "heart";
 
 const paths: Record<IconName, ReactNode> = {
   "arrow-right": (
@@ -213,6 +214,15 @@ const paths: Record<IconName, ReactNode> = {
       stroke="currentColor"
       strokeWidth="1.5"
       strokeLinecap="round"
+      fill="none"
+    />
+  ),
+  heart: (
+    <path
+      d="M12 20.2 4.8 13A4.8 4.8 0 0 1 11.6 6.3L12 6.7l.4-.4A4.8 4.8 0 0 1 19.2 13L12 20.2Z"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinejoin="round"
       fill="none"
     />
   ),

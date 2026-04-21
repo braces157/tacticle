@@ -200,6 +200,9 @@ export function ProfilePage() {
             <Link to="/orders" className={buttonClassName()}>
               View orders
             </Link>
+            <Link to="/wishlist" className={buttonClassName("secondary")}>
+              View wishlist
+            </Link>
             <Link to="/change-password" className={buttonClassName("secondary")}>
               Change password
             </Link>

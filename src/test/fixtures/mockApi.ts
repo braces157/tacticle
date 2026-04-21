@@ -62,6 +62,21 @@ type MockOrder = {
   items: MockOrderItem[];
 };
 
+type MockReviewStatus = "Pending" | "Approved" | "Rejected";
+
+type MockReview = {
+  id: string;
+  productSlug: string;
+  productName: string;
+  authorName: string;
+  authorUserId: string;
+  rating: number;
+  comment: string;
+  status: MockReviewStatus;
+  createdAt: string;
+  adminNote: string | null;
+};
+
 function allowedNextStatuses(status: MockOrderStatus) {
   return [...orderTransitions[status]];
 }
@@ -454,11 +469,39 @@ function createMockState() {
     },
   ];
 
+  const reviews: MockReview[] = [
+    {
+      id: "review-core-approved",
+      productSlug: "tactile-core-65",
+      productName: "Tactile Core-65",
+      authorName: "Studio Typist",
+      authorUserId: "user-studio",
+      rating: 5,
+      comment: "Warm silver finish translated well and the gasket stack stayed restrained under pressure.",
+      status: "Approved",
+      createdAt: "2026-03-14T09:30:00",
+      adminNote: "Published after a quick tone check.",
+    },
+    {
+      id: "review-monolith-pending",
+      productSlug: "monolith-pro-tkl",
+      productName: "Monolith Pro TKL",
+      authorName: "Quiet Operator",
+      authorUserId: "user-operator",
+      rating: 4,
+      comment: "Mass felt right and the front edge stayed disciplined without feeling harsh.",
+      status: "Pending",
+      createdAt: "2026-04-08T10:00:00",
+      adminNote: null,
+    },
+  ];
+
   return {
     categories,
     products,
     profiles,
     orders,
+    reviews,
     nextOrderNumber: 2100,
   };
 }
@@ -659,6 +702,23 @@ function adminOrderDetail(order: ReturnType<typeof createMockState>["orders"][nu
   };
 }
 
+function approvedReviewsForProduct(slug: string) {
+  return mockState.reviews.filter((review) => review.productSlug === slug && review.status === "Approved");
+}
+
+function purchasedProduct(userId: string, slug: string) {
+  return mockState.orders.some(
+    (order) =>
+      order.userId === userId
+      && order.items.some((item) => item.productSlug === slug)
+      && (order.status === "Delivered" || order.status === "Shipped"),
+  );
+}
+
+function existingReview(userId: string, slug: string) {
+  return mockState.reviews.find((review) => review.authorUserId === userId && review.productSlug === slug) ?? null;
+}
+
 function adminCustomers() {
   return getStoredUsers()
     .filter((user) => user.role === "customer")
@@ -786,30 +846,85 @@ export async function handleApiRequest(input: RequestInfo | URL, init?: RequestI
   }
 
   if (path.startsWith("/products/") && path.endsWith("/reviews") && method === "GET") {
-    return jsonResponse([]);
+    const slug = path.split("/")[2];
+    return jsonResponse(approvedReviewsForProduct(slug));
   }
 
   if (path.startsWith("/products/") && path.endsWith("/review-eligibility") && method === "GET") {
+    const slug = path.split("/")[2];
+    if (!sessionUser) {
+      return jsonResponse({
+        canSubmit: false,
+        hasPurchased: false,
+        alreadyReviewed: false,
+        reason: "Sign in to review this product.",
+      });
+    }
+
+    const hasPurchased = purchasedProduct(sessionUser.id, slug);
+    const priorReview = existingReview(sessionUser.id, slug);
+
+    if (priorReview) {
+      return jsonResponse({
+        canSubmit: false,
+        hasPurchased,
+        alreadyReviewed: true,
+        reason: "You have already reviewed this product.",
+      });
+    }
+
+    if (!hasPurchased) {
+      return jsonResponse({
+        canSubmit: false,
+        hasPurchased: false,
+        alreadyReviewed: false,
+        reason: "Purchase this product before leaving a review.",
+      });
+    }
+
     return jsonResponse({
-      canSubmit: Boolean(sessionUser),
-      hasPurchased: Boolean(sessionUser),
+      canSubmit: true,
+      hasPurchased: true,
       alreadyReviewed: false,
-      reason: sessionUser ? "You can submit one review for this product." : "Sign in to review this product.",
+      reason: "You can submit one review for this product.",
     });
   }
 
   if (path.startsWith("/products/") && path.endsWith("/reviews") && method === "POST") {
-    return jsonResponse({
-      id: "review-test",
-      productSlug: path.split("/")[2],
-      productName: findProduct(path.split("/")[2])?.name ?? "Unknown",
-      authorName: sessionUser?.name ?? "Guest",
-      rating: 5,
-      comment: "Review queued.",
-      status: "Pending",
-      createdAt: "2026-04-07T10:00:00",
+    const slug = path.split("/")[2];
+    const product = findProduct(slug);
+    const body = await parseBody(init);
+
+    if (!sessionUser) {
+      return jsonResponse({ message: "Sign in to submit a review." }, 401);
+    }
+
+    if (!product) {
+      return jsonResponse({ message: "Product not found." }, 404);
+    }
+
+    if (!purchasedProduct(sessionUser.id, slug)) {
+      return jsonResponse({ message: "Purchase this product before leaving a review." }, 400);
+    }
+
+    if (existingReview(sessionUser.id, slug)) {
+      return jsonResponse({ message: "You have already reviewed this product." }, 409);
+    }
+
+    const review = {
+      id: `review-${mockState.reviews.length + 1}`,
+      productSlug: slug,
+      productName: product.name,
+      authorName: sessionUser.name,
+      authorUserId: sessionUser.id,
+      rating: Number(body?.rating ?? 5),
+      comment: String(body?.comment ?? "").trim(),
+      status: "Pending" as MockReviewStatus,
+      createdAt: "2026-04-22T10:00:00",
       adminNote: null,
-    }, 201);
+    };
+    mockState.reviews.unshift(review);
+    return jsonResponse(review, 201);
   }
 
   if (path.startsWith("/products/") && method === "GET") {
@@ -1099,19 +1214,46 @@ export async function handleApiRequest(input: RequestInfo | URL, init?: RequestI
   }
 
   if (path.match(/^\/admin\/products\/[^/]+\/reviews$/) && method === "GET") {
-    return jsonResponse([]);
+    const slug = path.split("/")[3];
+    const status = url.searchParams.get("status");
+    return jsonResponse(
+      mockState.reviews.filter(
+        (review) => review.productSlug === slug && (!status || review.status === status),
+      ),
+    );
   }
 
   if (path === "/admin/reviews" && method === "GET") {
-    return jsonResponse([]);
+    const status = url.searchParams.get("status");
+    return jsonResponse(
+      mockState.reviews.filter((review) => !status || review.status === status),
+    );
   }
 
   if (path.match(/^\/admin\/reviews\/[^/]+\/approve$/) && method === "POST") {
-    return jsonResponse({ status: "Approved" });
+    const reviewId = path.split("/")[3];
+    const body = await parseBody(init);
+    const review = mockState.reviews.find((entry) => entry.id === reviewId);
+    if (!review) {
+      return jsonResponse({ message: "Review not found." }, 404);
+    }
+
+    review.status = "Approved";
+    review.adminNote = String(body?.note ?? "").trim() || null;
+    return jsonResponse(review);
   }
 
   if (path.match(/^\/admin\/reviews\/[^/]+\/reject$/) && method === "POST") {
-    return jsonResponse({ status: "Rejected" });
+    const reviewId = path.split("/")[3];
+    const body = await parseBody(init);
+    const review = mockState.reviews.find((entry) => entry.id === reviewId);
+    if (!review) {
+      return jsonResponse({ message: "Review not found." }, 404);
+    }
+
+    review.status = "Rejected";
+    review.adminNote = String(body?.note ?? "").trim() || null;
+    return jsonResponse(review);
   }
 
   if (path.match(/^\/admin\/products\/[^/]+$/) && method === "PUT") {

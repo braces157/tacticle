@@ -19,11 +19,18 @@ export function AdminReviewsPage() {
   const [reviews, setReviews] = useState<ProductReview[] | null>(null);
   const [error, setError] = useState(false);
   const [moderatingReviewId, setModeratingReviewId] = useState<string | null>(null);
+  const [reviewNotes, setReviewNotes] = useState<Record<string, string>>({});
   const { refreshPendingReviews } = useAdminReviewNotifications();
 
   async function loadReviews(status: (typeof filters)[number]) {
     const nextReviews = await getAdminReviews(status);
     setReviews(nextReviews);
+    setReviewNotes((current) =>
+      nextReviews.reduce<Record<string, string>>((accumulator, review) => {
+        accumulator[review.id] = current[review.id] ?? review.adminNote ?? "";
+        return accumulator;
+      }, {}),
+    );
   }
 
   useEffect(() => {
@@ -50,9 +57,9 @@ export function AdminReviewsPage() {
     setModeratingReviewId(reviewId);
     try {
       if (action === "approve") {
-        await approveAdminProductReview(reviewId);
+        await approveAdminProductReview(reviewId, reviewNotes[reviewId] ?? "");
       } else {
-        await rejectAdminProductReview(reviewId);
+        await rejectAdminProductReview(reviewId, reviewNotes[reviewId] ?? "");
       }
       await Promise.all([loadReviews(activeFilter), refreshPendingReviews()]);
     } finally {
@@ -156,23 +163,43 @@ export function AdminReviewsPage() {
               ) : null}
 
               {activeFilter === "Pending" ? (
-                <div className="mt-5 flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={() => handleReviewAction(review.id, "approve")}
-                    disabled={moderatingReviewId === review.id}
-                    className="button-base button-primary"
-                  >
-                    {moderatingReviewId === review.id ? "Saving…" : "Approve"}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => handleReviewAction(review.id, "reject")}
-                    disabled={moderatingReviewId === review.id}
-                    className="button-base text-[var(--color-muted)] no-underline hover:underline disabled:no-underline"
-                  >
-                    Reject
-                  </button>
+                <div className="mt-5 space-y-4">
+                  <label className="flex flex-col gap-2">
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-muted)]">
+                      Admin note
+                    </span>
+                    <textarea
+                      aria-label={`Admin note for ${review.productName}`}
+                      value={reviewNotes[review.id] ?? ""}
+                      onChange={(event) =>
+                        setReviewNotes((current) => ({
+                          ...current,
+                          [review.id]: event.target.value,
+                        }))
+                      }
+                      rows={3}
+                      placeholder="Optional context for the review record."
+                      className="min-h-24 rounded-xl border border-[var(--color-outline)] bg-[var(--color-surface-low)] px-4 py-3 text-sm outline-none"
+                    />
+                  </label>
+                  <div className="flex flex-wrap gap-3">
+                    <button
+                      type="button"
+                      onClick={() => handleReviewAction(review.id, "approve")}
+                      disabled={moderatingReviewId === review.id}
+                      className="button-base button-primary"
+                    >
+                      {moderatingReviewId === review.id ? "Saving…" : "Approve"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleReviewAction(review.id, "reject")}
+                      disabled={moderatingReviewId === review.id}
+                      className="button-base text-[var(--color-muted)] no-underline hover:underline disabled:no-underline"
+                    >
+                      Reject
+                    </button>
+                  </div>
                 </div>
               ) : null}
             </article>

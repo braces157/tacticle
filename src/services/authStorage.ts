@@ -1,32 +1,14 @@
 import type { AuthUser } from "../types/domain";
+import {
+  readJson,
+  readStoredString,
+  removeStored,
+  writeJson,
+  writeStoredString,
+} from "./browserStorage";
 
 const sessionKey = "tactile.session";
 const postAuthRedirectKey = "tactile.post-auth-redirect";
-
-function readJson<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined" || typeof window.localStorage?.getItem !== "function") {
-    return fallback;
-  }
-
-  const raw = window.localStorage.getItem(key);
-  if (!raw) {
-    return fallback;
-  }
-
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-function writeJson(key: string, value: unknown) {
-  if (typeof window === "undefined" || typeof window.localStorage?.setItem !== "function") {
-    return;
-  }
-
-  window.localStorage.setItem(key, JSON.stringify(value));
-}
 
 function readStoredSession(): AuthUser | null {
   return readJson<AuthUser | null>(sessionKey, null);
@@ -37,11 +19,7 @@ export function writeStoredSession(user: AuthUser) {
 }
 
 export function clearStoredSession() {
-  if (typeof window === "undefined" || typeof window.localStorage?.removeItem !== "function") {
-    return;
-  }
-
-  window.localStorage.removeItem(sessionKey);
+  removeStored(sessionKey);
 }
 
 export function updateStoredSessionUser(user: AuthUser) {
@@ -55,19 +33,11 @@ export function getStoredSessionUser() {
 }
 
 export function storePostAuthRedirect(path: string) {
-  if (typeof window === "undefined" || typeof window.sessionStorage?.setItem !== "function") {
-    return;
-  }
-
-  window.sessionStorage.setItem(postAuthRedirectKey, path);
+  writeStoredString(postAuthRedirectKey, path, "sessionStorage");
 }
 
 export function consumePostAuthRedirect(fallback: string) {
-  if (typeof window === "undefined" || typeof window.sessionStorage?.getItem !== "function") {
-    return fallback;
-  }
-
-  const storedPath = window.sessionStorage.getItem(postAuthRedirectKey);
-  window.sessionStorage.removeItem(postAuthRedirectKey);
-  return storedPath || fallback;
+  const storedPath = readStoredString(postAuthRedirectKey, null, "sessionStorage");
+  removeStored(postAuthRedirectKey, "sessionStorage");
+  return storedPath ?? fallback;
 }

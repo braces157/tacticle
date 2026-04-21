@@ -67,7 +67,9 @@ npm run dev
 
 The frontend runs by default at `http://localhost:5173`.
 
-If you need to override the API base URL, create a `.env` file:
+To start from the documented frontend defaults, copy `.env.example` to `.env`.
+
+If you need to override the API base URL, use:
 
 ```env
 VITE_API_BASE_URL=http://localhost:8081/api
@@ -93,6 +95,8 @@ mvn spring-boot:run
 The backend runs by default at `http://localhost:8081` and uses the `sqlserver` profile as the default profile.
 
 ### 4. Configure SQL Server and Redis
+
+Start from `backend/.env.example` and copy the values into your local shell environment or `backend/secrets.properties`.
 
 The backend reads configuration from environment variables:
 
@@ -155,6 +159,7 @@ mvn test
 - The frontend calls the API at `http://localhost:8081/api` by default
 - The backend uses Redis for catalog caching, so local backend startup now depends on both SQL Server and Redis being reachable
 - The backend has its own additional documentation in `backend/README.md`
+- `.env.example` and `backend/.env.example` document the supported local configuration
 - `dist/`, `node_modules/`, `backend/target/`, and `run-logs/` are local development artifacts and are already included in `.gitignore`
 
 ## Troubleshooting
@@ -175,6 +180,5 @@ docker exec redis sh -c 'redis-cli --scan --pattern "tactile-gallery::*" | while
 
 ## Suggested Next Steps
 
-- Add `.env.example` and `backend/.env.example` files to document configuration more clearly
-- Add CI for `npm run test` and `mvn test`
 - Split deployment instructions for frontend and backend into separate documentation
+- Add broader end-to-end coverage for checkout, profile, and admin workflows

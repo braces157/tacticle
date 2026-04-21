@@ -43,6 +43,10 @@ export type ProductSummary = {
   material: string;
 };
 
+export type WishlistItem = ProductSummary & {
+  savedAt: string;
+};
+
 export type ProductDetail = ProductSummary & {
   gallery: ImageAsset[];
   description: string;

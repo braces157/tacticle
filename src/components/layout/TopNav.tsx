@@ -2,6 +2,7 @@ import { startTransition, useState, type FormEvent } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { useSession } from "../../context/SessionContext";
+import { useWishlist } from "../../context/WishlistContext";
 import { Button, buttonClassName } from "../ui/Button";
 import { Icon } from "../ui/Icon";
 
@@ -10,12 +11,14 @@ const navItems = [
   { to: "/category/keyboards", label: "Keyboards" },
   { to: "/category/accessories", label: "Accessories" },
   { to: "/category/custom-parts", label: "Custom Parts" },
+  { to: "/wishlist", label: "Wishlist" },
   { to: "/orders", label: "Orders" },
 ];
 
 export function TopNav() {
   const navigate = useNavigate();
   const { openDrawer, itemCount } = useCart();
+  const { itemCount: wishlistCount } = useWishlist();
   const { user, logout } = useSession();
   const [query, setQuery] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,6 +31,8 @@ export function TopNav() {
     });
     setIsMenuOpen(false);
   }
+
+  const navDisplayName = user?.name.trim().split(/\s+/)[0] ?? "";
 
   return (
     <header className="sticky top-0 z-40 border-b border-transparent">
@@ -71,6 +76,19 @@ export function TopNav() {
             </form>
             <button
               type="button"
+              aria-label="Open wishlist"
+              onClick={() => navigate("/wishlist")}
+              className="relative rounded-full p-2 text-[var(--color-primary)] transition hover:bg-[var(--color-surface-low)]"
+            >
+              <Icon name="heart" className="h-5 w-5" />
+              {wishlistCount > 0 ? (
+                <span className="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-[var(--color-on-surface)] px-1 text-[10px] text-white">
+                  {wishlistCount}
+                </span>
+              ) : null}
+            </button>
+            <button
+              type="button"
               aria-label="Open cart"
               onClick={openDrawer}
               className="relative rounded-full p-2 text-[var(--color-primary)] transition hover:bg-[var(--color-surface-low)]"
@@ -86,7 +104,7 @@ export function TopNav() {
               <div className="hidden items-center gap-2 lg:flex">
                 <Link to="/profile" className={buttonClassName("secondary")}>
                   <Icon name="user" className="h-4 w-4" />
-                  {user.name}
+                  {navDisplayName}
                 </Link>
                 <Button variant="tertiary" onClick={() => void logout()}>
                   Log out

@@ -7,6 +7,7 @@ import { SpecList } from "../components/ui/SpecList";
 import { SectionHeading } from "../components/ui/SectionHeading";
 import { useCart } from "../context/CartContext";
 import { useSession } from "../context/SessionContext";
+import { useWishlist } from "../context/WishlistContext";
 import { catalogService } from "../services/storefrontApi";
 import type { ProductDetail, ProductReview, ProductSummary, ReviewEligibility } from "../types/domain";
 import { formatCurrency } from "../utils/currency";
@@ -121,6 +122,7 @@ export function ProductPage() {
   const { slug = "" } = useParams();
   const { addItem } = useCart();
   const { user } = useSession();
+  const { isSaved, toggleItem } = useWishlist();
   const [product, setProduct] = useState<ProductDetail | null>(null);
   const [related, setRelated] = useState<ProductSummary[]>([]);
   const [reviews, setReviews] = useState<ProductReview[]>([]);
@@ -201,6 +203,7 @@ export function ProductPage() {
   const averageRating = reviews.length
     ? reviews.reduce((sum, review) => sum + review.rating, 0) / reviews.length
     : 0;
+  const saved = isSaved(product.slug);
 
   async function handleReviewSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -441,6 +444,9 @@ export function ProductPage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Button onClick={() => addItem({ product, selectedOptions, quantity })}>
               Add to archive
+            </Button>
+            <Button variant="secondary" onClick={() => toggleItem(product)}>
+              {saved ? "Remove from wishlist" : "Save to wishlist"}
             </Button>
             <Link to="/cart">
               <Button variant="secondary">View cart</Button>

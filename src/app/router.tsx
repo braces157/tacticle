@@ -36,6 +36,7 @@ const ProfilePage = lazy(() => import("../pages/ProfilePage").then((module) => (
 const RegisterPage = lazy(() => import("../pages/RegisterPage").then((module) => ({ default: module.RegisterPage })));
 const SearchPage = lazy(() => import("../pages/SearchPage").then((module) => ({ default: module.SearchPage })));
 const SupportPage = lazy(() => import("../pages/SupportPage").then((module) => ({ default: module.SupportPage })));
+const WishlistPage = lazy(() => import("../pages/WishlistPage").then((module) => ({ default: module.WishlistPage })));
 
 function RouteLoadingFallback() {
   return (
@@ -66,6 +67,7 @@ export const routes = createRoutesFromElements(
       <Route path="category/:slug" element={<CategoryPage />} />
       <Route path="search" element={<SearchPage />} />
       <Route path="product/:slug" element={<ProductPage />} />
+      <Route path="wishlist" element={<WishlistPage />} />
       <Route path="cart" element={<CartPage />} />
       <Route path="checkout" element={<CheckoutPage />} />
       <Route path="login" element={<LoginPage />} />

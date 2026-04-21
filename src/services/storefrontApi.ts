@@ -25,41 +25,9 @@ import {
   getStoredSessionUser,
   writeStoredSession,
 } from "./authStorage";
+import { readJson, removeStored, writeJson } from "./browserStorage";
 
 const cartKey = "tactile.cart";
-
-function readJson<T>(key: string, fallback: T): T {
-  if (typeof window === "undefined" || typeof window.localStorage?.getItem !== "function") {
-    return fallback;
-  }
-
-  const raw = window.localStorage.getItem(key);
-  if (!raw) {
-    return fallback;
-  }
-
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return fallback;
-  }
-}
-
-function writeJson(key: string, value: unknown) {
-  if (typeof window === "undefined" || typeof window.localStorage?.setItem !== "function") {
-    return;
-  }
-
-  window.localStorage.setItem(key, JSON.stringify(value));
-}
-
-function removeStored(key: string) {
-  if (typeof window === "undefined" || typeof window.localStorage?.removeItem !== "function") {
-    return;
-  }
-
-  window.localStorage.removeItem(key);
-}
 
 export const catalogService: CatalogService = {
   async listCategories() {

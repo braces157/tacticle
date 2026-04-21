@@ -34,6 +34,8 @@ If you want a different port inside IntelliJ, add:
 
 ## SQL Server setup
 
+Start from `backend/.env.example`, then copy those values into environment variables or the ignored local `secrets.properties` file.
+
 Configure SQL Server through environment variables or the ignored local `secrets.properties` file.
 
 Required connection values:
@@ -77,6 +79,8 @@ mvn spring-boot:run -Dspring-boot.run.profiles=sqlserver
 ```
 
 `FRONTEND_BASE_URL` is required for OAuth redirects and email links. For local development, set it to your frontend origin, usually `http://localhost:5173`.
+
+Redis, mail, upload, auth-cookie, and catalog-import defaults are also documented in `backend/.env.example`.
 
 ## Seed users
 

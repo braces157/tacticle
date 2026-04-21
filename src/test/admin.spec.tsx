@@ -53,3 +53,26 @@ test("renders the admin dashboard and navigates to inventory edit", async () => 
   await userEvent.click(screen.getByRole("link", { name: /Edit Tactile Core-65/i }));
   expect(await screen.findByRole("heading", { name: /Edit Product: Tactile Core-65/i })).toBeInTheDocument();
 });
+
+test("filters admin customers and inventory views through the persisted query state", async () => {
+  renderRoute(["/admin/customers"]);
+
+  expect(await screen.findByRole("heading", { name: /^customers$/i })).toBeInTheDocument();
+  await userEvent.type(screen.getByPlaceholderText(/search by name, email, or exact id/i), "second");
+  expect(await screen.findByText(/no customers match this view/i)).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole("button", { name: /clear search/i }));
+  expect((await screen.findAllByText(/atelier member/i)).length).toBeGreaterThan(0);
+
+  await userEvent.click((await screen.findAllByRole("link", { name: /inventory/i }))[0]);
+  expect(await screen.findByRole("heading", { name: /inventory/i })).toBeInTheDocument();
+  await userEvent.selectOptions(screen.getByRole("combobox", { name: /category/i }), "Accessories");
+  await userEvent.selectOptions(screen.getByRole("combobox", { name: /stock status/i }), "In Stock");
+
+  expect(await screen.findByText(/Quiet Grid Keycap Set/i)).toBeInTheDocument();
+  expect(await screen.findByText(/Atelier Desk Mat/i)).toBeInTheDocument();
+  expect(screen.queryByText(/Tactile Core-65/i)).not.toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole("button", { name: /reset filters/i }));
+  expect(await screen.findByText(/Tactile Core-65/i)).toBeInTheDocument();
+});
